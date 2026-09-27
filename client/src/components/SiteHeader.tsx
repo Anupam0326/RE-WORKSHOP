@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { ArrowRight, Menu, ShoppingBag, X } from "lucide-react";
+import { ArrowRight, Menu, ShoppingBag, UserRound, X } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
 import { useCart } from "@/contexts/CartContext";
 import { storeInfo } from "@/data/catalog";
+import { peekSession } from "@/lib/supabase";
 
 type NavItem = { label: string; section?: string; href?: string };
 export const navItems: NavItem[] = [
@@ -24,6 +25,18 @@ export function SiteHeader() {
   const [location] = useLocation();
   const closeRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    const sync = () => setSignedIn(Boolean(peekSession()));
+    sync();
+    window.addEventListener("rw-auth-change", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("rw-auth-change", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
 
   useEffect(() => setOpen(false), [location]);
 
@@ -68,6 +81,10 @@ export function SiteHeader() {
             )}
           </nav>
           <div className="site-header__actions">
+            <Link href="/admin" className={signedIn ? "cart-trigger is-signed-in" : "cart-trigger"} aria-label={signedIn ? "Store admin (signed in)" : "Store admin login"} title={signedIn ? "Store admin" : "Admin login"}>
+              <UserRound size={20} strokeWidth={1.8} />
+              {signedIn && <span className="signed-in-dot" aria-hidden="true" />}
+            </Link>
             <Link href="/cart" className="cart-trigger" aria-label={`Basket, ${itemCount} ${itemCount === 1 ? "item" : "items"}`}>
               <ShoppingBag size={20} strokeWidth={1.8} />
               {itemCount > 0 && <span className="cart-trigger__count">{itemCount}</span>}

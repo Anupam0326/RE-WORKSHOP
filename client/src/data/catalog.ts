@@ -1,40 +1,47 @@
 /**
- * Re Workshop product catalogue.
- * Source of truth: "RE WORKSHOP ORGANIC FOOD STORE AND CAFE PRODUCT CATALOG" (client PDF).
- * Names, pack sizes, prices and descriptors are taken from that catalogue — do not add claims here.
- * Photos in /public/products were cropped from the same catalogue.
+ * Re Workshop catalogue — types, helpers and the bundled fallback catalogue.
+ *
+ * Live products and categories are managed by the store team in Supabase (see /admin) and loaded by
+ * CatalogProvider. The data below is the original client PDF catalogue; it is used only as an instant
+ * first paint and as a fallback when the database can't be reached, and for the brand photos on Home.
  */
 
-export type CategorySlug = "grains-flours" | "spices-staples" | "snacks-premixes" | "pickles-honey";
+export type CategorySlug = string;
 
 export type Category = {
+  id?: string;
   slug: CategorySlug;
   name: string;
   /** Short label used on filter pills. */
   shortName: string;
   eyebrow: string;
   description: string;
-  /** Product slug whose photo represents the shelf. */
-  coverSlug: string;
+  /** Optional product slug whose photo represents the shelf (fallback catalogue only). */
+  coverSlug?: string;
 };
 
+export type ProductPhoto = { url: string; urlSmall?: string | null };
+
 export type Product = {
+  /** Database id (uuid) for live products, slug for the bundled fallback. */
   id: string;
   slug: string;
   name: string;
   categorySlug: CategorySlug;
-  /** Sub-shelf inside a category, e.g. "Millets", "Aata". */
+  /** Sub-shelf inside a category, e.g. "Ancient millets". */
   group: string;
+  /** Quantity / pack size, e.g. "500 g". */
   packSize: string;
   priceInr: number;
-  /** Descriptors printed in the client catalogue, e.g. "Stone milled", "Organic". */
+  description: string;
+  /** Short labels, e.g. "Stone milled", "Organic". */
   details: string[];
-  /** false when the catalogue has no usable photo for this product. */
-  hasImage: boolean;
+  /** Up to 5 photos; the first is the cover. */
+  images: ProductPhoto[];
   featured?: boolean;
 };
 
-export const categories: Category[] = [
+export const fallbackCategories: Category[] = [
   {
     slug: "grains-flours",
     name: "The Grains & Flours",
@@ -71,16 +78,16 @@ export const categories: Category[] = [
 ];
 
 /** Old category URLs (/shop/<slug>) that must keep working. */
-const legacyCategorySlugs: Record<string, CategorySlug> = {
+export const legacyCategorySlugs: Record<string, CategorySlug> = {
   "grains-seeds": "grains-flours",
   "millets-flours": "grains-flours",
   "value-added": "snacks-premixes",
   "oils-spices": "spices-staples",
 };
 
-type Row = [slug: string, name: string, group: string, packSize: string, priceInr: number, details: string[], extra?: Partial<Product>];
+type Row = [slug: string, name: string, group: string, packSize: string, priceInr: number, details: string[], extra?: { featured?: boolean; hasImage?: boolean }];
 
-const rows: Record<CategorySlug, Row[]> = {
+const rows: Record<string, Row[]> = {
   "grains-flours": [
     ["kodo-millet", "Kodo Millet", "Ancient millets", "500 g", 100, ["Organic"], { featured: true }],
     ["kutki-millet", "Kutki Millet", "Ancient millets", "500 g", 100, ["Organic"]],
@@ -149,7 +156,11 @@ const rows: Record<CategorySlug, Row[]> = {
   ],
 };
 
-export const products: Product[] = (Object.keys(rows) as CategorySlug[]).flatMap((categorySlug) =>
+function staticPhoto(slug: string): ProductPhoto {
+  return { url: `/products/${slug}-960.webp`, urlSmall: `/products/${slug}-480.webp` };
+}
+
+export const fallbackProducts: Product[] = Object.keys(rows).flatMap((categorySlug) =>
   rows[categorySlug].map(([slug, name, group, packSize, priceInr, details, extra]) => ({
     id: slug,
     slug,
@@ -158,39 +169,30 @@ export const products: Product[] = (Object.keys(rows) as CategorySlug[]).flatMap
     group,
     packSize,
     priceInr,
+    description: "",
     details,
-    hasImage: true,
-    ...extra,
+    images: extra?.hasImage === false ? [] : [staticPhoto(slug)],
+    featured: extra?.featured ?? false,
   })),
 );
 
-export const featuredProducts = products.filter((product) => product.featured);
+const fallbackIndex = new Map(fallbackProducts.map((product) => [product.slug, product]));
 
-const productIndex = new Map(products.map((product) => [product.slug, product]));
-
-export function getProductBySlug(slug?: string) {
-  return slug ? productIndex.get(slug) : undefined;
+/** Brand photos on the home page always come from the bundled catalogue, so they never disappear. */
+export function getStaticProduct(slug: string) {
+  return fallbackIndex.get(slug);
 }
 
-export function getCategoryBySlug(slug?: string) {
-  if (!slug) return undefined;
-  const resolved = (legacyCategorySlugs[slug] ?? slug) as CategorySlug;
-  return categories.find((category) => category.slug === resolved);
-}
-
-export function getCategoryName(slug: CategorySlug) {
-  return categories.find((category) => category.slug === slug)?.shortName ?? "";
-}
-
-/** Responsive photo sources for a product, or null when the catalogue has no usable photo. */
-export function productImage(product: Pick<Product, "slug" | "hasImage">) {
-  if (!product.hasImage) return null;
-  const base = `/products/${product.slug}`;
-  return { src: `${base}-480.webp`, srcSet: `${base}-480.webp 480w, ${base}-960.webp 960w`, width: 480, height: 400 };
+/** Responsive sources for one of a product's photos, or null when it has none. */
+export function productImage(product: Pick<Product, "images">, index = 0) {
+  const photo = product.images[index];
+  if (!photo) return null;
+  const srcSet = photo.urlSmall ? `${photo.urlSmall} 480w, ${photo.url} 960w` : undefined;
+  return { src: photo.urlSmall ?? photo.url, srcSet, width: 480, height: 400 };
 }
 
 export function formatInr(value: number) {
-  return `₹${value.toLocaleString("en-IN")}`;
+  return `₹${value.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 }
 
 export const storeInfo = {

@@ -1,7 +1,7 @@
-/** Product detail — catalogue facts only (name, pack, price, printed descriptors), plus the brand's processing note. */
+/** Product detail — live catalogue data: photos (up to 5), name, pack, price, description and labels. */
 
-import { useState } from "react";
-import { ArrowLeft, ArrowRight, Minus, Plus, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag } from "lucide-react";
 import { Link, useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -10,34 +10,91 @@ import { SectionLabel } from "@/components/SectionLabel";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductImage } from "@/components/ProductImage";
 import { SectionLink } from "@/components/SectionLink";
-import { formatInr, getCategoryBySlug, getProductBySlug, products } from "@/data/catalog";
+import { formatInr, type Product } from "@/data/catalog";
 import { loop } from "@/data/brand";
 import { useCart } from "@/contexts/CartContext";
+import { useCatalog } from "@/contexts/CatalogContext";
 import { usePageMeta } from "@/hooks/usePageMeta";
+
+function Gallery({ product }: { product: Product }) {
+  const [active, setActive] = useState(0);
+  useEffect(() => setActive(0), [product.slug]);
+  const count = product.images.length;
+  const go = (delta: number) => setActive((current) => (current + delta + count) % count);
+  return (
+    <div className="gallery">
+      <div className="product__media">
+        <ProductImage product={product} index={active} sizes="(min-width: 860px) 46vw, 100vw" eager={active === 0} />
+        {count > 1 && (
+          <>
+            <button type="button" className="gallery__nav gallery__nav--prev" onClick={() => go(-1)} aria-label="Previous photo">
+              <ChevronLeft size={22} />
+            </button>
+            <button type="button" className="gallery__nav gallery__nav--next" onClick={() => go(1)} aria-label="Next photo">
+              <ChevronRight size={22} />
+            </button>
+            <span className="gallery__count" aria-live="polite">
+              {active + 1} / {count}
+            </span>
+          </>
+        )}
+      </div>
+      {count > 1 && (
+        <div className="gallery__thumbs" role="group" aria-label="Product photos">
+          {product.images.map((photo, index) => (
+            <button
+              key={photo.url + index}
+              type="button"
+              className={index === active ? "gallery__thumb is-active" : "gallery__thumb"}
+              onClick={() => setActive(index)}
+              aria-label={`Show photo ${index + 1}`}
+              aria-pressed={index === active}>
+              <img src={photo.urlSmall ?? photo.url} alt="" width={80} height={67} loading="lazy" decoding="async" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ProductDetail() {
   const [, params] = useRoute("/product/:slug");
-  const product = getProductBySlug(params?.slug);
-  const category = product ? getCategoryBySlug(product.categorySlug) : undefined;
+  const { getProduct, getCategory, products, status } = useCatalog();
+  const product = getProduct(params?.slug);
+  const category = product ? getCategory(product.categorySlug) : undefined;
   const { addProduct } = useCart();
   const [, navigate] = useLocation();
   const [quantity, setQuantity] = useState(1);
 
   usePageMeta(
-    product?.name ?? "Product not found",
-    product ? `${product.name} (${product.packSize}) — ${formatInr(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.` : undefined,
+    product?.name ?? "Product",
+    product
+      ? `${product.name} (${product.packSize}) — ${formatInr(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.${product.description ? " " + product.description.slice(0, 120) : ""}`
+      : undefined,
   );
 
   if (!product || !category) {
+    // A newly added product may not be in the saved copy yet — wait for the live catalogue before saying "not found".
+    const stillLoading = status === "cached" || status === "fallback";
     return (
       <div className="app-shell">
         <SiteHeader />
-        <main id="main" className="not-found rw-wrap">
-          <SectionLabel>Not on this shelf</SectionLabel>
-          <h1>We couldn’t find that product.</h1>
-          <Link href="/shop" className="button button--forest">
-            Back to the store <ArrowRight size={18} />
-          </Link>
+        <main id="main" className="not-found rw-wrap" aria-busy={stillLoading}>
+          {stillLoading ? (
+            <>
+              <SectionLabel>Loading</SectionLabel>
+              <h1>Fetching this product…</h1>
+            </>
+          ) : (
+            <>
+              <SectionLabel>Not on this shelf</SectionLabel>
+              <h1>We couldn’t find that product.</h1>
+              <Link href="/shop" className="button button--forest">
+                Back to the store <ArrowRight size={18} />
+              </Link>
+            </>
+          )}
         </main>
         <SiteFooter />
       </div>
@@ -45,7 +102,8 @@ export default function ProductDetail() {
   }
 
   const selected = product;
-  const related = products.filter((item) => item.group === selected.group && item.id !== selected.id).slice(0, 4);
+  const sameGroup = products.filter((item) => item.categorySlug === selected.categorySlug && item.group === selected.group && item.id !== selected.id);
+  const related = (sameGroup.length ? sameGroup : products.filter((item) => item.categorySlug === selected.categorySlug && item.id !== selected.id)).slice(0, 4);
 
   function addToBasket() {
     addProduct(selected, quantity);
@@ -64,14 +122,12 @@ export default function ProductDetail() {
               <Link href={`/shop/${category.slug}`}>{category.shortName}</Link>
             </nav>
             <div className="product__layout">
-              <div className="product__media">
-                <ProductImage product={selected} sizes="(min-width: 860px) 46vw, 100vw" eager />
-              </div>
+              <Gallery product={selected} />
               <div className="product__copy">
-                <SectionLabel>{selected.group}</SectionLabel>
+                {selected.group && <SectionLabel>{selected.group}</SectionLabel>}
                 <h1>{selected.name}</h1>
                 <p className="product__price">
-                  {formatInr(selected.priceInr)} <span>/ {selected.packSize}</span>
+                  {formatInr(selected.priceInr)} {selected.packSize && <span>/ {selected.packSize}</span>}
                 </p>
                 {selected.details.length > 0 && (
                   <ul className="chip-list product__details" aria-label="Product details">
@@ -81,6 +137,13 @@ export default function ProductDetail() {
                       </li>
                     ))}
                   </ul>
+                )}
+                {selected.description && (
+                  <div className="product__description">
+                    {selected.description.split(/\n{2,}/).map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
                 )}
                 <div className="product__purchase">
                   <div className="quantity-control quantity-control--large" role="group" aria-label="Quantity">
@@ -118,7 +181,7 @@ export default function ProductDetail() {
               <header className="section-head section-head--row">
                 <div>
                   <SectionLabel>From the same shelf</SectionLabel>
-                  <h2 id="related-title">{selected.group}</h2>
+                  <h2 id="related-title">{selected.group || category.name}</h2>
                 </div>
                 <Link href={`/shop/${category.slug}`} className="text-link">
                   All {category.shortName.toLowerCase()} <ArrowRight size={16} aria-hidden="true" />

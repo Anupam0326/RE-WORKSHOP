@@ -3,11 +3,11 @@
 import { ArrowRight, Ban, ChefHat, Eye, RefreshCw } from "lucide-react";
 import { ProductImage } from "@/components/ProductImage";
 import { SectionLabel } from "@/components/SectionLabel";
-import { getProductBySlug } from "@/data/catalog";
+import { getStaticProduct } from "@/data/catalog";
 import { experience, milletMenu, noCompromise } from "@/data/brand";
 
 function Photo({ slug, sizes }: { slug: string; sizes: string }) {
-  const product = getProductBySlug(slug);
+  const product = getStaticProduct(slug);
   return product ? <ProductImage product={product} sizes={sizes} /> : null;
 }
 

@@ -8,7 +8,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SectionLabel } from "@/components/SectionLabel";
 import { SectionLink } from "@/components/SectionLink";
 import { ProductGrid } from "@/components/ProductGrid";
-import { categories, getCategoryBySlug, products, type Product } from "@/data/catalog";
+import type { Product } from "@/data/catalog";
+import { useCatalog } from "@/contexts/CatalogContext";
 import { experience, groceryStore } from "@/data/brand";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
@@ -21,7 +22,8 @@ function groupBy(list: Product[]) {
 export default function Shop() {
   const [, params] = useRoute("/shop/:category");
   const [, navigate] = useLocation();
-  const category = getCategoryBySlug(params?.category);
+  const { categories, products, getCategory, status } = useCatalog();
+  const category = getCategory(params?.category);
   const active = category?.slug ?? "all";
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
@@ -33,12 +35,12 @@ export default function Shop() {
       products.filter((product) => {
         if (active !== "all" && product.categorySlug !== active) return false;
         if (!deferredQuery) return true;
-        return `${product.name} ${product.group} ${product.details.join(" ")}`.toLowerCase().includes(deferredQuery);
+        return `${product.name} ${product.group} ${product.packSize} ${product.details.join(" ")} ${product.description}`.toLowerCase().includes(deferredQuery);
       }),
-    [active, deferredQuery],
+    [products, active, deferredQuery],
   );
 
-  const showShelves = !deferredQuery;
+  const showShelves = !deferredQuery && filtered.length > 0;
 
   return (
     <div className="app-shell">
@@ -67,6 +69,7 @@ export default function Shop() {
               </label>
               <p className="shop__count" aria-live="polite">
                 {filtered.length} {filtered.length === 1 ? "product" : "products"}
+                {status === "error" && <span className="shop__offline"> · showing saved catalogue</span>}
               </p>
             </div>
 
@@ -85,6 +88,7 @@ export default function Shop() {
               <div className="catalog">
                 {(active === "all" ? categories : categories.filter((item) => item.slug === active)).map((item) => {
                   const inCategory = filtered.filter((product) => product.categorySlug === item.slug);
+                  if (!inCategory.length && active === "all") return null;
                   return (
                     <section key={item.slug} className="catalog__section" aria-labelledby={active === "all" ? `cat-${item.slug}` : undefined} aria-label={active === "all" ? undefined : item.name}>
                       {active === "all" && (
@@ -95,9 +99,11 @@ export default function Shop() {
                       )}
                       {groupBy(inCategory).map(([group, list]) => (
                         <div key={group} className="catalog__group">
-                          <h3 className="catalog__group-title">
-                            {group} <span>{list.length}</span>
-                          </h3>
+                          {group && (
+                            <h3 className="catalog__group-title">
+                              {group} <span>{list.length}</span>
+                            </h3>
+                          )}
                           <ProductGrid products={list} />
                         </div>
                       ))}

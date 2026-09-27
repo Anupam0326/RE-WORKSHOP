@@ -6,7 +6,7 @@ import { ReMark } from "@/components/BrandMark";
 import { ProductImage } from "@/components/ProductImage";
 import { SectionLabel } from "@/components/SectionLabel";
 import { SectionLink } from "@/components/SectionLink";
-import { getProductBySlug } from "@/data/catalog";
+import { getStaticProduct } from "@/data/catalog";
 import { intro, journey } from "@/data/brand";
 
 const heroTiles = [
@@ -38,7 +38,7 @@ export function Hero() {
         <div className="hero__visual" aria-hidden="true">
           <ReMark className="hero__seal" />
           {heroTiles.map((tile, index) => {
-            const product = getProductBySlug(tile.slug);
+            const product = getStaticProduct(tile.slug);
             if (!product) return null;
             return (
               <figure key={tile.slug} className={`hero-tile hero-tile--${index + 1}`}>

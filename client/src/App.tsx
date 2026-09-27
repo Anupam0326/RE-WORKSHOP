@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CartProvider } from "./contexts/CartContext";
+import { CatalogProvider } from "./contexts/CatalogContext";
 
 const loadShop = () => import("@/pages/Shop");
 const loadProduct = () => import("@/pages/ProductDetail");
@@ -15,6 +16,8 @@ const Shop = lazy(loadShop);
 const ProductDetail = lazy(loadProduct);
 const Cart = lazy(loadCart);
 const NotFound = lazy(() => import("@/pages/NotFound"));
+// Admin is never prefetched for shoppers; it loads only when /admin is opened.
+const Admin = lazy(() => import("@/pages/Admin"));
 
 function RouteFallback() {
   return <div className="route-fallback" aria-busy="true" aria-label="Loading" />;
@@ -85,6 +88,7 @@ function Router() {
           <Route path="/shop/:category" component={Shop} />
           <Route path="/product/:slug" component={ProductDetail} />
           <Route path="/cart" component={Cart} />
+          <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>
       </Suspense>
@@ -98,9 +102,11 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <Toaster position="top-center" />
-        <CartProvider>
-          <Router />
-        </CartProvider>
+        <CatalogProvider>
+          <CartProvider>
+            <Router />
+          </CartProvider>
+        </CatalogProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

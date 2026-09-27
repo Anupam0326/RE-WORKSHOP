@@ -4,10 +4,12 @@ import { ArrowUpRight, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "wouter";
 import { BrandMark, ReMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
-import { categories, storeInfo } from "@/data/catalog";
+import { storeInfo } from "@/data/catalog";
+import { useCatalog } from "@/contexts/CatalogContext";
 import { intro, legalEntity } from "@/data/brand";
 
 export function SiteFooter() {
+  const { categories } = useCatalog();
   return (
     <footer className="site-footer">
       <ReMark className="site-footer__stamp" />

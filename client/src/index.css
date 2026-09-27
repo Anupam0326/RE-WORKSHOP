@@ -503,6 +503,25 @@
   .wa-bar .button { min-height: 48px; padding: 0 18px; }
   @media (min-width: 860px) { .wa-bar { display: none; } }
 
+
+  /* ---------- Product gallery & description ---------- */
+  .gallery { display: grid; gap: 10px; min-width: 0; }
+  .product__media { position: relative; }
+  .gallery__nav { position: absolute; top: 50%; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255, 253, 247, 0.92); color: var(--forest); box-shadow: 0 4px 14px rgba(18, 61, 46, 0.18); transform: translateY(-50%); }
+  .gallery__nav--prev { left: 10px; }
+  .gallery__nav--next { right: 10px; }
+  .gallery__count { position: absolute; right: 12px; bottom: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(13, 46, 34, 0.8); color: var(--ivory); font-size: 0.75rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .gallery__thumbs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .gallery__thumb { width: 64px; height: 54px; padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: 10px; background: var(--sage); }
+  .gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery__thumb.is-active { border-color: var(--forest); }
+  .product__description { display: grid; gap: 12px; margin-top: 18px; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.7; white-space: pre-line; }
+  .shop__offline { color: var(--ochre-ink); }
+  @media (min-width: 860px) { .gallery { position: sticky; top: 96px; } .gallery .product__media { position: relative; top: auto; } }
+
+
+  .signed-in-dot { position: absolute; top: 9px; right: 9px; width: 8px; height: 8px; border: 2px solid var(--forest); border-radius: 50%; background: var(--ochre); }
+
   /* ---------- Reveal on scroll (JS only) ---------- */
   .js [data-reveal] { opacity: 0; transform: translate3d(0, 12px, 0); transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out); transition-delay: calc(var(--i, 0) * 50ms); }
   .js [data-reveal].is-in { opacity: 1; transform: none; }
