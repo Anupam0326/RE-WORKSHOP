@@ -207,5 +207,5 @@ export const storeInfo = {
   phoneDisplay: "96915 55728 · 93730 05077",
   email: "kalgodimahilasamooh@gmail.com",
   instagram: "https://www.instagram.com/re.workshop_organic/",
-  mapUrl: "https://maps.google.com/?q=Shop+No+1-2+opposite+Chief+Engineer+Office+Ridge+Road+South+Civil+Lines+Jabalpur+482001",
+  mapUrl: "https://maps.app.goo.gl/4bGAHXvCBMfjsaHMA?g_st=aw",
 };
