@@ -159,7 +159,7 @@ export default function ProductDetail() {
                     Add to basket <ShoppingBag size={18} aria-hidden="true" />
                   </button>
                 </div>
-                <p className="product__availability">Add to basket, then order through WhatsApp — the store confirms availability, pickup or Jabalpur delivery and the final total.</p>
+
                 <div className="product__note">
                   <p className="eyebrow">How Re Workshop works</p>
                   <p>{loop.intro}</p>
