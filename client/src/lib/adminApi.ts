@@ -134,5 +134,6 @@ export function explainError(error: unknown) {
   if (/row-level security|not allowed|42501|permission/i.test(message)) return "Your account isn’t allowed to make changes. Ask the site owner to add you as an admin.";
   if (/jwt|token/i.test(message)) return "Your session expired. Please sign in again.";
   if (/failed to fetch|network/i.test(message)) return "No connection. Check your internet and try again.";
+  if (/rate limit|too many/i.test(message)) return "Too many attempts. Please wait a few minutes and try again.";
   return message;
 }

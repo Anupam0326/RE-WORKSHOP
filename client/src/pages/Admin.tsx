@@ -34,7 +34,7 @@ function LoginForm({ onSignedIn }: { onSignedIn: () => void }) {
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!identifier.trim() || !password) {
-      setError("Enter your username or email and your password.");
+      setError("Enter your email and password.");
       return;
     }
     setBusy(true);
@@ -58,8 +58,8 @@ function LoginForm({ onSignedIn }: { onSignedIn: () => void }) {
         <h1>Store admin</h1>
         <p className="admin-muted">Sign in to add, edit and arrange products.</p>
         <label className="admin-field">
-          <span>Username or email</span>
-          <input type="text" autoComplete="username" autoCapitalize="none" spellCheck={false} value={identifier} onChange={(event) => setIdentifier(event.target.value)} required />
+          <span>Email</span>
+          <input type="email" inputMode="email" autoComplete="username" autoCapitalize="none" spellCheck={false} value={identifier} onChange={(event) => setIdentifier(event.target.value)} required />
         </label>
         <label className="admin-field">
           <span>Password</span>

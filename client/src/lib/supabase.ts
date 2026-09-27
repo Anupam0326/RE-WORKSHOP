@@ -112,14 +112,9 @@ export function peekSession() {
   return readSession();
 }
 
-/** Sign in with an email, or with an admin username (resolved to its email by the database). */
-export async function signIn(emailOrUsername: string, password: string) {
-  let email = emailOrUsername.trim();
-  if (!email.includes("@")) {
-    const resolved = await rpc<string | null>("resolve_admin_email", { p_username: email }, { anonymous: true });
-    if (!resolved) throw new SupabaseError("Incorrect username/email or password.", 400);
-    email = resolved;
-  }
+/** Sign in with email + password (Supabase Auth). Errors are deliberately generic. */
+export async function signIn(emailInput: string, password: string) {
+  const email = emailInput.trim().toLowerCase();
   try {
     const body = await authRequest("token?grant_type=password", { email, password });
     const session = toSession(body);
@@ -127,7 +122,7 @@ export async function signIn(emailOrUsername: string, password: string) {
     return session;
   } catch (error) {
     if (error instanceof SupabaseError && (error.status === 400 || error.status === 401)) {
-      throw new SupabaseError("Incorrect username/email or password.", error.status, error.code);
+      throw new SupabaseError("Incorrect email or password.", error.status, error.code);
     }
     throw error;
   }
