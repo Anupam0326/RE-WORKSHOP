@@ -20,7 +20,56 @@ export const intro = {
 };
 
 /** SOIL → SEEDS → GRAINS → PROCESSING → KITCHEN → PLATE → HEALTH */
-export const journey = ["Soil", "Seeds", "Grains", "Processing", "Kitchen", "Plate", "Health"];
+export type JourneyStep = {
+  label: string;
+  tagline: string;
+  description: string;
+};
+
+export const journey: JourneyStep[] = [
+  {
+    label: "Soil",
+    tagline: "Regenerative Organic Farming",
+    description:
+      "We begin by restoring carbon-rich soil using Amrit Krishi — India's ancient regenerative farming method. Desi cow dung, cow urine, and farm biomass revive microbial life, creating chemical-free, nutrient-dense earth.",
+  },
+  {
+    label: "Seeds",
+    tagline: "Heritage & Ancestral Seeds",
+    description:
+      "Only unhybridized, native ancestral seeds are sown — heritage millets like Kodo, Kutki, and Jowar, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
+  },
+  {
+    label: "Grains",
+    tagline: "Naturally Grown Organic Grains",
+    description:
+      "Nurtured in living soil without pesticides or chemicals, our grains grow to full nutrient potential — delivering higher mineral density and authentic taste from farm to harvest.",
+  },
+  {
+    label: "Processing",
+    tagline: "Stone-Milled & Wood-Pressed",
+    description:
+      "We protect raw nutrition with heritage processing — stone-milling (Chakki), hand-pounding, and wood-pressing (Kacchi Ghani). No heat damage, no chemical refining, no nutrient loss.",
+  },
+  {
+    label: "Kitchen",
+    tagline: "Transparent Open-Kitchen Café",
+    description:
+      "Our open-kitchen wellness café lets you witness farm-fresh organic millets and grains transform into steaming, wholesome meals — zero maida, zero refined oil, zero processed sugar.",
+  },
+  {
+    label: "Plate",
+    tagline: "Nutrient-Dense Millet Meals",
+    description:
+      "From Millet Idli and Kodo Pasta to Ragi Momos and healthy sattu coolers — every dish is crafted for taste and nutrition, ready-to-eat meals that nourish your body naturally.",
+  },
+  {
+    label: "Health",
+    tagline: "Cellular Health & Wellness",
+    description:
+      "The result: restored cellular health, improved gut wellness, and a sustainable lifestyle rooted in India's ancient food wisdom. Eat organic, live better, heal from within.",
+  },
+];
 
 export const meaning = {
   heading: "Our name is our roadmap to a better future.",

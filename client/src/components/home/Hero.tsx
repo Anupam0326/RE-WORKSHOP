@@ -1,5 +1,6 @@
 /** Hero: brand welcome, the core promise, and the SOIL → HEALTH journey. Text is the LCP; photos are small. */
 
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { ReMark } from "@/components/BrandMark";
@@ -16,13 +17,15 @@ const heroTiles = [
 ];
 
 export function Hero() {
+  const [activeStep, setActiveStep] = useState(journey.length - 1);
+
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero__inner">
         <div className="hero__copy">
           <SectionLabel>{intro.welcome}</SectionLabel>
           <h1 id="hero-title" className="hero__title">
-            We don’t just sell organic food — <em>we restore life.</em>
+            We don't just sell organic food — <em>we restore life.</em>
           </h1>
           <p className="hero__lead">{intro.belief}</p>
           <div className="hero__actions">
@@ -53,16 +56,38 @@ export function Hero() {
         </div>
       </div>
 
-      <ol className="journey" aria-label="Our journey, from soil to health">
-        {journey.map((step, index) => (
-          <li key={step} className="journey__step">
-            <span className="journey__num" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            {step}
-          </li>
-        ))}
-      </ol>
+      <nav className="journey" aria-label="Our soil-to-health organic food journey">
+        <ol className="journey__list" role="tablist" aria-label="Soil to health steps">
+          {journey.map((step, index) => (
+            <li key={step.label} className="journey__item">
+              <button
+                role="tab"
+                type="button"
+                className={`journey__step${index === activeStep ? " journey__step--active" : ""}`}
+                aria-selected={index === activeStep}
+                aria-controls="journey-panel"
+                onClick={() => setActiveStep(index)}
+              >
+                <span className="journey__num" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {step.label}
+              </button>
+            </li>
+          ))}
+        </ol>
+
+        <div
+          id="journey-panel"
+          role="tabpanel"
+          className="journey__detail"
+          aria-label={`${journey[activeStep].label} — ${journey[activeStep].tagline}`}
+        >
+          <p className="journey__tagline">{journey[activeStep].tagline}</p>
+          <p className="journey__desc">{journey[activeStep].description}</p>
+        </div>
+      </nav>
     </section>
   );
 }
+
