@@ -50,15 +50,7 @@ export const fallbackCategories: Category[] = [
     description: "Ancient millets, ancestral wheat aata, traditional rice, whole pulses and seeds.",
     coverSlug: "kodo-millet",
   },
-  {
-    slug: "spices-staples",
-    name: "The Spices",
-    shortName: "Spices, dals & oils",
-    eyebrow: "Pounded, pressed and traditionally processed",
-    description:
-      "Unpolished dals, hand-pounded masalas, room-temperature wood-pressed oils, jaggery varieties, Himalayan pink salt and Adanshilpa poha.",
-    coverSlug: "chai-masala",
-  },
+
   {
     slug: "snacks-premixes",
     name: "Guilt-Free Snacks & Premixes",
@@ -82,7 +74,7 @@ export const legacyCategorySlugs: Record<string, CategorySlug> = {
   "grains-seeds": "grains-flours",
   "millets-flours": "grains-flours",
   "value-added": "snacks-premixes",
-  "oils-spices": "spices-staples",
+
 };
 
 type Row = [slug: string, name: string, group: string, packSize: string, priceInr: number, details: string[], extra?: { featured?: boolean; hasImage?: boolean }];
@@ -109,25 +101,7 @@ const rows: Record<string, Row[]> = {
     ["sabut-moong", "Sabut Moong", "Whole grains & seeds", "500 g", 120, ["Organic"]],
     ["sabut-kuttu", "Sabut Kuttu", "Whole grains & seeds", "250 g", 90, ["Organic"]],
     ["chia-seeds", "Chia Seeds", "Whole grains & seeds", "100 g", 80, []],
-  ],
-  "spices-staples": [
-    ["arhar-dal", "Arhar Dal", "Unpolished dals", "500 g", 125, ["Stone milled", "Organic"], { featured: true }],
-    ["moong-dal-chhilka", "Moong Dal Chhilka", "Unpolished dals", "500 g", 140, ["Stone milled", "Organic"]],
-    ["chana-dal", "Chana Dal", "Unpolished dals", "500 g", 120, ["Stone milled", "Organic"]],
-    ["haldi-powder", "Haldi Powder", "Hand-pounded masalas", "100 g", 80, ["Pounded masale"], { featured: true }],
-    ["chat-masala", "Chat Masala", "Hand-pounded masalas", "100 g", 75, ["Pounded masale"]],
-    ["biryani-masala", "Biryani Masala", "Hand-pounded masalas", "100 g", 125, ["Pounded masale"]],
-    ["chai-masala", "Chai Masala", "Hand-pounded masalas", "100 g", 125, ["Pounded masale"]],
-    ["desi-ghee", "Desi Ghee", "Ghee & wood-pressed oils", "500 ml", 1000, ["Desi cow’s bilona ghee"], { featured: true }],
-    ["wood-pressed-mustard-oil", "Wood-Pressed Mustard Oil", "Ghee & wood-pressed oils", "1 L", 440, ["Wood pressed"]],
-    ["wood-pressed-groundnut-oil", "Wood-Pressed Groundnut Oil", "Ghee & wood-pressed oils", "1 L", 465, ["Wood pressed"]],
-    ["wood-pressed-sesame-oil", "Wood-Pressed Sesame Oil", "Ghee & wood-pressed oils", "500 ml", 440, ["Wood pressed"], { hasImage: false }],
-    ["wood-pressed-coconut-oil", "Wood-Pressed Coconut Oil", "Ghee & wood-pressed oils", "500 ml", 450, ["Wood pressed"]],
-    ["wood-pressed-castor-oil", "Wood-Pressed Castor Oil", "Ghee & wood-pressed oils", "500 ml", 450, ["Wood pressed"]],
-    ["jaggery-granules", "Jaggery Granules", "Jaggery, salt & poha", "500 g", 90, ["Made with organic sugarcane"]],
-    ["khandsari", "Khandsari", "Jaggery, salt & poha", "500 g", 100, ["Made with organic sugarcane"]],
-    ["himalayan-pink-salt", "Himalayan Pink Salt", "Jaggery, salt & poha", "500 g", 70, []],
-    ["adanshilpa-poha", "Adanshilpa Poha", "Jaggery, salt & poha", "200 g", 50, ["Product of Jharkhand"]],
+  
   ],
   "snacks-premixes": [
     ["thekua", "Thekua – The Indian Cookies", "Tea-time companions", "100 g", 100, ["Made with khapli aata, jaggery & desi ghee"], { featured: true }],

@@ -22,7 +22,6 @@ function useShelfCover() {
 
 const coverSlugs: Record<string, string> = {
   "grains-flours": "kodo-millet",
-  "spices-staples": "chai-masala",
   "snacks-premixes": "thekua",
   "pickles-honey": "mango-pickle",
 };

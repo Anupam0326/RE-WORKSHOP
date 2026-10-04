@@ -1,14 +1,3 @@
-/**
- * Re Workshop brand content — from the client's "Website Content Update Brief".
- * Keep wording as supplied; only obvious typos were corrected for presentation.
- * Product and variety spellings follow the client product catalogue / packaging.
- */
-
-/**
- * Corporate entity. The brief wrote "Reolify" and asked for verification; the client's own
- * product packaging prints "Powered by: Resoilfy Agro Farms Pvt. Ltd." — used here.
- * Set to null to hide the line everywhere.
- */
 export const legalEntity: string | null = "Resoilfy Agro Farms Pvt. Ltd.";
 
 export const intro = {
@@ -19,7 +8,6 @@ export const intro = {
   ownership: (entity: string) => `Re Workshop is a premium lifestyle brand proudly owned, registered, and operated under our corporate entity, ${entity}.`,
 };
 
-/** SOIL → SEEDS → GRAINS → PROCESSING → KITCHEN → PLATE → HEALTH */
 export type JourneyStep = {
   label: string;
   tagline: string;
@@ -217,8 +205,6 @@ export const groceryStore = {
 
 export type ShelfGroup = { label: string; items: { name: string; slug?: string }[] };
 export type Shelf = { title: string; categorySlug: string; note?: string; groups: ShelfGroup[] };
-
-/** Shelf copy from the brief. `slug` links an item to its catalogue product when one exists. */
 export const shelves: Shelf[] = [
   {
     title: "The Grains & Flours",
@@ -248,23 +234,7 @@ export const shelves: Shelf[] = [
       { label: "Traditional rice", items: [{ name: "Kali Banga", slug: "kali-banga-tukda-rice" }] },
     ],
   },
-  {
-    title: "The Spices",
-    categorySlug: "spices-staples",
-    groups: [
-      {
-        label: "On the shelf",
-        items: [
-          { name: "Traditionally processed unpolished dals & legumes", slug: "arhar-dal" },
-          { name: "Hand-pounded masalas", slug: "haldi-powder" },
-          { name: "Room-temperature wood-pressed oils", slug: "wood-pressed-mustard-oil" },
-          { name: "Jaggery varieties", slug: "jaggery-granules" },
-          { name: "Himalayan pink salt", slug: "himalayan-pink-salt" },
-          { name: "Traditionally processed, nutrient-dense Adanshilpa poha (red rice)", slug: "adanshilpa-poha" },
-        ],
-      },
-    ],
-  },
+
   {
     title: "Guilt-Free Snacks & Premixes",
     categorySlug: "snacks-premixes",

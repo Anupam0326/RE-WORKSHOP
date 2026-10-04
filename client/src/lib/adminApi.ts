@@ -83,6 +83,14 @@ export async function deleteProduct(product: AdminProduct) {
   await rest(`products?id=eq.${product.id}`, { method: "DELETE" });
 }
 
+/** Delete multiple products and all their images in one go. */
+export async function deleteProducts(productList: AdminProduct[]) {
+  for (const product of productList) {
+    await deleteImages(product.product_images.flatMap((image) => image.storage_paths));
+    await rest(`products?id=eq.${product.id}`, { method: "DELETE" });
+  }
+}
+
 /** Compress, upload (large + small) and attach one photo to a product. */
 export async function addProductImage(productId: string, file: File, sortOrder: number) {
   const [large, small] = await Promise.all([compressImage(file, 1400, 0.82), compressImage(file, 600, 0.8)]);
