@@ -1,36 +1,32 @@
-/** The organic grocery store: the three shelves from the brief, plus featured products from the catalogue. */
+/** The organic grocery store: one shelf per live category, built from the catalogue, plus featured products. */
 
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductImage } from "@/components/ProductImage";
 import { SectionLabel } from "@/components/SectionLabel";
-import { getStaticProduct, type Category, type Product } from "@/data/catalog";
+import { fallbackCategories, getStaticProduct, type Category, type Product } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
-import { groceryStore, shelves } from "@/data/brand";
+import { groceryStore } from "@/data/brand";
 
-/** Shelf cover: the brief's cover product if it's still listed, else the first product with a photo. */
-function useShelfCover() {
-  const { products, getProduct } = useCatalog();
-  return (category: Category, fallbackSlug?: string): Pick<Product, "name" | "images"> => {
-    const preferred = fallbackSlug ? getProduct(fallbackSlug) : undefined;
-    if (preferred?.images.length) return preferred;
-    const withPhoto = products.find((product) => product.categorySlug === category.slug && product.images.length);
-    return withPhoto ?? (fallbackSlug ? getStaticProduct(fallbackSlug) : undefined) ?? { name: category.name, images: [] };
-  };
+/** Products shown per sub-shelf on the home page; the rest are a tap away in the store. */
+const CHIPS_PER_GROUP = 5;
+
+/** Shelf cover: a featured product with a photo, else any product with a photo, else the bundled cover. */
+function shelfCover(category: Category, items: Product[]): Pick<Product, "name" | "images"> {
+  const withPhoto = items.filter((product) => product.images.length);
+  const bundled = fallbackCategories.find((item) => item.slug === category.slug)?.coverSlug;
+  return withPhoto.find((product) => product.featured) ?? withPhoto[0] ?? (bundled ? getStaticProduct(bundled) : undefined) ?? { name: category.name, images: [] };
 }
 
-const coverSlugs: Record<string, string> = {
-  "grains-flours": "kodo-millet",
-  "snacks-premixes": "thekua",
-  "pickles-honey": "mango-pickle",
-};
+function bySubShelf(items: Product[]) {
+  const groups = new Map<string, Product[]>();
+  for (const product of items) groups.set(product.group, [...(groups.get(product.group) ?? []), product]);
+  return Array.from(groups.entries());
+}
 
 export function GroceryStore() {
-  const { categories, getCategory, getProduct } = useCatalog();
-  const coverFor = useShelfCover();
-  const shelfSlugs = new Set(shelves.map((shelf) => shelf.categorySlug));
-  const extras = categories.filter((category) => !shelfSlugs.has(category.slug));
+  const { categories, products } = useCatalog();
   return (
     <section id="store" className="store section" aria-labelledby="store-title">
       <div className="rw-wrap">
@@ -45,33 +41,36 @@ export function GroceryStore() {
         </header>
 
         <div className="shelves">
-          {shelves.map((shelf, index) => {
-            const category = getCategory(shelf.categorySlug);
-            if (!category) return null;
-            const cover = coverFor(category, coverSlugs[category.slug]);
+          {categories.map((category, index) => {
+            const items = products.filter((product) => product.categorySlug === category.slug);
+            if (!items.length) return null;
             return (
-              <article key={shelf.title} className="shelf-card" data-reveal style={{ "--i": index } as React.CSSProperties}>
+              <article key={category.slug} className="shelf-card" data-reveal style={{ "--i": index % 3 } as React.CSSProperties}>
                 <Link href={`/shop/${category.slug}`} className="shelf-card__media" tabIndex={-1} aria-hidden="true">
-                  <ProductImage product={cover} sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw" />
+                  <ProductImage product={shelfCover(category, items)} sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw" />
                 </Link>
                 <div className="shelf-card__body">
-                  <h3>{shelf.title}</h3>
-                  {shelf.note && <p className="shelf-card__note">{shelf.note}</p>}
-                  {shelf.groups.map((group) => (
-                    <div key={group.label} className="shelf-card__group">
-                      <p className="shelf-card__label">{group.label}</p>
+                  <h3>{category.name}</h3>
+                  {category.eyebrow && <p className="shelf-card__note">{category.eyebrow}</p>}
+                  {bySubShelf(items).map(([group, list], _, groups) => (
+                    <div key={group || "all"} className="shelf-card__group">
+                      {group && groups.length > 1 && <p className="shelf-card__label">{group}</p>}
                       <ul className="chip-list">
-                        {group.items.map((item) => (
-                          <li key={item.name}>
-                            {item.slug && getProduct(item.slug) ? (
-                              <Link href={`/product/${item.slug}`} className="chip chip--link">
-                                {item.name}
-                              </Link>
-                            ) : (
-                              <span className="chip">{item.name}</span>
-                            )}
+                        {list.slice(0, CHIPS_PER_GROUP).map((product) => (
+                          <li key={product.slug}>
+                            <Link href={`/product/${product.slug}`} className="chip chip--link">
+                              {product.name}
+                              {product.availabilityNote && <span className="chip__note">{product.availabilityNote}</span>}
+                            </Link>
                           </li>
                         ))}
+                        {list.length > CHIPS_PER_GROUP && (
+                          <li>
+                            <Link href={`/shop/${category.slug}`} className="chip chip--link chip--more" aria-label={`${list.length - CHIPS_PER_GROUP} more in ${group || category.name}`}>
+                              +{list.length - CHIPS_PER_GROUP} more
+                            </Link>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   ))}
@@ -82,19 +81,6 @@ export function GroceryStore() {
               </article>
             );
           })}
-
-          {extras.map((extra) => (
-            <Link key={extra.slug} href={`/shop/${extra.slug}`} className="shelf-mini" data-reveal>
-              <span className="shelf-mini__media">
-                <ProductImage product={coverFor(extra, coverSlugs[extra.slug])} sizes="96px" />
-              </span>
-              <span className="shelf-mini__copy">
-                <span className="shelf-mini__label">Also on our shelves</span>
-                <strong>{extra.name}</strong>
-              </span>
-              <ArrowUpRight size={20} aria-hidden="true" />
-            </Link>
-          ))}
         </div>
       </div>
     </section>

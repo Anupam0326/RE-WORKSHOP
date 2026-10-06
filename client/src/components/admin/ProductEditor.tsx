@@ -37,7 +37,8 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
   const [categoryId, setCategoryId] = useState(product?.category_id ?? defaultCategoryId ?? categories[0]?.id ?? "");
   const [group, setGroup] = useState(product?.group_label ?? "");
   const [packSize, setPackSize] = useState(product?.pack_size ?? "");
-  const [price, setPrice] = useState(product ? String(product.price_inr) : "");
+  const [price, setPrice] = useState(product && product.price_inr != null ? String(product.price_inr) : "");
+  const [availability, setAvailability] = useState(product?.availability_note ?? "");
   const [description, setDescription] = useState(product?.description ?? "");
   const [tags, setTags] = useState((product?.details ?? []).join(", "));
   const [featured, setFeatured] = useState(product?.featured ?? false);
@@ -139,9 +140,8 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
     const next: Record<string, string> = {};
     if (!name.trim()) next.name = "Enter the product name.";
     if (!categoryId) next.category = "Choose a category.";
-    if (!packSize.trim()) next.packSize = "Enter the quantity or pack size, e.g. 500 g.";
     const priceNumber = Number(price);
-    if (price.trim() === "" || Number.isNaN(priceNumber) || priceNumber < 0) next.price = "Enter a price of 0 or more.";
+    if (price.trim() !== "" && (Number.isNaN(priceNumber) || priceNumber < 0)) next.price = "Enter a price of 0 or more, or leave it empty for “Price on request”.";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -149,7 +149,7 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
   // Once errors are showing, re-check as the fields change so fixed fields clear immediately.
   useEffect(() => {
     if (Object.keys(errors).length) validate();
-  }, [name, categoryId, packSize, price]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [name, categoryId, price]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function save(event: FormEvent) {
     event.preventDefault();
@@ -162,7 +162,8 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
       category_id: categoryId,
       group_label: group.trim(),
       pack_size: packSize.trim(),
-      price_inr: Math.round(Number(price) * 100) / 100,
+      price_inr: price.trim() === "" ? null : Math.round(Number(price) * 100) / 100,
+      availability_note: availability.trim(),
       description: description.trim(),
       details: tags
         .split(",")
@@ -268,7 +269,7 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
               </label>
               <label className="admin-field">
                 <span>Shelf / sub-group</span>
-                <input value={group} onChange={(event) => touch(setGroup)(event.target.value)} list="group-suggestions" maxLength={60} placeholder="e.g. Ancient millets" />
+                <input value={group} onChange={(event) => touch(setGroup)(event.target.value)} list="group-suggestions" maxLength={60} placeholder="e.g. Nutrient-dense ancient grains" />
                 <datalist id="group-suggestions">
                   {groupSuggestions.map((option) => (
                     <option key={option} value={option} />
@@ -279,16 +280,42 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
 
             <div className="admin-grid-2">
               <label className="admin-field">
-                <span>Quantity / pack size *</span>
-                <input value={packSize} onChange={(event) => touch(setPackSize)(event.target.value)} maxLength={40} placeholder="e.g. 500 g, 1 L, 1 pc" aria-invalid={Boolean(errors.packSize)} />
-                {errors.packSize && <small className="admin-field__error">{errors.packSize}</small>}
+                <span>Quantity / pack size</span>
+                <input value={packSize} onChange={(event) => touch(setPackSize)(event.target.value)} maxLength={40} placeholder="e.g. 500 g, 1 L, 1 pc" />
               </label>
               <label className="admin-field">
-                <span>Price (₹) *</span>
-                <input value={price} onChange={(event) => touch(setPrice)(event.target.value)} inputMode="decimal" type="number" min="0" step="0.01" placeholder="e.g. 120" aria-invalid={Boolean(errors.price)} />
-                {errors.price && <small className="admin-field__error">{errors.price}</small>}
+                <span>Price (₹)</span>
+                <input
+                  value={price}
+                  onChange={(event) => touch(setPrice)(event.target.value)}
+                  inputMode="decimal"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 120"
+                  aria-invalid={Boolean(errors.price)}
+                  aria-describedby="price-hint"
+                />
+                {errors.price ? (
+                  <small className="admin-field__error">{errors.price}</small>
+                ) : (
+                  <small id="price-hint" className="admin-field__hint">
+                    Leave empty to show “Price on request”.
+                  </small>
+                )}
               </label>
             </div>
+
+            <label className="admin-field">
+              <span>Availability note</span>
+              <input value={availability} onChange={(event) => touch(setAvailability)(event.target.value)} list="availability-suggestions" maxLength={40} placeholder="e.g. Winter only" />
+              <datalist id="availability-suggestions">
+                {["Winter only", "Summer only", "Seasonal", "Festive season only", "Limited stock"].map((option) => (
+                  <option key={option} value={option} />
+                ))}
+              </datalist>
+              <small className="admin-field__hint">Shows as a badge on the product. Leave empty if it’s available all year.</small>
+            </label>
 
             <label className="admin-field">
               <span>Description</span>

@@ -6,19 +6,21 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { fallbackCategories, fallbackProducts, legacyCategorySlugs, type Category, type Product } from "@/data/catalog";
+import type { SiteMedia } from "@/data/media";
 import { rest } from "@/lib/supabase";
 
 type Status = "fallback" | "cached" | "live" | "error";
-type CatalogData = { categories: Category[]; products: Product[] };
+type CatalogData = { categories: Category[]; products: Product[]; media: Record<string, SiteMedia> };
 type CatalogValue = CatalogData & {
   status: Status;
   featured: Product[];
   getProduct: (slug?: string) => Product | undefined;
   getCategory: (slug?: string) => Category | undefined;
+  getMedia: (key: string) => SiteMedia | undefined;
   refresh: () => Promise<void>;
 };
 
-const CACHE_KEY = "rw-catalog-v1";
+const CACHE_KEY = "rw-catalog-v2";
 const CatalogContext = createContext<CatalogValue | null>(null);
 
 type CategoryRow = { id: string; slug: string; name: string; short_name: string; eyebrow: string; description: string };
@@ -28,21 +30,34 @@ type ProductRow = {
   name: string;
   group_label: string;
   pack_size: string;
-  price_inr: number | string;
+  price_inr: number | string | null;
+  availability_note: string | null;
   description: string;
   details: string[] | null;
   featured: boolean;
   category: { slug: string } | null;
   product_images: { url: string; url_small: string | null; sort_order: number }[] | null;
 };
+type MediaRow = { key: string; url: string; url_small: string | null; alt: string; caption: string };
+
+/** Site photos are optional: if they can't be loaded the slots simply show their defaults. */
+async function fetchMedia(): Promise<Record<string, SiteMedia>> {
+  try {
+    const rows = await rest<MediaRow[]>("site_media?select=key,url,url_small,alt,caption", { anonymous: true });
+    return Object.fromEntries(rows.map((row) => [row.key, { key: row.key, url: row.url, urlSmall: row.url_small, alt: row.alt, caption: row.caption }]));
+  } catch {
+    return {};
+  }
+}
 
 export async function fetchCatalog(): Promise<CatalogData> {
-  const [categoryRows, productRows] = await Promise.all([
+  const [categoryRows, productRows, media] = await Promise.all([
     rest<CategoryRow[]>("categories?select=id,slug,name,short_name,eyebrow,description&order=sort_order.asc,name.asc", { anonymous: true }),
     rest<ProductRow[]>(
-      "products?select=id,slug,name,group_label,pack_size,price_inr,description,details,featured,category:categories(slug),product_images(url,url_small,sort_order)&is_active=eq.true&order=sort_order.asc,name.asc",
+      "products?select=id,slug,name,group_label,pack_size,price_inr,availability_note,description,details,featured,category:categories(slug),product_images(url,url_small,sort_order)&is_active=eq.true&order=sort_order.asc,name.asc",
       { anonymous: true },
     ),
+    fetchMedia(),
   ]);
   const categories: Category[] = categoryRows.map((row) => ({
     id: row.id,
@@ -62,7 +77,8 @@ export async function fetchCatalog(): Promise<CatalogData> {
       categorySlug: row.category!.slug,
       group: row.group_label,
       packSize: row.pack_size,
-      priceInr: Number(row.price_inr),
+      priceInr: row.price_inr == null || row.price_inr === "" ? null : Number(row.price_inr),
+      availabilityNote: row.availability_note ?? "",
       description: row.description ?? "",
       details: row.details ?? [],
       featured: row.featured,
@@ -72,7 +88,7 @@ export async function fetchCatalog(): Promise<CatalogData> {
         .map((image) => ({ url: image.url, urlSmall: image.url_small })),
     }))
     .sort((a, b) => (categoryOrder.get(a.categorySlug) ?? 99) - (categoryOrder.get(b.categorySlug) ?? 99));
-  return { categories, products };
+  return { categories, products, media };
 }
 
 function readCache(): CatalogData | null {
@@ -80,7 +96,7 @@ function readCache(): CatalogData | null {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as CatalogData;
-    return Array.isArray(parsed.products) && Array.isArray(parsed.categories) ? parsed : null;
+    return Array.isArray(parsed.products) && Array.isArray(parsed.categories) ? { ...parsed, media: parsed.media ?? {} } : null;
   } catch {
     return null;
   }
@@ -89,7 +105,7 @@ function readCache(): CatalogData | null {
 export function CatalogProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<{ data: CatalogData; status: Status }>(() => {
     const cached = typeof window !== "undefined" ? readCache() : null;
-    return cached ? { data: cached, status: "cached" } : { data: { categories: fallbackCategories, products: fallbackProducts }, status: "fallback" };
+    return cached ? { data: cached, status: "cached" } : { data: { categories: fallbackCategories, products: fallbackProducts, media: {} }, status: "fallback" };
   });
 
   const refresh = useCallback(async () => {
@@ -111,7 +127,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
   }, [refresh]);
 
   const value = useMemo<CatalogValue>(() => {
-    const { categories, products } = state.data;
+    const { categories, products, media } = state.data;
     const bySlug = new Map(products.map((product) => [product.slug, product]));
     return {
       ...state.data,
@@ -122,6 +138,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
         if (!slug) return undefined;
         return categories.find((category) => category.slug === slug) ?? categories.find((category) => category.slug === legacyCategorySlugs[slug]);
       },
+      getMedia: (key) => media[key],
       refresh,
     };
   }, [state, refresh]);

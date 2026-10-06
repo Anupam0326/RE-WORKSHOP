@@ -12,7 +12,10 @@ export type AdminProduct = {
   category_id: string;
   group_label: string;
   pack_size: string;
-  price_inr: number;
+  /** null = "price on request". */
+  price_inr: number | null;
+  /** Short badge such as "Winter only"; empty when always available. */
+  availability_note: string;
   description: string;
   details: string[];
   featured: boolean;
@@ -20,7 +23,11 @@ export type AdminProduct = {
   sort_order: number;
   product_images: AdminImage[];
 };
-export type ProductInput = Pick<AdminProduct, "name" | "category_id" | "group_label" | "pack_size" | "price_inr" | "description" | "details" | "featured" | "is_active">;
+export type ProductInput = Pick<
+  AdminProduct,
+  "name" | "category_id" | "group_label" | "pack_size" | "price_inr" | "availability_note" | "description" | "details" | "featured" | "is_active"
+>;
+export type AdminMedia = { key: string; url: string; url_small: string | null; storage_paths: string[]; alt: string; caption: string };
 export type CategoryInput = Pick<AdminCategory, "name" | "short_name" | "eyebrow" | "description">;
 
 export const MAX_IMAGES = 5;
@@ -60,11 +67,12 @@ export function listCategories() {
 
 export async function listProducts() {
   const rows = await rest<AdminProduct[]>(
-    "products?select=id,slug,name,category_id,group_label,pack_size,price_inr,description,details,featured,is_active,sort_order,product_images(id,url,url_small,storage_paths,sort_order)&order=sort_order.asc,name.asc",
+    "products?select=id,slug,name,category_id,group_label,pack_size,price_inr,availability_note,description,details,featured,is_active,sort_order,product_images(id,url,url_small,storage_paths,sort_order)&order=sort_order.asc,name.asc",
   );
   return rows.map((row) => ({
     ...row,
-    price_inr: Number(row.price_inr),
+    price_inr: row.price_inr == null ? null : Number(row.price_inr),
+    availability_note: row.availability_note ?? "",
     product_images: [...(row.product_images ?? [])].sort((a, b) => a.sort_order - b.sort_order),
   }));
 }
@@ -91,14 +99,19 @@ export async function deleteProducts(productList: AdminProduct[]) {
   }
 }
 
-/** Compress, upload (large + small) and attach one photo to a product. */
-export async function addProductImage(productId: string, file: File, sortOrder: number) {
+/** Compress a photo to a large (1400 px) and small (600 px) copy and upload both under `folder`. */
+async function uploadPhotoPair(folder: string, file: File) {
   const [large, small] = await Promise.all([compressImage(file, 1400, 0.82), compressImage(file, 600, 0.8)]);
   const id = crypto.randomUUID();
-  const ext = large.type === "image/webp" ? "webp" : "jpg";
-  const largePath = `${productId}/${id}-1400.${ext}`;
-  const smallPath = `${productId}/${id}-600.${small.type === "image/webp" ? "webp" : "jpg"}`;
+  const largePath = `${folder}/${id}-1400.${large.type === "image/webp" ? "webp" : "jpg"}`;
+  const smallPath = `${folder}/${id}-600.${small.type === "image/webp" ? "webp" : "jpg"}`;
   const [url, urlSmall] = await Promise.all([uploadImage(largePath, large), uploadImage(smallPath, small)]);
+  return { url, urlSmall, largePath, smallPath };
+}
+
+/** Compress, upload (large + small) and attach one photo to a product. */
+export async function addProductImage(productId: string, file: File, sortOrder: number) {
+  const { url, urlSmall, largePath, smallPath } = await uploadPhotoPair(productId, file);
   try {
     const [row] = await rest<AdminImage[]>("product_images", {
       method: "POST",
@@ -114,6 +127,38 @@ export async function addProductImage(productId: string, file: File, sortOrder: 
 export async function deleteProductImage(image: AdminImage) {
   await rest(`product_images?id=eq.${image.id}`, { method: "DELETE" });
   await deleteImages(image.storage_paths).catch(() => undefined);
+}
+
+/* ---------------- Site photos (hero, café, farm) ---------------- */
+
+export function listSiteMedia() {
+  return rest<AdminMedia[]>("site_media?select=key,url,url_small,storage_paths,alt,caption");
+}
+
+/** Upload a new photo for a slot (replacing any previous one) and save its caption / alt text. */
+export async function saveSiteMediaPhoto(key: string, file: File, text: { caption: string; alt: string }, previous?: AdminMedia) {
+  const { url, urlSmall, largePath, smallPath } = await uploadPhotoPair(`site/${key}`, file);
+  try {
+    await rest("site_media?on_conflict=key", {
+      method: "POST",
+      body: { key, url, url_small: urlSmall, storage_paths: [largePath, smallPath], caption: text.caption, alt: text.alt },
+      headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+    });
+  } catch (error) {
+    await deleteImages([largePath, smallPath]).catch(() => undefined);
+    throw error;
+  }
+  if (previous?.storage_paths.length) await deleteImages(previous.storage_paths).catch(() => undefined);
+}
+
+export async function updateSiteMediaText(key: string, text: { caption: string; alt: string }) {
+  await rest(`site_media?key=eq.${encodeURIComponent(key)}`, { method: "PATCH", body: text });
+}
+
+/** Remove the uploaded photo so the slot goes back to its default. */
+export async function removeSiteMedia(media: AdminMedia) {
+  await rest(`site_media?key=eq.${encodeURIComponent(media.key)}`, { method: "DELETE" });
+  await deleteImages(media.storage_paths).catch(() => undefined);
 }
 
 export const reorderProducts = (ids: string[]) => rpc("reorder_products", { p_ids: ids });

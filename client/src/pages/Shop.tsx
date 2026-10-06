@@ -35,9 +35,12 @@ export default function Shop() {
       products.filter((product) => {
         if (active !== "all" && product.categorySlug !== active) return false;
         if (!deferredQuery) return true;
-        return `${product.name} ${product.group} ${product.packSize} ${product.details.join(" ")} ${product.description}`.toLowerCase().includes(deferredQuery);
+        const shelf = getCategory(product.categorySlug);
+        return `${product.name} ${product.group} ${shelf?.name ?? ""} ${product.packSize} ${product.details.join(" ")} ${product.availabilityNote ?? ""} ${product.description}`
+          .toLowerCase()
+          .includes(deferredQuery);
       }),
-    [products, active, deferredQuery],
+    [products, active, deferredQuery, getCategory],
   );
 
   const showShelves = !deferredQuery && filtered.length > 0;

@@ -1,8 +1,9 @@
 /** Who we are, the meaning of the name, the Soil-to-Plate Loop and the key brand statement. */
 
-import { Ban, Cog, Droplets, Hammer, Hand, Layers, Soup, Sprout } from "lucide-react";
+import { Cog, Droplets, Hammer, Hand, Layers, Soup, Sprout } from "lucide-react";
 import { ReMark } from "@/components/BrandMark";
 import { SectionLabel } from "@/components/SectionLabel";
+import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import { brandStatement, intro, legalEntity, loop, meaning } from "@/data/brand";
 
 export function Manifesto() {
@@ -50,6 +51,14 @@ export function Meaning() {
             <h3 className="meaning-card__word">Workshop</h3>
             <p className="meaning-card__lead">{meaning.workshop.lead}</p>
             <p className="meaning-card__body">{meaning.workshop.body}</p>
+            <dl className="focus-list meaning-card__facets">
+              {meaning.workshop.facets.map((facet) => (
+                <div key={facet.label}>
+                  <dt>{facet.label}</dt>
+                  <dd>{facet.value}</dd>
+                </div>
+              ))}
+            </dl>
           </article>
         </div>
       </div>
@@ -58,6 +67,16 @@ export function Meaning() {
 }
 
 const methodIcons = [Cog, Hand, Droplets];
+
+function FarmPhoto() {
+  const { caption } = useSiteMedia("farm");
+  return (
+    <figure className="loop-step__photo">
+      <SiteImage slot="farm" sizes="(min-width: 1024px) 360px, 92vw" />
+      <figcaption>{caption}</figcaption>
+    </figure>
+  );
+}
 
 export function SoilToPlate() {
   const [soil, seeds, plate] = loop.steps;
@@ -77,6 +96,7 @@ export function SoilToPlate() {
               <Layers size={26} strokeWidth={1.6} aria-hidden="true" />
             </div>
             <h3>{soil.title}</h3>
+            <FarmPhoto />
             {soil.paragraphs.map((text) => (
               <p key={text}>{text}</p>
             ))}
@@ -130,15 +150,6 @@ export function SoilToPlate() {
               })}
             </ul>
             <p>{plate.closing}</p>
-            <p className="loop-step__label">{loop.philosophyLead}</p>
-            <ul className="zero-chips">
-              {loop.philosophy.map((item) => (
-                <li key={item}>
-                  <Ban size={15} strokeWidth={2} aria-hidden="true" />
-                  <strong>ZERO</strong> {item}
-                </li>
-              ))}
-            </ul>
           </li>
         </ol>
       </div>

@@ -1,7 +1,7 @@
 /** Product detail — live catalogue data: photos (up to 5), name, pack, price, description and labels. */
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag } from "lucide-react";
 import { Link, useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -10,7 +10,7 @@ import { SectionLabel } from "@/components/SectionLabel";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductImage } from "@/components/ProductImage";
 import { SectionLink } from "@/components/SectionLink";
-import { formatInr, type Product } from "@/data/catalog";
+import { formatPrice, type Product } from "@/data/catalog";
 import { loop } from "@/data/brand";
 import { useCart } from "@/contexts/CartContext";
 import { useCatalog } from "@/contexts/CatalogContext";
@@ -70,7 +70,7 @@ export default function ProductDetail() {
   usePageMeta(
     product?.name ?? "Product",
     product
-      ? `${product.name} (${product.packSize}) — ${formatInr(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.${product.description ? " " + product.description.slice(0, 120) : ""}`
+      ? `${product.name}${product.packSize ? ` (${product.packSize})` : ""} — ${formatPrice(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.${product.description ? " " + product.description.slice(0, 120) : ""}`
       : undefined,
   );
 
@@ -126,9 +126,15 @@ export default function ProductDetail() {
               <div className="product__copy">
                 {selected.group && <SectionLabel>{selected.group}</SectionLabel>}
                 <h1>{selected.name}</h1>
-                <p className="product__price">
-                  {formatInr(selected.priceInr)} {selected.packSize && <span>/ {selected.packSize}</span>}
+                <p className={selected.priceInr == null ? "product__price is-on-request" : "product__price"}>
+                  {formatPrice(selected.priceInr)} {selected.packSize && <span>/ {selected.packSize}</span>}
                 </p>
+                {selected.priceInr == null && <p className="product__price-note">Ask the store for today’s price when you order on WhatsApp.</p>}
+                {selected.availabilityNote && (
+                  <p className="product__season">
+                    <CalendarDays size={16} aria-hidden="true" /> {selected.availabilityNote}
+                  </p>
+                )}
                 {selected.details.length > 0 && (
                   <ul className="chip-list product__details" aria-label="Product details">
                     {selected.details.map((detail) => (

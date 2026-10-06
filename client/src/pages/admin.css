@@ -42,8 +42,9 @@
 /* Shell */
 .admin-bar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 8px; padding: calc(8px + env(safe-area-inset-top)) 12px 8px; background: var(--forest); color: var(--ivory); }
 .admin-bar__brand { display: none; }
-.admin-tabs { display: flex; flex: 1; gap: 4px; min-width: 0; }
-.admin-tabs button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: transparent; color: rgba(247, 244, 236, 0.78); font-size: 0.9375rem; font-weight: 700; }
+.admin-tabs { display: flex; flex: 1; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.admin-tabs::-webkit-scrollbar { display: none; }
+.admin-tabs button { display: inline-flex; flex: none; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: transparent; color: rgba(247, 244, 236, 0.78); font-size: 0.9375rem; font-weight: 700; }
 .admin-tabs button span { padding: 1px 7px; border-radius: 999px; background: rgba(247, 244, 236, 0.14); font-size: 0.75rem; }
 .admin-tabs button.is-active { background: rgba(247, 244, 236, 0.12); color: var(--gold); }
 .admin-bar__end { display: flex; gap: 2px; }
@@ -78,6 +79,20 @@
 .admin-badges { display: flex; flex-wrap: wrap; gap: 4px; }
 .admin-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; background: #f4e8cf; color: var(--ochre-ink); font-size: 0.6875rem; font-weight: 800; }
 .admin-badge--muted { background: var(--sage-soft); color: var(--ink-soft); }
+.admin-badge--warn { background: #fbe4dc; color: #8a2f17; }
+.admin-filter-check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 6px; color: var(--forest); font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+.admin-filter-check input { width: 18px; height: 18px; accent-color: var(--forest); }
+
+/* Site photos */
+.admin-media-grid { display: grid; gap: 14px; }
+.admin-media { display: grid; gap: 14px; margin: 0; }
+.admin-media__preview { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 12px; background: var(--sage); color: var(--ink-soft); font-size: 0.8125rem; text-align: center; }
+.admin-media__preview img { width: 100%; height: 100%; object-fit: cover; }
+.admin-media__preview > span:not(.admin-badge) { padding: 16px; }
+.admin-media__preview .admin-badge { position: absolute; top: 8px; left: 8px; }
+.admin-media__body { display: grid; align-content: start; gap: 10px; }
+.admin-media__body h2 { color: var(--forest); font-family: "DM Serif Display", Georgia, serif; font-size: 1.25rem; font-weight: 400; line-height: 1.2; }
+.admin-media__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .admin-row__order { display: flex; flex: none; }
 .admin-row--category { flex-wrap: wrap; }
 .admin-card { margin-bottom: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
@@ -155,6 +170,7 @@
 @media (max-width: 419px) {
   .admin-tabs button { padding: 0 10px; font-size: 0.875rem; }
   .admin-tabs button span { display: none; }
+  .admin-tabs button svg { display: none; }
   .admin-grid-products { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
 @media (pointer: coarse) {
@@ -169,6 +185,7 @@
   .admin-main { padding: 28px 24px 64px; }
   .admin-login__card { padding: 36px 32px; }
   .admin-grid-products { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  .admin-media { grid-template-columns: 240px minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
   .admin-sheet, .admin-sheet__panel { animation: none; }

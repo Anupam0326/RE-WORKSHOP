@@ -1,17 +1,13 @@
 /** The Re Workshop experience: open-kitchen café, live transformation, millet menu and the no-compromise code. */
 
 import { ArrowRight, Ban, ChefHat, Eye, RefreshCw } from "lucide-react";
-import { ProductImage } from "@/components/ProductImage";
 import { SectionLabel } from "@/components/SectionLabel";
-import { getStaticProduct } from "@/data/catalog";
+import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import { experience, milletMenu, noCompromise } from "@/data/brand";
 
-function Photo({ slug, sizes }: { slug: string; sizes: string }) {
-  const product = getStaticProduct(slug);
-  return product ? <ProductImage product={product} sizes={sizes} /> : null;
-}
-
 export function Experience() {
+  const shelf = useSiteMedia("cafe-shelf");
+  const plate = useSiteMedia("cafe-plate");
   return (
     <section id="cafe" className="experience section" aria-labelledby="cafe-title">
       <div className="rw-wrap">
@@ -38,11 +34,11 @@ export function Experience() {
         <div className="shelf-plate" role="group" aria-label="Live transformation: from the grocery shelf to the plate" data-reveal>
           <figure className="shelf-plate__stage">
             <div className="shelf-plate__media">
-              <Photo slug="kodo-millet" sizes="(min-width: 860px) 360px, 40vw" />
+              <SiteImage slot="cafe-shelf" sizes="(min-width: 860px) 360px, 40vw" />
             </div>
             <figcaption>
               <span>From our grocery shelves</span>
-              Ancient millets & heritage grains
+              {shelf.caption}
             </figcaption>
           </figure>
           <div className="shelf-plate__bridge" aria-hidden="true">
@@ -52,11 +48,11 @@ export function Experience() {
           </div>
           <figure className="shelf-plate__stage">
             <div className="shelf-plate__media">
-              <Photo slug="kodo-masala-idly-premix" sizes="(min-width: 860px) 360px, 40vw" />
+              <SiteImage slot="cafe-plate" sizes="(min-width: 860px) 360px, 40vw" />
             </div>
             <figcaption>
               <span>Right before your eyes</span>
-              Fresh, steaming, nutritious meals
+              {plate.caption}
             </figcaption>
           </figure>
         </div>
@@ -66,6 +62,7 @@ export function Experience() {
 }
 
 export function MilletMenu() {
+  const photo = useSiteMedia("menu-photo");
   return (
     <section className="menu section section--forest" aria-labelledby="menu-title">
       <div className="rw-wrap menu__layout">
@@ -74,8 +71,8 @@ export function MilletMenu() {
           <h2 id="menu-title">{milletMenu.heading}</h2>
           <p>{milletMenu.intro}</p>
           <figure className="menu__photo">
-            <Photo slug="masala-sattu-cooler-premix" sizes="(min-width: 860px) 320px, 60vw" />
-            <figcaption>Masala sattu cooler</figcaption>
+            <SiteImage slot="menu-photo" sizes="(min-width: 860px) 320px, 60vw" />
+            <figcaption>{photo.caption}</figcaption>
           </figure>
         </div>
         <ul className="menu-list" aria-label="Millet menu">
@@ -98,7 +95,7 @@ export function NoCompromise() {
     <section className="code section" aria-labelledby="code-title">
       <div className="rw-wrap">
         <header className="section-head section-head--center">
-          <SectionLabel>Our live café</SectionLabel>
+          <SectionLabel>{noCompromise.eyebrow}</SectionLabel>
           <h2 id="code-title">{noCompromise.heading}</h2>
           <p className="section-head__intro">{noCompromise.intro}</p>
         </header>

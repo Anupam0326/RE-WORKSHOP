@@ -1,11 +1,12 @@
 /** Store admin — sign in, then manage products and categories. Loaded only when /admin is opened. */
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { ExternalLink, Eye, EyeOff, LogOut, Package, Tags } from "lucide-react";
+import { ExternalLink, Eye, EyeOff, Image, LogOut, Package, Tags } from "lucide-react";
 import { Link } from "wouter";
 import { BrandMark } from "@/components/BrandMark";
 import { ProductsPanel } from "@/components/admin/ProductsPanel";
 import { CategoriesPanel } from "@/components/admin/CategoriesPanel";
+import { MediaPanel } from "@/components/admin/MediaPanel";
 import { checkIsAdmin, explainError, listCategories, listProducts, type AdminCategory, type AdminProduct } from "@/lib/adminApi";
 import { getSession, peekSession, signIn, signOut } from "@/lib/supabase";
 import { useCatalog } from "@/contexts/CatalogContext";
@@ -90,7 +91,7 @@ export default function Admin() {
   useNoIndex();
   const catalog = useCatalog();
   const [gate, setGate] = useState<Gate>(() => (peekSession() ? "checking" : "signed-out"));
-  const [tab, setTab] = useState<"products" | "categories">("products");
+  const [tab, setTab] = useState<"products" | "categories" | "media">("products");
   const [categories, setCategories] = useState<AdminCategory[]>([]);
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [loadError, setLoadError] = useState("");
@@ -175,6 +176,9 @@ export default function Admin() {
           <button type="button" className={tab === "categories" ? "is-active" : ""} aria-pressed={tab === "categories"} onClick={() => setTab("categories")}>
             <Tags size={18} aria-hidden="true" /> Categories <span>{categories.length}</span>
           </button>
+          <button type="button" className={tab === "media" ? "is-active" : ""} aria-pressed={tab === "media"} onClick={() => setTab("media")}>
+            <Image size={18} aria-hidden="true" /> Site photos
+          </button>
         </nav>
         <div className="admin-bar__end">
           <a href="/shop" target="_blank" rel="noreferrer" className="admin-icon-btn" aria-label="Open the store in a new tab" title="View store">
@@ -194,11 +198,9 @@ export default function Admin() {
             </button>
           </div>
         )}
-        {tab === "products" ? (
-          <ProductsPanel products={products} categories={categories} onChanged={changed} setProducts={setProducts} />
-        ) : (
-          <CategoriesPanel categories={categories} products={products} onChanged={changed} setCategories={setCategories} />
-        )}
+        {tab === "products" && <ProductsPanel products={products} categories={categories} onChanged={changed} setProducts={setProducts} />}
+        {tab === "categories" && <CategoriesPanel categories={categories} products={products} onChanged={changed} setCategories={setCategories} />}
+        {tab === "media" && <MediaPanel onChanged={catalog.refresh} />}
       </main>
     </div>
   );

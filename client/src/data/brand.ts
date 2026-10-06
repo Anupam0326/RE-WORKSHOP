@@ -25,7 +25,7 @@ export const journey: JourneyStep[] = [
     label: "Seeds",
     tagline: "Heritage & Ancestral Seeds",
     description:
-      "Only unhybridized, native ancestral seeds are sown — heritage millets like Kodo, Kutki, and Jowar, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
+      "Only unhybridized, native ancestral seeds are sown — nutrient-dense ancient grains like Kodo, Kutki and Jowar millets, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
   },
   {
     label: "Grains",
@@ -43,13 +43,13 @@ export const journey: JourneyStep[] = [
     label: "Kitchen",
     tagline: "Transparent Open-Kitchen Café",
     description:
-      "Our open-kitchen wellness café lets you witness farm-fresh organic millets and grains transform into steaming, wholesome meals — zero maida, zero refined oil, zero processed sugar.",
+      "Our open-kitchen wellness café lets you witness farm-fresh organic millets and grains transform into steaming, wholesome meals, cooked to our No-Compromise Code.",
   },
   {
     label: "Plate",
     tagline: "Nutrient-Dense Millet Meals",
     description:
-      "From Millet Idli and Kodo Pasta to Ragi Momos and healthy sattu coolers — every dish is crafted for taste and nutrition, ready-to-eat meals that nourish your body naturally.",
+      "From Millet Idli and Kodo Pasta to Ragi Bao Pockets and healthy sattu coolers — every dish is crafted for taste and nutrition, ready-to-eat meals that nourish your body naturally.",
   },
   {
     label: "Health",
@@ -67,12 +67,19 @@ export const meaning = {
       "Restoring dead soil",
       "Repairing cellular health",
       "Returning to our ancient sustainable roots",
-      "Shifting away from modern chemical shortcuts",
+      "Regaining lost nutrition on our plates",
+      "Reviving the wisdom of the traditional Indian kitchen",
     ],
   },
   workshop: {
-    lead: "“Workshop” represents a physical, hands-on space where things aren’t discarded when they are broken — they are carefully mended.",
-    body: "From healing a sluggish body with nutrient-dense grains to nursing the earth back to life, this is where the repair work happens.",
+    lead: "A workshop is where broken things are carefully mended, not thrown away. Ours is a food workshop.",
+    body: "Modern food has been broken by chemicals, over-processing and shortcuts — and so has our health. In our workshop, food is rebuilt from the soil up, so what reaches your plate helps repair your body instead of wearing it down.",
+    facets: [
+      { label: "Raw material", value: "Nutrient-dense ancient grains from living soil" },
+      { label: "Tools", value: "Chakki stone mills and Kacchi Ghani wood presses" },
+      { label: "Craft", value: "Slow, traditional recipes in an open kitchen" },
+      { label: "The repair", value: "Real nutrition, back on your plate" },
+    ],
   },
 };
 
@@ -95,7 +102,7 @@ export const loop = {
       title: "The Heritage Seeds",
       paragraphs: ["In this thriving soil, we exclusively sow and protect native, unhybridized ancestral seeds."],
       focus: [
-        { label: "Nutrient-dense millets", value: "Kodo, Kutki, Jowar" },
+        { label: "Nutrient-dense ancient grains", value: "Kodo, Kutki, Jowar" },
         { label: "Ancient wheat varieties", value: "Khapli & Sharbati" },
         { label: "Traditional rice", value: "Kali Banga" },
         { label: "Ancestral legume varieties", value: "" },
@@ -110,8 +117,6 @@ export const loop = {
         "We then craft them into delicious, ready-to-eat and ready-to-cook everyday foods, choosing the ingredients mindfully to bring nutrition back to the plate without compromising on taste.",
     },
   ],
-  philosophyLead: "Our food philosophy ensures:",
-  philosophy: ["Maida", "Refined Oil", "Processed Sugar", "Corn Starch"],
 };
 
 export const brandStatement = "We understand your need to eat healthy in spite of your busy routine!";
@@ -140,8 +145,8 @@ export const founders = {
       bio: "After successfully reversing her own chronic health issues by shifting to a sustainable, organic, plant-based diet, she directs the scientific and nutritional vision of Re Workshop, ensuring every recipe serves as true, functional medicine.",
     },
     {
-      initials: "AB",
-      name: "Mrs. Anshumala Bhagat",
+      initials: "AD",
+      name: "Mrs. Anshumala Dhagat",
       role: "Founder Director",
       credentials: ["Graduate", "Devoted Organic Farmer & Soil Custodian", "75 Years Young"],
       lead: "The living heartbeat of our agricultural fields.",
@@ -170,7 +175,7 @@ export const experience = {
   },
   live: {
     title: "Live transformation",
-    body: "Watch the exact ancient millets and heritage grains from our grocery shelves turn into fresh, steaming, nutritious meals right before your eyes.",
+    body: "Watch the same nutrient-dense ancient grains from our grocery shelves turn into fresh, steaming, nutritious meals right before your eyes.",
   },
 };
 
@@ -183,15 +188,17 @@ export const milletMenu = {
     "Millet Dhokla",
     "Kodo Pasta",
     "Kodo Noodles",
-    "Ragi Bao Momos",
+    "Ragi Bao Pockets",
     "Ragi Bread Sandwiches",
     "A host of healthy drinks",
   ],
 };
 
+/** The one place the "zero maida…" code appears — for the café and the foods we make. */
 export const noCompromise = {
+  eyebrow: "Our food philosophy",
   heading: "The No-Compromise Code",
-  intro: "True to our word, our live café operates under a strict code of health:",
+  intro: "True to our word, everything we cook in our live café and craft for your kitchen follows a strict code of health:",
   rules: ["Maida", "Refined Oil", "Processed White Sugar", "Corn Starch"],
 };
 
@@ -202,65 +209,6 @@ export const groceryStore = {
     "Shop our meticulously curated, traditionally processed staples to recreate conscious wellness in your own kitchen.",
   ],
 };
-
-export type ShelfGroup = { label: string; items: { name: string; slug?: string }[] };
-export type Shelf = { title: string; categorySlug: string; note?: string; groups: ShelfGroup[] };
-export const shelves: Shelf[] = [
-  {
-    title: "The Grains & Flours",
-    categorySlug: "grains-flours",
-    note: "Stone-milled ancestral wheats and millets.",
-    groups: [
-      {
-        label: "Ancient millets",
-        items: [
-          { name: "Kodo", slug: "kodo-millet" },
-          { name: "Kutki", slug: "kutki-millet" },
-          { name: "Sama", slug: "sama-millet" },
-          { name: "Jowar", slug: "jwar-millet-aata" },
-          { name: "Kangani", slug: "kangani-millet" },
-          { name: "Ragi", slug: "ragi-millet" },
-          { name: "Browntop", slug: "browntop-millet" },
-          { name: "Bajra", slug: "bajra-millet-aata" },
-        ],
-      },
-      {
-        label: "Ancient wheat varieties",
-        items: [
-          { name: "Khapli", slug: "khapli-gehu-aata" },
-          { name: "Sharbati", slug: "sharbati-gehu-aata" },
-        ],
-      },
-      { label: "Traditional rice", items: [{ name: "Kali Banga", slug: "kali-banga-tukda-rice" }] },
-    ],
-  },
-
-  {
-    title: "Guilt-Free Snacks & Premixes",
-    categorySlug: "snacks-premixes",
-    groups: [
-      {
-        label: "Mindfully baked tea-time companions",
-        items: [
-          { name: "Kodo-Wheat Baked Thekua", slug: "thekua" },
-          { name: "Kodo-Jowar Salty Triangles", slug: "jwar-kodo-salty" },
-          { name: "Kodo Jaggery Biscuits" },
-        ],
-      },
-      {
-        label: "Quick healthy meal premixes",
-        items: [
-          { name: "Kodo Upma Premix", slug: "kodo-upma-premix" },
-          { name: "Kodo Pava Khil Premix" },
-          { name: "Kodo Ladoo Premix" },
-          { name: "Adanshilpa Poha Premix", slug: "adanshilpa-poha-premix" },
-          { name: "Healthy Kodo Millet Noodles", slug: "millet-noodles" },
-          { name: "Pasta", slug: "millet-pasta" },
-        ],
-      },
-    ],
-  },
-];
 
 export const finalMessage = [
   "Come for your weekly or monthly groceries,",

@@ -9,7 +9,10 @@ type StoredLine = { slug: string; quantity: number };
 type CartContextValue = {
   lines: CartLine[];
   itemCount: number;
+  /** Sum of priced items only. */
   subtotal: number;
+  /** Lines whose price is "on request" (not included in the subtotal). */
+  unpricedCount: number;
   addProduct: (product: Product, quantity?: number) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   removeProduct: (productId: string) => void;
@@ -68,7 +71,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return {
       lines,
       itemCount: lines.reduce((sum, line) => sum + line.quantity, 0),
-      subtotal: lines.reduce((sum, line) => sum + line.product.priceInr * line.quantity, 0),
+      subtotal: lines.reduce((sum, line) => sum + (line.product.priceInr ?? 0) * line.quantity, 0),
+      unpricedCount: lines.filter((line) => line.product.priceInr == null).length,
       addProduct: (product, quantity = 1) =>
         setStored((current) =>
           current.some((line) => line.slug === product.slug)

@@ -1,11 +1,11 @@
 /** Product list grouped by category, with search, reordering, layout toggle, inline delete and bulk delete. */
 
 import { useMemo, useState, type Dispatch, type SetStateAction } from "react";
-import { ArrowDown, ArrowUp, EyeOff, Grid3X3, List, Plus, Search, Star, Trash2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, CalendarDays, EyeOff, Grid3X3, ImageOff, List, Plus, Search, Star, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { ProductEditor } from "@/components/admin/ProductEditor";
 import { deleteProduct, deleteProducts, explainError, reorderProducts, type AdminCategory, type AdminProduct } from "@/lib/adminApi";
-import { formatInr } from "@/data/catalog";
+import { formatPrice } from "@/data/catalog";
 
 type Props = {
   products: AdminProduct[];
@@ -24,6 +24,7 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
   const [layout, setLayout] = useState<Layout>("list");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState(false);
+  const [missingPhotos, setMissingPhotos] = useState(false);
 
   const q = query.trim().toLowerCase();
   const sections = useMemo(
@@ -34,9 +35,10 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
           category,
           items: products
             .filter((product) => product.category_id === category.id)
-            .filter((product) => !q || `${product.name} ${product.group_label} ${product.pack_size}`.toLowerCase().includes(q)),
+            .filter((product) => !missingPhotos || product.product_images.length === 0)
+            .filter((product) => !q || `${product.name} ${product.group_label} ${product.pack_size} ${product.availability_note}`.toLowerCase().includes(q)),
         })),
-    [categories, products, filter, q],
+    [categories, products, filter, q, missingPhotos],
   );
 
   const allVisibleIds = useMemo(() => sections.flatMap((s) => s.items.map((i) => i.id)), [sections]);
@@ -181,7 +183,14 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
         </div>
       )}
 
-      {q && <p className="admin-muted admin-note">Reordering is paused while searching.</p>}
+      <label className="admin-filter-check">
+        <input type="checkbox" checked={missingPhotos} onChange={(event) => setMissingPhotos(event.target.checked)} />
+        <span>
+          Only products without photos <span className="admin-muted">({products.filter((product) => product.product_images.length === 0).length})</span>
+        </span>
+      </label>
+
+      {(q || missingPhotos) && <p className="admin-muted admin-note">Reordering is paused while searching or filtering.</p>}
 
       {sections.map(({ category, items }) => (
         <div key={category.id} className="admin-section">
@@ -209,7 +218,7 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                       <span className="admin-row__text">
                         <strong>{product.name}</strong>
                         <span>
-                          {[product.pack_size, formatInr(product.price_inr), product.group_label].filter(Boolean).join(" · ")}
+                          {[product.pack_size, formatPrice(product.price_inr), product.group_label].filter(Boolean).join(" · ")}
                         </span>
                         <span className="admin-badges">
                           {!product.is_active && (
@@ -222,7 +231,18 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                               <Star size={12} aria-hidden="true" /> Featured
                             </span>
                           )}
-                          <span className="admin-badge admin-badge--muted">{product.product_images.length}/5 photos</span>
+                          {product.availability_note && (
+                            <span className="admin-badge">
+                              <CalendarDays size={12} aria-hidden="true" /> {product.availability_note}
+                            </span>
+                          )}
+                          {product.product_images.length === 0 ? (
+                            <span className="admin-badge admin-badge--warn">
+                              <ImageOff size={12} aria-hidden="true" /> No photo
+                            </span>
+                          ) : (
+                            <span className="admin-badge admin-badge--muted">{product.product_images.length}/5 photos</span>
+                          )}
                         </span>
                       </span>
                     </button>
@@ -230,7 +250,7 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                       <button type="button" className="admin-icon-btn admin-icon-btn--danger" onClick={() => inlineDelete(product)} disabled={busyId !== null} aria-label={`Delete ${product.name}`} title="Delete">
                         <Trash2 size={17} />
                       </button>
-                      {!q && (
+                      {!q && !missingPhotos && (
                         <>
                           <button type="button" className="admin-icon-btn" onClick={() => move(items, index, -1)} disabled={index === 0 || busyId !== null} aria-label={`Move ${product.name} up`}>
                             <ArrowUp size={18} />
@@ -277,7 +297,7 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                       </span>
                       <span className="admin-grid-card__info">
                         <strong>{product.name}</strong>
-                        <span>{product.pack_size} · {formatInr(product.price_inr)}</span>
+                        <span>{[product.pack_size, formatPrice(product.price_inr)].filter(Boolean).join(" · ")}</span>
                         <span className="admin-badges">
                           {!product.is_active && (
                             <span className="admin-badge admin-badge--muted">
@@ -287,6 +307,16 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                           {product.featured && (
                             <span className="admin-badge">
                               <Star size={12} aria-hidden="true" /> Featured
+                            </span>
+                          )}
+                          {product.availability_note && (
+                            <span className="admin-badge">
+                              <CalendarDays size={12} aria-hidden="true" /> {product.availability_note}
+                            </span>
+                          )}
+                          {product.product_images.length === 0 && (
+                            <span className="admin-badge admin-badge--warn">
+                              <ImageOff size={12} aria-hidden="true" /> No photo
                             </span>
                           )}
                         </span>

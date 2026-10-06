@@ -4,17 +4,31 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { ReMark } from "@/components/BrandMark";
-import { ProductImage } from "@/components/ProductImage";
 import { SectionLabel } from "@/components/SectionLabel";
 import { SectionLink } from "@/components/SectionLink";
-import { getStaticProduct } from "@/data/catalog";
+import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import { intro, journey } from "@/data/brand";
+import type { MediaSlotKey } from "@/data/media";
 
-const heroTiles = [
-  { slug: "kodo-millet", caption: "On the shelf", note: "Kodo millet" },
-  { slug: "kodo-masala-idly-premix", caption: "On the plate", note: "Millet idli" },
-  { slug: "masala-sattu-cooler-premix", caption: "In the glass", note: "Masala sattu cooler" },
+/** Photos are swappable in /admin → Site photos; the eyebrow stays, the caption comes with the photo. */
+const heroTiles: { slot: MediaSlotKey; eyebrow: string }[] = [
+  { slot: "hero-shelf", eyebrow: "On the shelf" },
+  { slot: "hero-plate", eyebrow: "On the plate" },
+  { slot: "hero-glass", eyebrow: "In the glass" },
 ];
+
+function HeroTile({ slot, eyebrow, index }: { slot: MediaSlotKey; eyebrow: string; index: number }) {
+  const { caption } = useSiteMedia(slot);
+  return (
+    <figure className={`hero-tile hero-tile--${index + 1}`}>
+      <SiteImage slot={slot} sizes="(min-width: 860px) 240px, 34vw" eager={index === 0} />
+      <figcaption>
+        <span>{eyebrow}</span>
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
 
 export function Hero() {
   const [activeStep, setActiveStep] = useState(journey.length - 1);
@@ -40,19 +54,9 @@ export function Hero() {
 
         <div className="hero__visual" aria-hidden="true">
           <ReMark className="hero__seal" />
-          {heroTiles.map((tile, index) => {
-            const product = getStaticProduct(tile.slug);
-            if (!product) return null;
-            return (
-              <figure key={tile.slug} className={`hero-tile hero-tile--${index + 1}`}>
-                <ProductImage product={product} sizes="(min-width: 860px) 240px, 34vw" eager={index === 0} />
-                <figcaption>
-                  <span>{tile.caption}</span>
-                  {tile.note}
-                </figcaption>
-              </figure>
-            );
-          })}
+          {heroTiles.map((tile, index) => (
+            <HeroTile key={tile.slot} slot={tile.slot} eyebrow={tile.eyebrow} index={index} />
+          ))}
         </div>
       </div>
 

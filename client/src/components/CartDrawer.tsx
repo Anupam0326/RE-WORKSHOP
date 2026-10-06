@@ -3,11 +3,11 @@
 import { Link } from "wouter";
 import { Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { ProductImage } from "@/components/ProductImage";
-import { formatInr } from "@/data/catalog";
+import { formatInr, formatPrice } from "@/data/catalog";
 import { useCart } from "@/contexts/CartContext";
 
 export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { lines, subtotal, updateQuantity, removeProduct } = useCart();
+  const { lines, subtotal, unpricedCount, updateQuantity, removeProduct } = useCart();
   if (!open) return null;
   return (
     <div className="cart-overlay" role="dialog" aria-modal="true" aria-label="Your basket">
@@ -30,9 +30,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                   <ProductImage product={line.product} sizes="64px" className="cart-line__img" />
                   <div className="cart-line__info">
                     <strong>{line.product.name}</strong>
-                    <span>
-                      {line.product.packSize} · {formatInr(line.product.priceInr)}
-                    </span>
+                    <span>{[line.product.packSize, formatPrice(line.product.priceInr)].filter(Boolean).join(" · ")}</span>
                     <div className="quantity-control">
                       <button onClick={() => updateQuantity(line.product.id, line.quantity - 1)} aria-label={`Decrease ${line.product.name}`}>
                         <Minus size={14} />
@@ -51,7 +49,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             </div>
             <div className="cart-drawer__bottom">
               <div className="cart-total">
-                <span>Subtotal</span>
+                <span>{unpricedCount > 0 ? "Subtotal (excl. price on request)" : "Subtotal"}</span>
                 <strong>{formatInr(subtotal)}</strong>
               </div>
               <Link href="/cart" onClick={onClose} className="button button--forest button--full">

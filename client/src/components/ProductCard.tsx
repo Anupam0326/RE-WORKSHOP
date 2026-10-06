@@ -4,7 +4,7 @@ import { Plus } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 import { ProductImage } from "@/components/ProductImage";
-import { formatInr, type Product } from "@/data/catalog";
+import { formatPrice, type Product } from "@/data/catalog";
 import { useCart } from "@/contexts/CartContext";
 
 export const PRODUCT_CARD_SIZES = "(min-width: 1200px) 280px, (min-width: 860px) 30vw, (min-width: 560px) 45vw, 48vw";
@@ -22,13 +22,14 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="product-card__media">
           <ProductImage product={product} sizes={PRODUCT_CARD_SIZES} />
           {product.details[0] && <span className="product-card__tag">{product.details[0]}</span>}
+          {product.availabilityNote && <span className="product-card__availability">{product.availabilityNote}</span>}
         </div>
         <div className="product-card__body">
           <p className="product-card__group">{product.group}</p>
           <h3 className="product-card__name">{product.name}</h3>
           <p className="product-card__meta">
             <span>{product.packSize}</span>
-            <strong>{formatInr(product.priceInr)}</strong>
+            <strong className={product.priceInr == null ? "is-on-request" : undefined}>{formatPrice(product.priceInr)}</strong>
           </p>
         </div>
       </Link>

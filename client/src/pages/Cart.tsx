@@ -6,14 +6,14 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SectionLabel } from "@/components/SectionLabel";
 import { ProductImage } from "@/components/ProductImage";
-import { formatInr, storeInfo } from "@/data/catalog";
+import { formatInr, formatPrice, storeInfo } from "@/data/catalog";
 import { useCart } from "@/contexts/CartContext";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { buildOrderMessage, whatsappOrderUrl, whatsappReady } from "@/lib/whatsapp";
 
 export default function Cart() {
   usePageMeta("Your basket");
-  const { lines, itemCount, subtotal, updateQuantity, removeProduct, clearCart } = useCart();
+  const { lines, itemCount, subtotal, unpricedCount, updateQuantity, removeProduct, clearCart } = useCart();
   const message = buildOrderMessage(lines, subtotal);
 
   return (
@@ -44,9 +44,7 @@ export default function Cart() {
                       <Link href={`/product/${line.product.slug}`} className="cart-line__name">
                         {line.product.name}
                       </Link>
-                      <p>
-                        {line.product.packSize} · {formatInr(line.product.priceInr)}
-                      </p>
+                      <p>{[line.product.packSize, formatPrice(line.product.priceInr)].filter(Boolean).join(" · ")}</p>
                       <div className="quantity-control" role="group" aria-label={`Quantity of ${line.product.name}`}>
                         <button type="button" onClick={() => updateQuantity(line.product.id, line.quantity - 1)} aria-label={`Decrease ${line.product.name}`}>
                           <Minus size={16} />
@@ -58,7 +56,7 @@ export default function Cart() {
                       </div>
                     </div>
                     <div className="cart-line__end">
-                      <strong>{formatInr(line.product.priceInr * line.quantity)}</strong>
+                      <strong>{line.product.priceInr == null ? "On request" : formatInr(line.product.priceInr * line.quantity)}</strong>
                       <button type="button" className="icon-button icon-button--muted" onClick={() => removeProduct(line.product.id)} aria-label={`Remove ${line.product.name}`}>
                         <Trash2 size={18} />
                       </button>
@@ -75,6 +73,11 @@ export default function Cart() {
                   </span>
                   <strong>{formatInr(subtotal)}</strong>
                 </div>
+                {unpricedCount > 0 && (
+                  <p className="cart-summary__pending">
+                    {unpricedCount === 1 ? "1 item is" : `${unpricedCount} items are`} priced on request — the store confirms {unpricedCount === 1 ? "its" : "their"} price on WhatsApp.
+                  </p>
+                )}
 
                 <details className="wa-preview">
                   <summary>Preview the WhatsApp message</summary>
