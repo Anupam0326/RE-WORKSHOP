@@ -2,7 +2,7 @@
 
 Storefront for **Re Workshop**, Jabalpur's organic food store and heritage café. Customers browse the catalogue, build a basket, and place orders through WhatsApp — no online payment, no checkout form.
 
-**Live site →** [re-workshop.vercel.app](https://re-workshop.vercel.app)
+**Live site →** [re-workshop.vercel.app](https://reworkshop.store)
 
 ---
 
