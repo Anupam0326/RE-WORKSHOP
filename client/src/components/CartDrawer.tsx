@@ -15,10 +15,10 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
       <aside className="cart-drawer">
         <div className="cart-drawer__top">
           <div>
-            <p className="eyebrow">Your basket</p>
+            <p className="badge badge--light"><span>Your basket</span></p>
             <h2>Your order request</h2>
           </div>
-          <button className="icon-button" onClick={onClose} aria-label="Close basket">
+          <button className="icon-btn" onClick={onClose} aria-label="Close basket">
             <X size={20} />
           </button>
         </div>
@@ -31,7 +31,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                   <div className="cart-line__info">
                     <strong>{line.product.name}</strong>
                     <span>{[line.product.packSize, formatPrice(line.product.priceInr)].filter(Boolean).join(" · ")}</span>
-                    <div className="quantity-control">
+                    <div className="qty">
                       <button onClick={() => updateQuantity(line.product.id, line.quantity - 1)} aria-label={`Decrease ${line.product.name}`}>
                         <Minus size={14} />
                       </button>
@@ -52,7 +52,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 <span>{unpricedCount > 0 ? "Subtotal (excl. price on request)" : "Subtotal"}</span>
                 <strong>{formatInr(subtotal)}</strong>
               </div>
-              <Link href="/cart" onClick={onClose} className="button button--forest button--full">
+              <Link href="/cart" onClick={onClose} className="btn btn--dark btn--full">
                 Order on WhatsApp <ShoppingBag size={16} />
               </Link>
             </div>
@@ -61,8 +61,8 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
           <div className="cart-drawer__empty">
             <ShoppingBag size={28} strokeWidth={1.3} />
             <h3>Your basket is empty.</h3>
-            <Link href="/shop" onClick={onClose} className="button button--outline">
-              Visit the store
+            <Link href="/shop" onClick={onClose} className="btn btn--ghost">
+              Shop the store
             </Link>
           </div>
         )}

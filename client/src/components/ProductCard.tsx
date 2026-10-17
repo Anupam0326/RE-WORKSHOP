@@ -1,6 +1,7 @@
 /** Product card: whole card links to the product; the add button is a sibling (never nested inside the link). */
 
-import { Plus } from "lucide-react";
+import { useState } from "react";
+import { CalendarDays, Plus } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 import { ProductImage } from "@/components/ProductImage";
@@ -12,29 +13,41 @@ export const PRODUCT_CARD_SIZES = "(min-width: 1200px) 280px, (min-width: 860px)
 export function ProductCard({ product }: { product: Product }) {
   const { addProduct } = useCart();
   const [, navigate] = useLocation();
+  // A second angle (the bowl shot when there is one) fades in on mouse hover; it only loads after the first hover.
+  const altIndex = product.images.length > 2 ? 2 : product.images.length > 1 ? 1 : -1;
+  const [showAlt, setShowAlt] = useState(false);
   function handleAdd() {
     addProduct(product);
     toast.success(`${product.name} added to your basket`, { action: { label: "View basket", onClick: () => navigate("/cart") } });
   }
   return (
-    <article className="product-card">
-      <Link href={`/product/${product.slug}`} className="product-card__link">
-        <div className="product-card__media">
+    <article className="pcard" onPointerEnter={(event) => event.pointerType === "mouse" && altIndex > 0 && setShowAlt(true)}>
+      <Link href={`/product/${product.slug}`} className="pcard__link">
+        <div className="pcard__media">
           <ProductImage product={product} sizes={PRODUCT_CARD_SIZES} />
-          {product.details[0] && <span className="product-card__tag">{product.details[0]}</span>}
-          {product.availabilityNote && <span className="product-card__availability">{product.availabilityNote}</span>}
+          {showAlt && (
+            <span className="pcard__alt" aria-hidden="true">
+              <ProductImage product={product} index={altIndex} sizes={PRODUCT_CARD_SIZES} />
+            </span>
+          )}
         </div>
-        <div className="product-card__body">
-          <p className="product-card__group">{product.group}</p>
-          <h3 className="product-card__name">{product.name}</h3>
-          <p className="product-card__meta">
-            <span>{product.packSize}</span>
+        <div className="pcard__body">
+          {product.group && <p className="pcard__group">{product.group}</p>}
+          <h3 className="pcard__name">{product.name}</h3>
+          {product.details[0] && <p className="pcard__tag">{product.details[0]}</p>}
+          {product.availabilityNote && (
+            <p className="pcard__season">
+              <CalendarDays size={14} aria-hidden="true" /> {product.availabilityNote}
+            </p>
+          )}
+          <p className="pcard__meta">
             <strong className={product.priceInr == null ? "is-on-request" : undefined}>{formatPrice(product.priceInr)}</strong>
+            {product.packSize && <span>{product.packSize}</span>}
           </p>
         </div>
       </Link>
-      <button type="button" className="product-card__add" onClick={handleAdd} aria-label={`Add ${product.name} to basket`}>
-        <Plus size={20} strokeWidth={2} />
+      <button type="button" className="pcard__add" onClick={handleAdd} aria-label={`Add ${product.name} to basket`}>
+        <Plus size={20} strokeWidth={2.2} />
       </button>
     </article>
   );

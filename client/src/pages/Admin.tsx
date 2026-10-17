@@ -16,7 +16,7 @@ type Gate = "checking" | "signed-out" | "not-admin" | "ready";
 
 function useNoIndex() {
   useEffect(() => {
-    document.title = "Store admin · Re Workshop";
+    document.title = "Store admin | Re Workshop";
     const meta = document.createElement("meta");
     meta.name = "robots";
     meta.content = "noindex, nofollow";

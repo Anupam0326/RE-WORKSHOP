@@ -19,7 +19,7 @@ export function SiteImage({ slot, sizes, eager = false }: Props) {
   const { photo, alt, caption } = useSiteMedia(slot);
   if (!photo) {
     return (
-      <div className="product-fallback site-fallback" role="img" aria-label={`${caption} — photo coming soon`}>
+      <div className="product-fallback site-fallback" role="img" aria-label={`${caption}, photo coming soon`}>
         <ReMark className="product-fallback__mark" />
         <span>{caption}</span>
       </div>
@@ -34,7 +34,7 @@ export function SiteImage({ slot, sizes, eager = false }: Props) {
       srcSet={srcSet}
       sizes={srcSet ? sizes : undefined}
       width={480}
-      height={400}
+      height={480}
       alt={alt}
       loading={eager ? "eager" : "lazy"}
       decoding="async"

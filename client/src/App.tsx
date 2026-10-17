@@ -5,6 +5,7 @@ import { Route, Switch, useLocation } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
 import Home from "@/pages/Home";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { OrderWidget } from "./components/OrderWidget";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CartProvider } from "./contexts/CartContext";
 import { CatalogProvider } from "./contexts/CatalogContext";
@@ -92,6 +93,7 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </Suspense>
+      <OrderWidget />
     </>
   );
 }

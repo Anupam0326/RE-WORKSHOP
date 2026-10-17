@@ -2,10 +2,10 @@ export const legalEntity: string | null = "Resoilfy Agro Farms Pvt. Ltd.";
 
 export const intro = {
   welcome: "Welcome to Re Workshop!",
-  headline: "We don’t just sell organic food — we restore life.",
+  headline: "We don’t just sell organic food. We restore life.",
   belief: "We began our journey with a singular, powerful belief: to truly nourish our bodies, we must first heal our earth.",
   conscious: "We are a conscious space dedicated to fixing what has gone wrong with modern lifestyles, human bodies, and agricultural practices.",
-  ownership: (entity: string) => `Re Workshop is a premium lifestyle brand proudly owned, registered, and operated under our corporate entity, ${entity}.`,
+  ownership: (entity: string) => `Re Workshop is a premium lifestyle brand proudly owned, registered, and operated under our corporate entity, ${entity.replace(/\.$/, "")}.`,
 };
 
 export type JourneyStep = {
@@ -17,45 +17,45 @@ export type JourneyStep = {
 export const journey: JourneyStep[] = [
   {
     label: "Soil",
-    tagline: "Regenerative Organic Farming",
+    tagline: "Regenerative organic farming",
     description:
-      "We begin by restoring carbon-rich soil using Amrit Krishi — India's ancient regenerative farming method. Desi cow dung, cow urine, and farm biomass revive microbial life, creating chemical-free, nutrient-dense earth.",
+      "We begin by restoring carbon-rich soil using Amrit Krishi, India’s ancient regenerative farming method. Desi cow dung, cow urine, and farm biomass revive microbial life, creating chemical-free, nutrient-dense earth.",
   },
   {
     label: "Seeds",
-    tagline: "Heritage & Ancestral Seeds",
+    tagline: "Heritage and ancestral seeds",
     description:
-      "Only unhybridized, native ancestral seeds are sown — nutrient-dense ancient grains like Kodo, Kutki and Jowar millets, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
+      "Only unhybridized, native ancestral seeds are sown: nutrient-dense ancient grains like Kodo, Kutki and Jowar millets, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
   },
   {
     label: "Grains",
-    tagline: "Naturally Grown Organic Grains",
+    tagline: "Naturally grown organic grains",
     description:
-      "Nurtured in living soil without pesticides or chemicals, our grains grow to full nutrient potential — delivering higher mineral density and authentic taste from farm to harvest.",
+      "Nurtured in living soil without pesticides or chemicals, our grains grow to full nutrient potential, delivering higher mineral density and authentic taste from farm to harvest.",
   },
   {
     label: "Processing",
-    tagline: "Stone-Milled & Wood-Pressed",
+    tagline: "Stone-milled and wood-pressed",
     description:
-      "We protect raw nutrition with heritage processing — stone-milling (Chakki), hand-pounding, and wood-pressing (Kacchi Ghani). No heat damage, no chemical refining, no nutrient loss.",
+      "We protect raw nutrition with heritage processing: stone-milling (Chakki), hand-pounding and wood-pressing (Kacchi Ghani). No heat damage, no chemical refining, no nutrient loss.",
   },
   {
     label: "Kitchen",
-    tagline: "Transparent Open-Kitchen Café",
+    tagline: "Transparent open-kitchen café",
     description:
       "Our open-kitchen wellness café lets you witness farm-fresh organic millets and grains transform into steaming, wholesome meals, cooked to our No-Compromise Code.",
   },
   {
     label: "Plate",
-    tagline: "Nutrient-Dense Millet Meals",
+    tagline: "Nutrient-dense millet meals",
     description:
-      "From Millet Idli and Kodo Pasta to Ragi Bao Pockets and healthy sattu coolers — every dish is crafted for taste and nutrition, ready-to-eat meals that nourish your body naturally.",
+      "From Millet Idli and Kodo Pasta to Ragi Bao Pockets and healthy sattu coolers, every dish is crafted for taste and nutrition: ready-to-eat meals that nourish your body naturally.",
   },
   {
     label: "Health",
-    tagline: "Cellular Health & Wellness",
+    tagline: "Cellular health and wellness",
     description:
-      "The result: restored cellular health, improved gut wellness, and a sustainable lifestyle rooted in India's ancient food wisdom. Eat organic, live better, heal from within.",
+      "The result: restored cellular health, improved gut wellness, and a sustainable lifestyle rooted in India’s ancient food wisdom. Eat organic, live better, heal from within.",
   },
 ];
 
@@ -73,7 +73,7 @@ export const meaning = {
   },
   workshop: {
     lead: "A workshop is where broken things are carefully mended, not thrown away. Ours is a food workshop.",
-    body: "Modern food has been broken by chemicals, over-processing and shortcuts — and so has our health. In our workshop, food is rebuilt from the soil up, so what reaches your plate helps repair your body instead of wearing it down.",
+    body: "Modern food has been broken by chemicals, over-processing and shortcuts, and so has our health. In our workshop, food is rebuilt from the soil up, so what reaches your plate helps repair your body instead of wearing it down.",
     facets: [
       { label: "Raw material", value: "Nutrient-dense ancient grains from living soil" },
       { label: "Tools", value: "Chakki stone mills and Kacchi Ghani wood presses" },
@@ -84,9 +84,27 @@ export const meaning = {
 };
 
 export const loop = {
-  eyebrow: "Our 3-step ecosystem",
   heading: "The Soil-to-Plate Loop",
   intro: "We bridge the gap between ancient heritage wisdom and your busy modern lifestyle through a short, tightly controlled sustainable cycle.",
+  /** The interactive dig: pick a plate, follow it down to the soil (dishes live in data/trace.ts). */
+  trace: {
+    question: "Can you trace your last meal back to the soil?",
+    prompt: "Most food stops at the label. Pick a plate and dig down to where it began.",
+    pickLabel: "Pick a plate",
+    shelvesLabel: "On our shelves",
+    layers: {
+      plate: { depth: "Plate" },
+      kitchen: { depth: "Kitchen", question: "What went into it?" },
+      mill: { depth: "Mill", question: "How was the grain processed?" },
+      seed: { depth: "Seed", question: "Which seed did it grow from?" },
+      soil: { depth: "Soil", question: "What fed that soil?", answer: "The same soil under every plate: Amrit Mitti." },
+    },
+    closing: "The loop starts in the soil and ends in your kitchen.",
+    closingBody: "Desi cow dung, cow urine and farm biomass go back into the fields as Amrit Mitti, ready for the next harvest.",
+    again: "Trace another plate",
+    productTitle: "Every plate has roots",
+    productLead: "Follow it from the plate back down to the soil it grew in.",
+  },
   steps: [
     {
       id: "soil",
@@ -131,7 +149,7 @@ export type Founder = {
 };
 
 export const founders = {
-  eyebrow: "Founder Directors",
+  eyebrow: "Founder directors",
   heading: "The faces behind Re Workshop",
   intro:
     "Our vision is steered by three passionate Founder Directors who combine cellular science, lifelong traditional intuition, and technology to lead India’s organic renaissance.",
@@ -164,11 +182,11 @@ export const founders = {
 };
 
 export const experience = {
-  eyebrow: "The Re Workshop experience · Our store & open kitchen café",
+  eyebrow: "The Re Workshop experience: our store and open-kitchen café",
   heading: "A kitchen that resets your body.",
   invite: "We invite you to step inside a space where conscious living comes to life.",
   concept:
-    "Re Workshop is a unique, conceptual destination that seamlessly blends a premium grocery store with a mindful, live wellness café designed entirely around transparency.",
+    "Re Workshop is a unique, conceptual destination that blends a premium grocery store with a mindful, live wellness café designed entirely around transparency.",
   openKitchen: {
     title: "The transparent open-kitchen café",
     body: "Take a seat at our wellness café and watch your health reset in real-time.",
@@ -194,9 +212,8 @@ export const milletMenu = {
   ],
 };
 
-/** The one place the "zero maida…" code appears — for the café and the foods we make. */
+/** The one place the "zero maida" code appears, for the café and the foods we make. */
 export const noCompromise = {
-  eyebrow: "Our food philosophy",
   heading: "The No-Compromise Code",
   intro: "True to our word, everything we cook in our live café and craft for your kitchen follows a strict code of health:",
   rules: ["Maida", "Refined Oil", "Processed White Sugar", "Corn Starch"],
@@ -206,7 +223,7 @@ export const groceryStore = {
   heading: "The Organic Grocery Store",
   lines: [
     "After experiencing a reset at our café, walk through our retail shelves to take that lifestyle change home.",
-    "Shop our meticulously curated, traditionally processed staples to recreate conscious wellness in your own kitchen.",
+    "Shop our carefully chosen, traditionally processed staples to recreate conscious wellness in your own kitchen.",
   ],
 };
 

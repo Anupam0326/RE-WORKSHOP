@@ -64,32 +64,24 @@ export const fallbackCategories: Category[] = [
     shortName: "Dals, oils & staples",
     eyebrow: "Unpolished, wood-pressed and traditionally processed",
     description:
-      "Unpolished dals, Haldi (turmeric), desi ghee, room-temperature wood-pressed oils, Jaggery Granules, Khandasari, Himalayan pink salt and Adanshilpa poha.",
+      "Unpolished dals, Haldi (turmeric), desi ghee, room-temperature wood-pressed oils, Jaggery Granules, Khandasari, Jungle Honey, Himalayan pink salt, Adanshilpa poha, and pickles and chatni.",
     coverSlug: "arhar-dal",
   },
   {
     slug: "snacks-premixes",
     name: "Guilt-Free Snacks & Premixes",
     shortName: "Snacks & premixes",
-    eyebrow: "Tea-time companions and quick healthy meals",
-    description: "Mindfully baked tea-time companions and quick healthy meal premixes.",
+    eyebrow: "Tea-time companions, quick meal premixes and millet noodles",
+    description: "Mindfully baked tea-time companions, quick healthy meal premixes, and millet noodles and pasta.",
     coverSlug: "thekua",
   },
   {
-    slug: "noodles-pasta",
-    name: "Millet Noodles & Pasta",
-    shortName: "Noodles & pasta",
-    eyebrow: "Everyday comfort food, made with millets",
-    description: "Millet noodles, millet pasta and gluten-free spaghetti, made with kodo or foxtail millet.",
-    coverSlug: "millet-noodles",
-  },
-  {
-    slug: "pickles-honey",
-    name: "Pickles, Honey & Handmade Soaps",
-    shortName: "Pickles, honey & soaps",
+    slug: "handmade-decor",
+    name: "Handmade Soaps & Décor",
+    shortName: "Soaps & décor",
     eyebrow: "From the same shelves",
-    description: "Pickles and chatni, Jungle Honey, handmade soaps and eco-friendly décor.",
-    coverSlug: "jungle-honey",
+    description: "Handmade soap and eco-friendly wall décor.",
+    coverSlug: "handmade-soap",
   },
 ];
 
@@ -100,37 +92,24 @@ export const legacyCategorySlugs: Record<string, CategorySlug> = {
   "value-added": "snacks-premixes",
   "oils-spices": "spices-staples",
   spices: "spices-staples",
-  noodles: "noodles-pasta",
+  noodles: "snacks-premixes",
+  // 17 Oct 2026: noodles & pasta joined the snacks shelf; pickles & honey joined the pantry shelf.
+  "noodles-pasta": "snacks-premixes",
+  "pickles-honey": "spices-staples",
 };
 
 type Row = [slug: string, name: string, group: string, packSize: string, priceInr: number | null, details: string[], extra?: { featured?: boolean; availability?: string }];
 
 /**
- * Products with no real photo yet: they show the branded placeholder until the store uploads one in /admin.
- * Pickles and masala idli: the client asked for new photos. Flours, dals and castor oil: stock-looking images retired.
+ * Studio photos from the Oct 2026 product shoot (client's Drive, "AMAZON PHOTO SHOOT"), bundled as
+ * /products/v2/<slug>-<n>-480.webp and -960.webp. Number = how many photos each product has (max 5);
+ * photo 1 is the cover. Kali Banga shows only the bowl and close-up shots: its pack label in the shoot reads
+ * "Sindh Basmati", so the pack photos are not used until the client confirms the label.
  */
-const withoutPhoto = new Set([
-  "kali-banga-tukda-rice",
-  "black-whole-moong",
-  "flax-seeds",
-  "haldi-powder",
-  "wood-pressed-sesame-oil",
-  "mango-pickle",
-  "lemon-pickle",
-  "nimbu-ki-khatti-mithi-chatni",
-  "kodo-masala-idly-premix",
-  "bajra-millet-aata",
-  "chana-dal",
-  "desi-chana-besan",
-  "jwar-millet-aata",
-  "khapli-gehu-aata",
-  "kuttu-aata",
-  "moong-dal-chhilka",
-  "ragi-millet-aata",
-  "rajgira-aata",
-  "sharbati-gehu-aata",
-  "wood-pressed-castor-oil",
-]);
+export const studioPhotoCount: Record<string, number> = { "adanshilpa-poha": 4, "adanshilpa-poha-premix": 4, "arhar-dal": 4, "bajra-millet-aata": 4, "browntop-millet": 5, "chana-dal": 4, "desi-chana": 5, "desi-chana-besan": 4, "gluten-free-spaghetti-noodles": 4, "haldi-powder": 4, "handmade-soap": 4, "himalayan-pink-salt": 5, "jaggery-granules": 4, "jau-chana-sattu": 4, "jwar-kodo-salty": 5, "jwar-millet-aata": 4, "kali-banga-tukda-rice": 2, "kangani-millet": 5, "khandsari": 4, "khapli-gehu-aata": 4, "kodo-halva-premix": 4, "kodo-masala-idly-premix": 5, "kodo-millet": 4, "kodo-upma-premix": 4, "kutki-millet": 4, "lemon-pickle": 3, "millet-noodles": 4, "millet-pasta": 5, "moong-dal-chhilka": 4, "nimbu-ki-khatti-mithi-chatni": 3, "peri-cori-bite": 5, "ragi-millet-aata": 4, "sabut-moong": 5, "sama-millet": 4, "sharbati-gehu-aata": 4, "thekua": 3 };
+
+/** Products with no real photo yet: they show the branded placeholder until the store uploads one in /admin. */
+const withoutPhoto = new Set(["black-whole-moong", "flax-seeds", "kuttu-aata", "rajgira-aata", "wood-pressed-sesame-oil", "wood-pressed-castor-oil", "mango-pickle"]);
 
 const rows: Record<string, Row[]> = {
   "grains-flours": [
@@ -169,13 +148,17 @@ const rows: Record<string, Row[]> = {
     ["wood-pressed-sesame-oil", "Wood-Pressed Sesame Oil", "Ghee & wood-pressed oils", "500 ml", 440, ["Wood pressed"]],
     ["wood-pressed-coconut-oil", "Wood-Pressed Coconut Oil", "Ghee & wood-pressed oils", "500 ml", 450, ["Wood pressed"]],
     ["wood-pressed-castor-oil", "Wood-Pressed Castor Oil", "Ghee & wood-pressed oils", "500 ml", 450, ["Wood pressed"]],
-    ["jaggery-granules", "Jaggery Granules", "Jaggery & Khandasari", "500 g", 90, ["Made with organic sugarcane"]],
-    ["khandsari", "Khandasari", "Jaggery & Khandasari", "500 g", 100, ["Made with organic sugarcane"]],
+    ["jaggery-granules", "Jaggery Granules", "Jaggery, khandasari & honey", "500 g", 90, ["Made with organic sugarcane"]],
+    ["khandsari", "Khandasari", "Jaggery, khandasari & honey", "500 g", 100, ["Made with organic sugarcane"]],
+    ["jungle-honey", "Jungle Honey", "Jaggery, khandasari & honey", "250 g", 250, []],
     ["himalayan-pink-salt", "Himalayan Pink Salt", "Salt & poha", "500 g", 70, []],
     ["adanshilpa-poha", "Adanshilpa Poha", "Salt & poha", "200 g", 50, ["Product of Jharkhand"]],
+    ["mango-pickle", "Mango Pickle", "Pickles & chatni", "500 g", 350, []],
+    ["lemon-pickle", "Lemon Pickle", "Pickles & chatni", "500 g", 350, []],
+    ["nimbu-ki-khatti-mithi-chatni", "Nimbu Ki Khatti Mithi Chatni", "Pickles & chatni", "600 g", 380, []],
   ],
   "snacks-premixes": [
-    ["thekua", "Baked Thekuas – The Indian Cookies", "Tea-time companions", "100 g", 100, ["Baked, not fried", "Made with khapli aata, jaggery & desi ghee"], { featured: true }],
+    ["thekua", "Baked Thekuas: The Indian Cookies", "Tea-time companions", "100 g", 100, ["Baked, not fried", "Made with khapli aata, jaggery & desi ghee"], { featured: true }],
     ["jwar-kodo-salty", "Jwar Kodo Salty", "Tea-time companions", "90 g", 75, ["Made with jwar, whole wheat & kodo"], { featured: true }],
     ["peri-cori-bite", "Peri-Cori Bite", "Tea-time companions", "100 g", 85, []],
     ["rose-awla-marbles", "Rose Awla Marbles", "Tea-time companions", "100 g", 100, []],
@@ -186,30 +169,35 @@ const rows: Record<string, Row[]> = {
     ["kodo-halva-premix", "Kodo Halva Premix", "Quick meal premixes", "150 g", 150, []],
     ["adanshilpa-poha-premix", "Adanshilpa Poha Premix", "Quick meal premixes", "150 g", 75, []],
     ["masala-sattu-cooler-premix", "Masala Sattu Cooler Premix", "Quick meal premixes", "150 g", 150, []],
-  ],
-  "noodles-pasta": [
     ["millet-noodles", "Millet Noodles", "Millet noodles & pasta", "175 g", 120, ["Made with 50% kodo & 50% whole wheat"], { featured: true }],
     ["millet-pasta", "Millet Pasta", "Millet noodles & pasta", "175 g", 120, ["Made with 50% kodo & 50% whole wheat"]],
     ["gluten-free-spaghetti-noodles", "Gluten-Free Spaghetti / Noodles", "Millet noodles & pasta", "200 g", 130, ["Made with foxtail millet & rice"]],
   ],
-  "pickles-honey": [
-    ["mango-pickle", "Mango Pickle", "Pickles & chatni", "500 g", 350, []],
-    ["lemon-pickle", "Lemon Pickle", "Pickles & chatni", "500 g", 350, []],
-    ["nimbu-ki-khatti-mithi-chatni", "Nimbu Ki Khatti Mithi Chatni", "Pickles & chatni", "600 g", 380, []],
-    ["jungle-honey", "Jungle Honey", "Honey", "250 g", 250, []],
+  "handmade-decor": [
     ["handmade-soap", "Handmade Soap", "Handmade soaps", "100 g", 100, []],
     ["ecofriendly-wall-decor", "Eco-Friendly Wall Décor", "Eco-friendly décor", "1 pc", 650, []],
   ],
 };
 
 const descriptions: Record<string, string> = {
-  "sabut-moong": "Sabut moong — whole green moong, not split.",
+  "sabut-moong": "Sabut moong: whole green moong, not split.",
   "black-whole-moong": "Whole black moong, not split.",
 };
 
 /** The bundled /products/<slug>-960.webp photo pair. */
 export function staticPhoto(slug: string): ProductPhoto {
   return { url: `/products/${slug}-960.webp`, urlSmall: `/products/${slug}-480.webp` };
+}
+
+/** One of the bundled studio photos: /products/v2/<slug>-<n>-960.webp (n starts at 1). */
+export function studioPhoto(slug: string, n: number): ProductPhoto {
+  return { url: `/products/v2/${slug}-${n}-960.webp`, urlSmall: `/products/v2/${slug}-${n}-480.webp` };
+}
+
+function bundledPhotos(slug: string): ProductPhoto[] {
+  const count = studioPhotoCount[slug];
+  if (count) return Array.from({ length: count }, (_, index) => studioPhoto(slug, index + 1));
+  return withoutPhoto.has(slug) ? [] : [staticPhoto(slug)];
 }
 
 export const fallbackProducts: Product[] = Object.keys(rows).flatMap((categorySlug) =>
@@ -223,7 +211,7 @@ export const fallbackProducts: Product[] = Object.keys(rows).flatMap((categorySl
     priceInr,
     description: descriptions[slug] ?? "",
     details,
-    images: withoutPhoto.has(slug) ? [] : [staticPhoto(slug)],
+    images: bundledPhotos(slug),
     featured: extra?.featured ?? false,
     availabilityNote: extra?.availability ?? "",
   })),
@@ -236,12 +224,41 @@ export function getStaticProduct(slug: string) {
   return fallbackIndex.get(slug);
 }
 
+/** Anchor id of a sub-shelf on the shop page, e.g. ("grains-flours", "Stone-milled aata") → "shelf-grains-flours-stone-milled-aata". */
+export function shelfAnchor(categorySlug: string, group: string) {
+  return `shelf-${categorySlug}-${group}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+/**
+ * Site grid rule: rows are always full. Product grids run 2 per row on phones and 3 from tablets up, so curated
+ * grids (staples, related products) show exactly 6. The primary picks come first in their own order; the pool tops
+ * them up, photographed products first. With fewer than 6 available, the list is cut to a multiple of 3.
+ */
+export function pickSix(primary: Product[], pool: Product[], excludeId?: string): Product[] {
+  const chosen: Product[] = [];
+  const seen = new Set<string>(excludeId ? [excludeId] : []);
+  const add = (list: Product[]) => {
+    for (const product of list) {
+      if (chosen.length === 6) return;
+      if (seen.has(product.id)) continue;
+      seen.add(product.id);
+      chosen.push(product);
+    }
+  };
+  add(primary);
+  add(pool.filter((product) => product.images.length));
+  add(pool);
+  return chosen.length === 6 || chosen.length < 3 ? chosen : chosen.slice(0, chosen.length - (chosen.length % 3));
+}
+
 /** Responsive sources for one of a product's photos, or null when it has none. */
 export function productImage(product: Pick<Product, "images">, index = 0) {
   const photo = product.images[index];
   if (!photo) return null;
-  const srcSet = photo.urlSmall ? `${photo.urlSmall} 480w, ${photo.url} 960w` : undefined;
-  return { src: photo.urlSmall ?? photo.url, srcSet, width: 480, height: 400 };
+  // Bundled photos are 480 / 960 px wide; photos uploaded in /admin are 600 / 1400 px.
+  const uploaded = /-1400\.\w+$/.test(photo.url);
+  const srcSet = photo.urlSmall ? `${photo.urlSmall} ${uploaded ? 600 : 480}w, ${photo.url} ${uploaded ? 1400 : 960}w` : undefined;
+  return { src: photo.urlSmall ?? photo.url, srcSet, width: 480, height: 480 };
 }
 
 export function formatInr(value: number) {
@@ -258,8 +275,8 @@ export function formatPrice(value: number | null | undefined) {
 export const storeInfo = {
   name: "Re Workshop",
   tagline: "Organic Food Store & Café",
-  addressLines: ["Shop No. 1–2, opposite Chief Engineer Office", "Ridge Road, South Civil Lines", "Jabalpur 482001"],
-  address: "Shop No. 1–2, opposite Chief Engineer Office, Ridge Road, South Civil Lines, Jabalpur 482001",
+  addressLines: ["Shop No. 1-2, opposite Chief Engineer Office", "Ridge Road, South Civil Lines", "Jabalpur 482001"],
+  address: "Shop No. 1-2, opposite Chief Engineer Office, Ridge Road, South Civil Lines, Jabalpur 482001",
   phones: [
     { display: "96915 55728", tel: "+919691555728" },
     { display: "93730 05077", tel: "+919373005077" },

@@ -11,7 +11,7 @@ Storefront for **Re Workshop**, Jabalpur's organic food store and heritage café
 | Layer | Technology |
 |-------|-----------|
 | **Frontend** | React 19, TypeScript, Vite |
-| **Styling** | Vanilla CSS (editorial design system) |
+| **Styling** | Vanilla CSS design system in `client/src/index.css` (forest + lime, Inter Tight + Figtree) |
 | **Routing** | Wouter |
 | **Database** | Supabase (Postgres + Storage + Auth — no SDK, raw fetch) |
 | **Deployment** | Vercel (static SPA) |
@@ -67,7 +67,8 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 - 🛒 **Slide-out cart drawer** with persistent local storage
 - 🔐 **Admin panel** (`/admin`) — product & category CRUD, image uploads
 - 🖼️ **Client-side image compression** before upload to Supabase Storage
-- 📱 **Mobile-first** editorial design with DM Serif Display + Manrope typography
+- 📱 **Mobile-first** design after the EdifyGreen reference: floating pill nav, dark forest panels, lime actions, Inter Tight + Figtree
+- 🖼️ **Studio product photos** bundled in `client/public/products/v2/` (see `supabase/2026-10-17-studio-photos.sql`)
 
 ## License
 

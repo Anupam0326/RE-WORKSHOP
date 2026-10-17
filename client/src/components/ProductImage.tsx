@@ -15,7 +15,7 @@ export function ProductImage({ product, sizes, index = 0, eager = false, classNa
   const image = productImage(product, index);
   if (!image) {
     return (
-      <div className={`product-fallback ${className}`} role="img" aria-label={`${product.name} — photo coming soon`}>
+      <div className={`product-fallback ${className}`} role="img" aria-label={`${product.name}, photo coming soon`}>
         <ReMark className="product-fallback__mark" />
         <span>{product.name}</span>
       </div>
@@ -29,7 +29,7 @@ export function ProductImage({ product, sizes, index = 0, eager = false, classNa
       sizes={image.srcSet ? sizes : undefined}
       width={image.width}
       height={image.height}
-      alt={index === 0 ? product.name : `${product.name} — photo ${index + 1}`}
+      alt={index === 0 ? product.name : `${product.name}, photo ${index + 1}`}
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       fetchPriority={eager ? "high" : undefined}

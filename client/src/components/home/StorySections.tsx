@@ -1,21 +1,22 @@
 /** Who we are, the meaning of the name, the Soil-to-Plate Loop and the key brand statement. */
 
-import { Cog, Droplets, Hammer, Hand, Layers, Soup, Sprout } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { BookOpen, Hammer, RefreshCcw, Shovel } from "lucide-react";
 import { ReMark } from "@/components/BrandMark";
 import { SectionLabel } from "@/components/SectionLabel";
-import { SiteImage, useSiteMedia } from "@/components/SiteImage";
+import { TraceDig } from "@/components/home/TraceDig";
 import { brandStatement, intro, legalEntity, loop, meaning } from "@/data/brand";
 
 export function Manifesto() {
   return (
-    <section id="story" className="manifesto section" aria-labelledby="story-title">
-      <div className="rw-wrap">
-        <SectionLabel>Our story</SectionLabel>
-        <h2 id="story-title" className="manifesto__statement" data-reveal>
+    <section id="story" className="band band--mist band--wave story" aria-labelledby="story-title">
+      <div className="wrap wrap--lined story__inner">
+        <SectionLabel icon={BookOpen}>Our story</SectionLabel>
+        <h2 id="story-title" className="story__statement" data-reveal>
           {intro.conscious}
         </h2>
         {legalEntity && (
-          <p className="manifesto__entity" data-reveal>
+          <p className="story__entity" data-reveal>
             {intro.ownership(legalEntity)}
           </p>
         )}
@@ -26,32 +27,40 @@ export function Manifesto() {
 
 export function Meaning() {
   return (
-    <section className="meaning section section--tight-top" aria-labelledby="meaning-title">
-      <div className="rw-wrap">
-        <header className="section-head">
-          <SectionLabel>The meaning behind “Re Workshop”</SectionLabel>
+    <section className="section meaning" aria-labelledby="meaning-title">
+      <div className="wrap">
+        <header className="head">
+          <SectionLabel icon={RefreshCcw}>The meaning behind “Re Workshop”</SectionLabel>
           <h2 id="meaning-title">{meaning.heading}</h2>
         </header>
         <div className="meaning__grid">
-          <article className="meaning-card meaning-card--re" data-reveal>
-            <ReMark className="meaning-card__seal" />
-            <h3 className="meaning-card__word">Re</h3>
-            <p className="meaning-card__lead">{meaning.re.lead}</p>
-            <ol className="meaning-card__points">
-              {meaning.re.points.map((point, index) => (
+          <article className="mcard mcard--re" data-reveal>
+            <ReMark className="mcard__seal" />
+            <h3 className="mcard__word">Re</h3>
+            <p className="mcard__lead">{meaning.re.lead}</p>
+            <ul className="mcard__points">
+              {meaning.re.points.map((point) => (
                 <li key={point}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  {point}
+                  {point.startsWith("Re") ? (
+                    <>
+                      <span className="re-prefix">Re</span>
+                      {point.slice(2)}
+                    </>
+                  ) : (
+                    point
+                  )}
                 </li>
               ))}
-            </ol>
+            </ul>
           </article>
-          <article className="meaning-card meaning-card--workshop" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
-            <Hammer className="meaning-card__icon" size={28} strokeWidth={1.6} aria-hidden="true" />
-            <h3 className="meaning-card__word">Workshop</h3>
-            <p className="meaning-card__lead">{meaning.workshop.lead}</p>
-            <p className="meaning-card__body">{meaning.workshop.body}</p>
-            <dl className="focus-list meaning-card__facets">
+          <article className="mcard mcard--workshop" data-reveal>
+            <span className="mcard__icon" aria-hidden="true">
+              <Hammer size={22} strokeWidth={1.7} />
+            </span>
+            <h3 className="mcard__word">Workshop</h3>
+            <p className="mcard__lead">{meaning.workshop.lead}</p>
+            <p className="mcard__body">{meaning.workshop.body}</p>
+            <dl className="facets">
               {meaning.workshop.facets.map((facet) => (
                 <div key={facet.label}>
                   <dt>{facet.label}</dt>
@@ -66,104 +75,76 @@ export function Meaning() {
   );
 }
 
-const methodIcons = [Cog, Hand, Droplets];
-
-function FarmPhoto() {
-  const { caption } = useSiteMedia("farm");
-  return (
-    <figure className="loop-step__photo">
-      <SiteImage slot="farm" sizes="(min-width: 1024px) 360px, 92vw" />
-      <figcaption>{caption}</figcaption>
-    </figure>
-  );
-}
-
 export function SoilToPlate() {
-  const [soil, seeds, plate] = loop.steps;
   return (
-    <section id="loop" className="loop section section--sage" aria-labelledby="loop-title">
-      <div className="rw-wrap">
-        <header className="section-head section-head--center">
-          <SectionLabel>{loop.eyebrow}</SectionLabel>
+    <section id="loop" className="section loop" aria-labelledby="loop-title">
+      <div className="wrap">
+        <header className="head">
+          <SectionLabel icon={Shovel}>Soil to plate</SectionLabel>
           <h2 id="loop-title">{loop.heading}</h2>
-          <p className="section-head__intro">{loop.intro}</p>
+          <p className="head__intro">{loop.intro}</p>
         </header>
-
-        <ol className="loop__steps">
-          <li className="loop-step loop-step--soil" data-reveal>
-            <div className="loop-step__top">
-              <span className="loop-step__num">01</span>
-              <Layers size={26} strokeWidth={1.6} aria-hidden="true" />
-            </div>
-            <h3>{soil.title}</h3>
-            <FarmPhoto />
-            {soil.paragraphs.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-            <ul className="chip-list chip-list--on-dark" aria-label="Soil inputs">
-              {soil.tags?.map((tag) => (
-                <li key={tag} className="chip">
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          </li>
-
-          <li className="loop-step loop-step--seeds" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
-            <div className="loop-step__top">
-              <span className="loop-step__num">02</span>
-              <Sprout size={26} strokeWidth={1.6} aria-hidden="true" />
-            </div>
-            <h3>{seeds.title}</h3>
-            {seeds.paragraphs.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-            <p className="loop-step__label">Focus areas include:</p>
-            <dl className="focus-list">
-              {seeds.focus?.map((item) => (
-                <div key={item.label}>
-                  <dt>{item.label}</dt>
-                  {item.value && <dd>{item.value}</dd>}
-                </div>
-              ))}
-            </dl>
-          </li>
-
-          <li className="loop-step loop-step--plate" data-reveal style={{ "--i": 2 } as React.CSSProperties}>
-            <div className="loop-step__top">
-              <span className="loop-step__num">03</span>
-              <Soup size={26} strokeWidth={1.6} aria-hidden="true" />
-            </div>
-            <h3>{plate.title}</h3>
-            {plate.paragraphs.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-            <ul className="method-list">
-              {plate.methods?.map((method, index) => {
-                const Icon = methodIcons[index];
-                return (
-                  <li key={method}>
-                    <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
-                    {method}
-                  </li>
-                );
-              })}
-            </ul>
-            <p>{plate.closing}</p>
-          </li>
-        </ol>
+        <TraceDig />
       </div>
     </section>
   );
 }
 
+/** The statement lights up word by word as it scrolls through the screen (static for reduced motion). */
 export function BrandStatement() {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const words = brandStatement.split(" ");
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const spans = Array.from(element.querySelectorAll<HTMLElement>("[data-w]"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) {
+      spans.forEach((span) => span.classList.add("is-lit"));
+      return;
+    }
+    let frame = 0;
+    let visible = false;
+    const update = () => {
+      frame = 0;
+      const rect = element.getBoundingClientRect();
+      const view = window.innerHeight;
+      // 0 when the text enters at 85% of the screen height, 1 when it reaches 35%.
+      const progress = Math.min(1, Math.max(0, (view * 0.85 - rect.top) / (view * 0.5)));
+      const lit = Math.round(progress * spans.length);
+      spans.forEach((span, index) => span.classList.toggle("is-lit", index < lit));
+    };
+    const onScroll = () => {
+      if (visible && !frame) frame = window.requestAnimationFrame(update);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) update();
+    });
+    observer.observe(element);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
-    <section className="statement" aria-label="Our promise">
-      <div className="rw-wrap">
-        <p className="statement__text" data-reveal>
-          {brandStatement}
-        </p>
+    <section className="section statement" aria-label="Our promise">
+      <div className="wrap">
+        <div className="panel panel--dark grain statement__panel">
+          <div className="statement__frame">
+            <p ref={ref} className="statement__text">
+              {words.map((word, index) => (
+                <span key={`${word}-${index}`} data-w>
+                  {word}{" "}
+                </span>
+              ))}
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

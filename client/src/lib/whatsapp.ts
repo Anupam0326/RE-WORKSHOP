@@ -6,7 +6,7 @@ export const whatsappReady = whatsappDigits.length >= 10;
 export function buildOrderMessage(lines: CartLine[], subtotal: number) {
   const items = lines.map((line, index) => {
     const pack = line.product.packSize ? ` (${line.product.packSize})` : "";
-    const onRequest = line.product.priceInr == null ? " — price on request" : "";
+    const onRequest = line.product.priceInr == null ? " (price on request)" : "";
     return `${index + 1}. ${line.product.name}${pack} × ${line.quantity}${onRequest}`;
   });
   const unpriced = lines.some((line) => line.product.priceInr == null);

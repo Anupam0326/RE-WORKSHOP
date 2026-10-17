@@ -20,11 +20,10 @@ export default function Cart() {
     <div className="app-shell">
       <SiteHeader />
       <main id="main" className="cart-page">
-        <div className="rw-wrap">
+        <div className="wrap">
           <Link href="/shop" className="text-link cart-page__back">
             <ArrowLeft size={16} aria-hidden="true" /> Continue shopping
           </Link>
-          <SectionLabel>Basket · order on WhatsApp</SectionLabel>
           <h1>{lines.length ? "Your basket" : "Your basket is empty."}</h1>
           <p className="cart-page__lead">
             {lines.length
@@ -45,7 +44,7 @@ export default function Cart() {
                         {line.product.name}
                       </Link>
                       <p>{[line.product.packSize, formatPrice(line.product.priceInr)].filter(Boolean).join(" · ")}</p>
-                      <div className="quantity-control" role="group" aria-label={`Quantity of ${line.product.name}`}>
+                      <div className="qty" role="group" aria-label={`Quantity of ${line.product.name}`}>
                         <button type="button" onClick={() => updateQuantity(line.product.id, line.quantity - 1)} aria-label={`Decrease ${line.product.name}`}>
                           <Minus size={16} />
                         </button>
@@ -57,7 +56,7 @@ export default function Cart() {
                     </div>
                     <div className="cart-line__end">
                       <strong>{line.product.priceInr == null ? "On request" : formatInr(line.product.priceInr * line.quantity)}</strong>
-                      <button type="button" className="icon-button icon-button--muted" onClick={() => removeProduct(line.product.id)} aria-label={`Remove ${line.product.name}`}>
+                      <button type="button" className="icon-btn" onClick={() => removeProduct(line.product.id)} aria-label={`Remove ${line.product.name}`}>
                         <Trash2 size={18} />
                       </button>
                     </div>
@@ -66,7 +65,7 @@ export default function Cart() {
               </ul>
 
               <aside className="cart-summary" aria-label="Order summary">
-                <SectionLabel tone="dark">Order summary</SectionLabel>
+                <SectionLabel tone="dark" icon={MessageCircle}>Order summary</SectionLabel>
                 <div className="cart-summary__total">
                   <span>
                     {itemCount} {itemCount === 1 ? "item" : "items"} · estimated total
@@ -75,7 +74,7 @@ export default function Cart() {
                 </div>
                 {unpricedCount > 0 && (
                   <p className="cart-summary__pending">
-                    {unpricedCount === 1 ? "1 item is" : `${unpricedCount} items are`} priced on request — the store confirms {unpricedCount === 1 ? "its" : "their"} price on WhatsApp.
+                    {unpricedCount === 1 ? "1 item is" : `${unpricedCount} items are`} priced on request. The store confirms {unpricedCount === 1 ? "its" : "their"} price on WhatsApp.
                   </p>
                 )}
 
@@ -85,12 +84,12 @@ export default function Cart() {
                 </details>
 
                 {whatsappReady ? (
-                  <a href={whatsappOrderUrl(message)} target="_blank" rel="noopener noreferrer" className="button button--whatsapp button--full">
+                  <a href={whatsappOrderUrl(message)} target="_blank" rel="noopener noreferrer" className="btn btn--wa btn--full">
                     <MessageCircle size={20} aria-hidden="true" /> Order through WhatsApp <ArrowRight size={18} aria-hidden="true" />
                   </a>
                 ) : (
                   <>
-                    <button type="button" className="button button--whatsapp button--full" disabled aria-describedby="wa-pending">
+                    <button type="button" className="btn btn--wa btn--full" disabled aria-describedby="wa-pending">
                       <MessageCircle size={20} aria-hidden="true" /> Order through WhatsApp
                     </button>
                     <p id="wa-pending" className="cart-summary__pending">
@@ -98,7 +97,7 @@ export default function Cart() {
                     </p>
                   </>
                 )}
-                <a href={`tel:${storeInfo.phones[0].tel}`} className="button button--ghost-light button--full">
+                <a href={`tel:${storeInfo.phones[0].tel}`} className="btn btn--ghost-light btn--full">
                   <Phone size={18} aria-hidden="true" /> Call {storeInfo.phones[0].display}
                 </a>
                 <p>Prices are from our catalogue; the store confirms the final total, pickup or Jabalpur delivery on WhatsApp.</p>
@@ -110,8 +109,8 @@ export default function Cart() {
           ) : (
             <div className="cart-empty">
               <ShoppingBag size={32} strokeWidth={1.3} aria-hidden="true" />
-              <Link href="/shop" className="button button--forest">
-                Visit the store <ArrowRight size={18} aria-hidden="true" />
+              <Link href="/shop" className="btn btn--dark">
+                Shop the store <ArrowRight size={18} aria-hidden="true" />
               </Link>
             </div>
           )}
@@ -126,11 +125,11 @@ export default function Cart() {
             <strong>{formatInr(subtotal)}</strong>
           </div>
           {whatsappReady ? (
-            <a href={whatsappOrderUrl(message)} target="_blank" rel="noopener noreferrer" className="button button--whatsapp">
+            <a href={whatsappOrderUrl(message)} target="_blank" rel="noopener noreferrer" className="btn btn--wa">
               <MessageCircle size={18} aria-hidden="true" /> Order on WhatsApp
             </a>
           ) : (
-            <button type="button" className="button button--whatsapp" disabled>
+            <button type="button" className="btn btn--wa" disabled>
               <MessageCircle size={18} aria-hidden="true" /> Order on WhatsApp
             </button>
           )}

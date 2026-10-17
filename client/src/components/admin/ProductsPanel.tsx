@@ -214,7 +214,7 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                       />
                     </label>
                     <button type="button" className="admin-row__main" onClick={() => setEditing(product)} aria-label={`Edit ${product.name}`}>
-                      <span className="admin-thumb">{cover ? <img src={cover.url_small ?? cover.url} alt="" width={56} height={56} loading="lazy" /> : <span aria-hidden="true">—</span>}</span>
+                      <span className="admin-thumb">{cover ? <img src={cover.url_small ?? cover.url} alt="" width={56} height={56} loading="lazy" /> : <ImageOff size={18} aria-hidden="true" />}</span>
                       <span className="admin-row__text">
                         <strong>{product.name}</strong>
                         <span>
@@ -293,7 +293,7 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
                     </div>
                     <button type="button" className="admin-grid-card__body" onClick={() => setEditing(product)} aria-label={`Edit ${product.name}`}>
                       <span className="admin-grid-card__media">
-                        {cover ? <img src={cover.url_small ?? cover.url} alt="" loading="lazy" /> : <span aria-hidden="true">—</span>}
+                        {cover ? <img src={cover.url_small ?? cover.url} alt="" loading="lazy" /> : <ImageOff size={18} aria-hidden="true" />}
                       </span>
                       <span className="admin-grid-card__info">
                         <strong>{product.name}</strong>

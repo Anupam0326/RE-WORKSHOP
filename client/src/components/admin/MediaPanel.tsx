@@ -66,7 +66,7 @@ function SlotCard({ slot, media, onChanged }: { slot: MediaSlot; media?: AdminMe
   return (
     <article className="admin-card admin-media">
       <div className="admin-media__preview">
-        {preview ? <img src={preview} alt="" loading="lazy" /> : <span>No photo yet — a branded placeholder shows on the website.</span>}
+        {preview ? <img src={preview} alt="" loading="lazy" /> : <span>No photo yet. A branded placeholder shows on the website.</span>}
         <span className={media ? "admin-badge" : "admin-badge admin-badge--muted"}>{media ? "Your photo" : preview ? "Default photo" : "Placeholder"}</span>
       </div>
       <div className="admin-media__body">
@@ -141,7 +141,7 @@ export function MediaPanel({ onChanged }: { onChanged: () => Promise<void> }) {
       <div className="admin-head">
         <div>
           <h1 id="media-title">Site photos</h1>
-          <p className="admin-muted">Photos on the home page outside the product shelves. Please use real Re Workshop photos only — no stock or AI images.</p>
+          <p className="admin-muted">Photos on the home page outside the product shelves. Please use real Re Workshop photos only, no stock or AI images.</p>
         </div>
       </div>
       {error && (

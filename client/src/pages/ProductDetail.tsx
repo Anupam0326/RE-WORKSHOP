@@ -1,7 +1,7 @@
 /** Product detail — live catalogue data: photos (up to 5), name, pack, price, description and labels. */
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag, Sprout } from "lucide-react";
 import { Link, useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -10,8 +10,9 @@ import { SectionLabel } from "@/components/SectionLabel";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductImage } from "@/components/ProductImage";
 import { SectionLink } from "@/components/SectionLink";
-import { formatPrice, type Product } from "@/data/catalog";
+import { formatPrice, pickSix, type Product } from "@/data/catalog";
 import { loop } from "@/data/brand";
+import { dishesForProduct, requestTrace } from "@/data/trace";
 import { useCart } from "@/contexts/CartContext";
 import { useCatalog } from "@/contexts/CatalogContext";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -23,8 +24,8 @@ function Gallery({ product }: { product: Product }) {
   const go = (delta: number) => setActive((current) => (current + delta + count) % count);
   return (
     <div className="gallery">
-      <div className="product__media">
-        <ProductImage product={product} index={active} sizes="(min-width: 860px) 46vw, 100vw" eager={active === 0} />
+      <div className="gallery__main">
+        <ProductImage product={product} index={active} sizes="(min-width: 860px) 560px, 100vw" eager={active === 0} />
         {count > 1 && (
           <>
             <button type="button" className="gallery__nav gallery__nav--prev" onClick={() => go(-1)} aria-label="Previous photo">
@@ -49,7 +50,7 @@ function Gallery({ product }: { product: Product }) {
               onClick={() => setActive(index)}
               aria-label={`Show photo ${index + 1}`}
               aria-pressed={index === active}>
-              <img src={photo.urlSmall ?? photo.url} alt="" width={80} height={67} loading="lazy" decoding="async" />
+              <img src={photo.urlSmall ?? photo.url} alt="" width={72} height={72} loading="lazy" decoding="async" />
             </button>
           ))}
         </div>
@@ -70,7 +71,7 @@ export default function ProductDetail() {
   usePageMeta(
     product?.name ?? "Product",
     product
-      ? `${product.name}${product.packSize ? ` (${product.packSize})` : ""} — ${formatPrice(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.${product.description ? " " + product.description.slice(0, 120) : ""}`
+      ? `${product.name}${product.packSize ? ` (${product.packSize})` : ""}, ${formatPrice(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.${product.description ? " " + product.description.slice(0, 120) : ""}`
       : undefined,
   );
 
@@ -80,7 +81,7 @@ export default function ProductDetail() {
     return (
       <div className="app-shell">
         <SiteHeader />
-        <main id="main" className="not-found rw-wrap" aria-busy={stillLoading}>
+        <main id="main" className="not-found wrap" aria-busy={stillLoading}>
           {stillLoading ? (
             <>
               <SectionLabel>Loading</SectionLabel>
@@ -90,7 +91,7 @@ export default function ProductDetail() {
             <>
               <SectionLabel>Not on this shelf</SectionLabel>
               <h1>We couldn’t find that product.</h1>
-              <Link href="/shop" className="button button--forest">
+              <Link href="/shop" className="btn btn--dark">
                 Back to the store <ArrowRight size={18} />
               </Link>
             </>
@@ -102,8 +103,17 @@ export default function ProductDetail() {
   }
 
   const selected = product;
-  const sameGroup = products.filter((item) => item.categorySlug === selected.categorySlug && item.group === selected.group && item.id !== selected.id);
-  const related = (sameGroup.length ? sameGroup : products.filter((item) => item.categorySlug === selected.categorySlug && item.id !== selected.id)).slice(0, 4);
+  const traces = dishesForProduct(selected.slug);
+  // Six related products (grid rule: full rows): same sub-shelf first, then the same shelf, then the rest of the store.
+  const sameShelf = products.filter((item) => item.categorySlug === selected.categorySlug);
+  const sameGroup = sameShelf.filter((item) => item.group === selected.group);
+  const related = pickSix(sameGroup, [...sameShelf, ...products], selected.id);
+  const relatedTitle =
+    selected.group && related.every((item) => item.group === selected.group && item.categorySlug === selected.categorySlug)
+      ? `More ${selected.group.toLowerCase()}`
+      : related.every((item) => item.categorySlug === selected.categorySlug)
+        ? `More from ${category.shortName.toLowerCase()}`
+        : "More from our shelves";
 
   function addToBasket() {
     addProduct(selected, quantity);
@@ -115,7 +125,7 @@ export default function ProductDetail() {
       <SiteHeader />
       <main id="main">
         <section className="product">
-          <div className="rw-wrap">
+          <div className="wrap">
             <nav className="breadcrumbs" aria-label="Breadcrumb">
               <Link href="/shop">Store</Link>
               <span aria-hidden="true">/</span>
@@ -124,7 +134,7 @@ export default function ProductDetail() {
             <div className="product__layout">
               <Gallery product={selected} />
               <div className="product__copy">
-                {selected.group && <SectionLabel>{selected.group}</SectionLabel>}
+                {selected.group && <SectionLabel icon={Sprout}>{selected.group}</SectionLabel>}
                 <h1>{selected.name}</h1>
                 <p className={selected.priceInr == null ? "product__price is-on-request" : "product__price"}>
                   {formatPrice(selected.priceInr)} {selected.packSize && <span>/ {selected.packSize}</span>}
@@ -152,7 +162,7 @@ export default function ProductDetail() {
                   </div>
                 )}
                 <div className="product__purchase">
-                  <div className="quantity-control quantity-control--large" role="group" aria-label="Quantity">
+                  <div className="qty qty--large" role="group" aria-label="Quantity">
                     <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity" disabled={quantity <= 1}>
                       <Minus size={18} />
                     </button>
@@ -161,17 +171,33 @@ export default function ProductDetail() {
                       <Plus size={18} />
                     </button>
                   </div>
-                  <button type="button" className="button button--forest product__add" onClick={addToBasket}>
-                    Add to basket <ShoppingBag size={18} aria-hidden="true" />
+                  <button type="button" className="btn btn--dark product__add" onClick={addToBasket}>
+                    <ShoppingBag size={18} aria-hidden="true" /> Add to basket
                   </button>
                 </div>
 
                 <div className="product__note">
-                  <p className="eyebrow">How Re Workshop works</p>
-                  <p>{loop.intro}</p>
-                  <SectionLink id="loop" className="text-link">
-                    The Soil-to-Plate Loop <ArrowRight size={16} aria-hidden="true" />
-                  </SectionLink>
+                  {traces.length > 0 ? (
+                    <>
+                      <p className="product__note-title">{loop.trace.productTitle}</p>
+                      <p>{loop.trace.productLead}</p>
+                      <div className="product__traces">
+                        {traces.map((dish) => (
+                          <SectionLink key={dish.id} id="trace" className="text-link" onNavigate={() => requestTrace(dish.id)}>
+                            Trace {dish.label.toLowerCase()} <ArrowRight size={16} aria-hidden="true" />
+                          </SectionLink>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="product__note-title">How Re Workshop works</p>
+                      <p>{loop.intro}</p>
+                      <SectionLink id="loop" className="text-link">
+                        The Soil-to-Plate Loop <ArrowRight size={16} aria-hidden="true" />
+                      </SectionLink>
+                    </>
+                  )}
                 </div>
                 <Link href={`/shop/${category.slug}`} className="text-link">
                   <ArrowLeft size={16} aria-hidden="true" /> Back to {category.shortName.toLowerCase()}
@@ -182,13 +208,10 @@ export default function ProductDetail() {
         </section>
 
         {related.length > 0 && (
-          <section className="related section section--sage" aria-labelledby="related-title">
-            <div className="rw-wrap">
-              <header className="section-head section-head--row">
-                <div>
-                  <SectionLabel>From the same shelf</SectionLabel>
-                  <h2 id="related-title">{selected.group || category.name}</h2>
-                </div>
+          <section className="related band band--mist" aria-labelledby="related-title">
+            <div className="wrap wrap--lined related__inner">
+              <header className="head head--row">
+                <h2 id="related-title">{relatedTitle}</h2>
                 <Link href={`/shop/${category.slug}`} className="text-link">
                   All {category.shortName.toLowerCase()} <ArrowRight size={16} aria-hidden="true" />
                 </Link>

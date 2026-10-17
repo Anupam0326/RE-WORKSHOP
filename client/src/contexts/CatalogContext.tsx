@@ -5,11 +5,25 @@
  */
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { fallbackCategories, fallbackProducts, legacyCategorySlugs, type Category, type Product } from "@/data/catalog";
+import { fallbackCategories, fallbackProducts, legacyCategorySlugs, studioPhoto, studioPhotoCount, type Category, type Product } from "@/data/catalog";
 import type { SiteMedia } from "@/data/media";
 import { rest } from "@/lib/supabase";
 
 type Status = "fallback" | "cached" | "live" | "error";
+
+/**
+ * Dev-only preview of the Oct 2026 studio photos. The dev server and the live site share one database, so the
+ * studio-photo SQL can't be tried locally without changing the live store. With VITE_PREVIEW_STUDIO_PHOTOS=1 in
+ * .env.development.local, the storefront shows the bundled studio photos instead of the database's. It is never
+ * active in a production build. While it is on, the admin still shows (and edits) the database photos.
+ * Delete this, and the .env line, after supabase/2026-10-17-studio-photos.sql has been run.
+ */
+const PREVIEW_STUDIO_PHOTOS = import.meta.env.DEV && import.meta.env.VITE_PREVIEW_STUDIO_PHOTOS === "1";
+
+function previewStudioPhotos(slug: string): Product["images"] | null {
+  const count = PREVIEW_STUDIO_PHOTOS ? studioPhotoCount[slug] : 0;
+  return count ? Array.from({ length: count }, (_, index) => studioPhoto(slug, index + 1)) : null;
+}
 type CatalogData = { categories: Category[]; products: Product[]; media: Record<string, SiteMedia> };
 type CatalogValue = CatalogData & {
   status: Status;
@@ -82,13 +96,18 @@ export async function fetchCatalog(): Promise<CatalogData> {
       description: row.description ?? "",
       details: row.details ?? [],
       featured: row.featured,
-      images: (row.product_images ?? [])
-        .slice()
-        .sort((a, b) => a.sort_order - b.sort_order)
-        .map((image) => ({ url: image.url, urlSmall: image.url_small })),
+      images:
+        previewStudioPhotos(row.slug) ??
+        (row.product_images ?? [])
+          .slice()
+          .sort((a, b) => a.sort_order - b.sort_order)
+          .map((image) => ({ url: image.url, urlSmall: image.url_small })),
     }))
     .sort((a, b) => (categoryOrder.get(a.categorySlug) ?? 99) - (categoryOrder.get(b.categorySlug) ?? 99));
-  return { categories, products, media };
+  // The storefront never shows a shelf without products (e.g. the emptied Millet Noodles & Pasta shelf, kept in the
+  // database until it is removed in /admin). The admin loads its own full list, so it still sees and manages it.
+  const stocked = categories.filter((category) => products.some((product) => product.categorySlug === category.slug));
+  return { categories: stocked, products, media };
 }
 
 function readCache(): CatalogData | null {

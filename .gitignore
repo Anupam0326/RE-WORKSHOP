@@ -45,3 +45,6 @@ temp/
 .webdev/
 .project-config.json
 client/public/__manus__/version.json
+
+# Local backups made during the Oct 2026 redesign (not for the repo)
+_backup/

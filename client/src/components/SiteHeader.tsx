@@ -1,8 +1,8 @@
-/** Sticky header: brand seal, primary navigation, basket. Mobile gets a full-screen menu with scroll lock + Escape. */
+/** Floating pill navigation: brand, section links, admin + basket, shop button. Mobile gets a full-screen menu (scroll lock + Escape). */
 
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { ArrowRight, Menu, ShoppingBag, UserRound, X } from "lucide-react";
+import { ArrowUpRight, Menu, Phone, ShoppingBag, Store, UserRound, X } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
 import { useCart } from "@/contexts/CartContext";
@@ -26,6 +26,7 @@ export function SiteHeader() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [signedIn, setSignedIn] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const sync = () => setSignedIn(Boolean(peekSession()));
@@ -36,6 +37,13 @@ export function SiteHeader() {
       window.removeEventListener("rw-auth-change", sync);
       window.removeEventListener("storage", sync);
     };
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => setOpen(false), [location]);
@@ -56,83 +64,81 @@ export function SiteHeader() {
   }, [open]);
 
   const close = () => setOpen(false);
+  const basketLabel = `Basket, ${itemCount} ${itemCount === 1 ? "item" : "items"}`;
 
   return (
     <>
       <a href="#main" className="skip-link">
         Skip to content
       </a>
-      <header className="site-header">
-        <div className="site-header__inner">
-          <Link href="/" className="site-header__brand" aria-label="Re Workshop — home">
+      <header className={scrolled ? "nav-wrap is-scrolled" : "nav-wrap"}>
+        <div className="nav">
+          <Link href="/" className="nav__brand" aria-label="Re Workshop home">
             <BrandMark compact />
           </Link>
-          <nav className="site-header__nav" aria-label="Primary">
+          <nav className="nav__links" aria-label="Primary">
             {navItems.map((item) =>
               item.href ? (
-                <Link key={item.label} href={item.href} className={location.startsWith(item.href) ? "site-header__link is-active" : "site-header__link"}>
+                <Link key={item.label} href={item.href} className={location.startsWith(item.href) ? "nav__link is-active" : "nav__link"}>
                   {item.label}
                 </Link>
               ) : (
-                <SectionLink key={item.label} id={item.section!} className="site-header__link">
+                <SectionLink key={item.label} id={item.section!} className="nav__link">
                   {item.label}
                 </SectionLink>
               ),
             )}
           </nav>
-          <div className="site-header__actions">
-            <Link href="/admin" className={signedIn ? "cart-trigger is-signed-in" : "cart-trigger"} aria-label={signedIn ? "Store admin (signed in)" : "Store admin login"} title={signedIn ? "Store admin" : "Admin login"}>
-              <UserRound size={20} strokeWidth={1.8} />
-              {signedIn && <span className="signed-in-dot" aria-hidden="true" />}
+          <div className="nav__actions">
+            <Link href="/admin" className={signedIn ? "nav__icon is-signed-in" : "nav__icon"} aria-label={signedIn ? "Store admin (signed in)" : "Store admin login"} title={signedIn ? "Store admin" : "Admin login"}>
+              <UserRound size={19} strokeWidth={1.8} />
+              {signedIn && <span className="nav__dot" aria-hidden="true" />}
             </Link>
-            <Link href="/cart" className="cart-trigger" aria-label={`Basket, ${itemCount} ${itemCount === 1 ? "item" : "items"}`}>
-              <ShoppingBag size={20} strokeWidth={1.8} />
-              {itemCount > 0 && <span className="cart-trigger__count">{itemCount}</span>}
+            <Link href="/cart" className="nav__icon" aria-label={basketLabel}>
+              <ShoppingBag size={19} strokeWidth={1.8} />
+              {itemCount > 0 && <span className="nav__count">{itemCount}</span>}
             </Link>
-            <button ref={menuButtonRef} type="button" className="icon-button site-header__menu" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu">
-              <Menu size={22} />
+            <Link href="/shop" className="btn btn--lime btn--sm nav__cta">
+              <Store size={17} aria-hidden="true" /> Shop the store
+            </Link>
+            <button ref={menuButtonRef} type="button" className="nav__icon nav__menu" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu">
+              <Menu size={21} />
             </button>
           </div>
-          <span className="scroll-progress" aria-hidden="true" />
         </div>
       </header>
 
       {open && (
-        <div id="mobile-menu" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
-          <div className="mobile-menu__top">
+        <div id="mobile-menu" className="menu-sheet" role="dialog" aria-modal="true" aria-label="Menu">
+          <div className="menu-sheet__top">
             <BrandMark compact />
-            <button ref={closeRef} type="button" className="icon-button" onClick={close} aria-label="Close menu">
-              <X size={24} />
+            <button ref={closeRef} type="button" className="nav__icon" onClick={close} aria-label="Close menu">
+              <X size={22} />
             </button>
           </div>
-          <nav className="mobile-menu__nav" aria-label="Mobile">
-            {navItems.map((item, index) => {
-              const inner = (
-                <>
-                  <span className="mobile-menu__index">0{index + 1}</span>
+          <nav className="menu-sheet__nav" aria-label="Mobile">
+            {navItems.map((item) =>
+              item.href ? (
+                <Link key={item.label} href={item.href} onClick={close} className="menu-sheet__link">
                   {item.label}
-                  <ArrowRight size={18} aria-hidden="true" />
-                </>
-              );
-              return item.href ? (
-                <Link key={item.label} href={item.href} onClick={close} className="mobile-menu__link">
-                  {inner}
                 </Link>
               ) : (
-                <SectionLink key={item.label} id={item.section!} onNavigate={close} className="mobile-menu__link">
-                  {inner}
+                <SectionLink key={item.label} id={item.section!} onNavigate={close} className="menu-sheet__link">
+                  {item.label}
                 </SectionLink>
-              );
-            })}
-            <Link href="/cart" onClick={close} className="mobile-menu__link mobile-menu__link--accent">
-              <span className="mobile-menu__index">0{navItems.length + 1}</span>
-              Basket{itemCount > 0 ? ` (${itemCount})` : ""}
-              <ShoppingBag size={18} aria-hidden="true" />
-            </Link>
+              ),
+            )}
           </nav>
-          <div className="mobile-menu__foot">
-            <a href={`tel:${storeInfo.phones[0].tel}`}>Call {storeInfo.phones[0].display}</a>
-            <p>{storeInfo.address}</p>
+          <div className="menu-sheet__foot">
+            <Link href="/cart" onClick={close} className="btn btn--lime btn--full">
+              <ShoppingBag size={18} aria-hidden="true" /> Basket{itemCount > 0 ? ` (${itemCount})` : ""}
+            </Link>
+            <a href={`tel:${storeInfo.phones[0].tel}`} className="btn btn--ghost-light btn--full">
+              <Phone size={18} aria-hidden="true" /> Call {storeInfo.phones[0].display}
+            </a>
+            <a href={storeInfo.mapUrl} target="_blank" rel="noreferrer" className="menu-sheet__address">
+              {storeInfo.address} <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
           </div>
         </div>
       )}
