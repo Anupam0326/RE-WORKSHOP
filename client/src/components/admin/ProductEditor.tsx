@@ -1,4 +1,7 @@
-/** Add / edit a product: details, visibility and up to 5 photos (compressed in the browser before upload). */
+/**
+ * Add / edit a product: details, seed and origin, visibility and up to 5 photos (compressed in the browser before upload).
+ * "Seed and origin" (22 Oct 2026) feeds the product page and "Track your grain" on Our story; only true facts.
+ */
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, ImagePlus, Trash2, X } from "lucide-react";
@@ -17,6 +20,7 @@ import {
   type AdminImage,
   type AdminProduct,
 } from "@/lib/adminApi";
+import { originFields, type OriginKey, type ProductOrigin } from "@/data/grainTrack";
 
 type Photo = { key: string; kind: "existing"; image: AdminImage } | { key: string; kind: "new"; file: File; preview: string };
 
@@ -41,6 +45,8 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
   const [availability, setAvailability] = useState(product?.availability_note ?? "");
   const [description, setDescription] = useState(product?.description ?? "");
   const [tags, setTags] = useState((product?.details ?? []).join(", "));
+  const [origin, setOrigin] = useState<ProductOrigin>(product?.origin ?? {});
+  const originCount = originFields.filter(({ key }) => origin[key]?.trim()).length;
   const [featured, setFeatured] = useState(product?.featured ?? false);
   const [visible, setVisible] = useState(product?.is_active ?? true);
   const [photos, setPhotos] = useState<Photo[]>(() => (product?.product_images ?? []).map((image) => ({ key: image.id, kind: "existing", image })));
@@ -172,6 +178,9 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
         .slice(0, 6),
       featured,
       is_active: visible,
+      origin: Object.fromEntries(
+        originFields.map(({ key }) => [key, origin[key]?.trim() ?? ""]).filter(([, value]) => value),
+      ) as ProductOrigin,
     };
     let createdId: string | undefined;
     try {
@@ -328,6 +337,31 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
               <input value={tags} onChange={(event) => touch(setTags)(event.target.value)} placeholder="e.g. Organic, Stone milled" />
               <small className="admin-field__hint">Separate with commas. The first label shows on the product card.</small>
             </label>
+
+            <details className="admin-origin" open={originCount > 0}>
+              <summary>
+                Seed and origin <span className="admin-muted">({originCount}/{originFields.length} filled) · shown on the product page and in Track your grain</span>
+              </summary>
+              <p className="admin-field__hint">
+                Only write what you know is true for this product. Leave a field empty when you don’t know; the site never fills gaps.
+              </p>
+              {originFields.map(({ key, label, hint, max }) => (
+                <label key={key} className="admin-field">
+                  <span>{label}</span>
+                  {key === "note" ? (
+                    <textarea
+                      value={origin[key] ?? ""}
+                      onChange={(event) => touch(setOrigin)({ ...origin, [key as OriginKey]: event.target.value })}
+                      rows={3}
+                      maxLength={max}
+                    />
+                  ) : (
+                    <input value={origin[key] ?? ""} onChange={(event) => touch(setOrigin)({ ...origin, [key as OriginKey]: event.target.value })} maxLength={max} />
+                  )}
+                  <small className="admin-field__hint">{hint}</small>
+                </label>
+              ))}
+            </details>
 
             <fieldset className="admin-field admin-photos">
               <legend>

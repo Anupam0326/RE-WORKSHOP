@@ -141,7 +141,7 @@ export function MediaPanel({ onChanged }: { onChanged: () => Promise<void> }) {
       <div className="admin-head">
         <div>
           <h1 id="media-title">Site photos</h1>
-          <p className="admin-muted">Photos on the home page outside the product shelves. Please use real Re Workshop photos only, no stock or AI images.</p>
+          <p className="admin-muted">Photos outside the product shelves, each shown in one place. Please use real Re Workshop photos only, no stock or AI images, and don’t put the same photo in two places. Farm photos: seed work only, no vegetables.</p>
         </div>
       </div>
       {error && (

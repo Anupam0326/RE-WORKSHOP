@@ -2,12 +2,13 @@
  * Floating "Order now" card (bottom right). With items in the basket it opens the basket; otherwise it starts a
  * WhatsApp chat with the store. Appears once the visitor scrolls past the first screen, so it never covers the
  * hero buttons. Hidden on the basket page (it has its own order bar) and in the admin.
+ * 23 Oct 2026: the Re seal instead of a product photo, so no photo shows twice on a page (one photo, one place).
  */
 
 import { useEffect, useState } from "react";
 import { MessageCircle, ShoppingBag } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { SiteImage } from "@/components/SiteImage";
+import { ReMark } from "@/components/BrandMark";
 import { useCart } from "@/contexts/CartContext";
 import { whatsappDigits, whatsappReady } from "@/lib/whatsapp";
 
@@ -33,8 +34,8 @@ export function OrderWidget() {
   if (itemCount > 0) {
     return (
       <aside className="order-widget" aria-label="Your basket">
-        <div className="order-widget__media" aria-hidden="true">
-          <SiteImage slot="hero-main" sizes="72px" />
+        <div className="order-widget__media order-widget__media--mark" aria-hidden="true">
+          <ReMark />
         </div>
         <p className="order-widget__title">
           {itemCount} {itemCount === 1 ? "item" : "items"} in your basket
@@ -49,8 +50,8 @@ export function OrderWidget() {
   if (!whatsappReady) return null;
   return (
     <aside className="order-widget" aria-label="Order on WhatsApp">
-      <div className="order-widget__media" aria-hidden="true">
-        <SiteImage slot="hero-main" sizes="72px" />
+      <div className="order-widget__media order-widget__media--mark" aria-hidden="true">
+        <ReMark />
       </div>
       <p className="order-widget__title">Order now</p>
       <a href={`https://wa.me/${whatsappDigits}?text=${greeting}`} target="_blank" rel="noopener noreferrer" className="order-widget__btn">

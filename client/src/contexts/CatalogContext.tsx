@@ -8,6 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { fallbackCategories, fallbackProducts, legacyCategorySlugs, type Category, type Product } from "@/data/catalog";
 import type { SiteMedia } from "@/data/media";
 import { rest } from "@/lib/supabase";
+import { readOrigin } from "@/data/grainTrack";
 
 type Status = "fallback" | "cached" | "live" | "error";
 type CatalogData = { categories: Category[]; products: Product[]; media: Record<string, SiteMedia> };
@@ -36,6 +37,7 @@ type ProductRow = {
   details: string[] | null;
   featured: boolean;
   category: { slug: string } | null;
+  origin: unknown;
   product_images: { url: string; url_small: string | null; sort_order: number }[] | null;
 };
 type MediaRow = { key: string; url: string; url_small: string | null; alt: string; caption: string };
@@ -54,7 +56,7 @@ export async function fetchCatalog(): Promise<CatalogData> {
   const [categoryRows, productRows, media] = await Promise.all([
     rest<CategoryRow[]>("categories?select=id,slug,name,short_name,eyebrow,description&order=sort_order.asc,name.asc", { anonymous: true }),
     rest<ProductRow[]>(
-      "products?select=id,slug,name,group_label,pack_size,price_inr,availability_note,description,details,featured,category:categories(slug),product_images(url,url_small,sort_order)&is_active=eq.true&order=sort_order.asc,name.asc",
+      "products?select=id,slug,name,group_label,pack_size,price_inr,availability_note,description,details,featured,origin,category:categories(slug),product_images(url,url_small,sort_order)&is_active=eq.true&order=sort_order.asc,name.asc",
       { anonymous: true },
     ),
     fetchMedia(),
@@ -82,6 +84,7 @@ export async function fetchCatalog(): Promise<CatalogData> {
       description: row.description ?? "",
       details: row.details ?? [],
       featured: row.featured,
+      origin: readOrigin(row.origin),
       images: (row.product_images ?? [])
         .slice()
         .sort((a, b) => a.sort_order - b.sort_order)

@@ -22,3 +22,13 @@ export function buildOrderMessage(lines: CartLine[], subtotal: number) {
 export function whatsappOrderUrl(message: string) {
   return `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(message)}`;
 }
+
+/**
+ * Dr. (Mrs.) Swati Chhajed's own WhatsApp, for the free lifestyle consultation (23 Oct 2026, given by Anupam).
+ * Separate from the store's order number above.
+ */
+export const CONSULT_WHATSAPP = "+919736180113";
+export const consultDigits = CONSULT_WHATSAPP.replace(/\D/g, "");
+export function consultChatUrl(message: string) {
+  return `https://wa.me/${consultDigits}?text=${encodeURIComponent(message)}`;
+}

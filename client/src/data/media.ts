@@ -4,9 +4,29 @@
  * Only real Re Workshop photos should go here — no stock or AI images.
  */
 
-import { staticPhoto, studioPhoto, type ProductPhoto } from "@/data/catalog";
+import type { ProductPhoto } from "@/data/catalog";
+import { sitePhoto } from "@/data/sitePhotos";
 
-export type MediaSlotKey = "hero-main" | "hero-shelf" | "hero-plate" | "hero-glass" | "hero-grain" | "cafe-shelf" | "cafe-plate" | "menu-photo" | "farm";
+// 18 Oct 2026: the home hero is the café menu board with one open-kitchen photo; the client asked for photos of the
+// farm, the café, the store and every founder, so those slots exist even before the photos do (branded placeholder).
+// 23 Oct 2026 (Anupam): one photo, one place. No slot is shown in two places and no photo is the default of two
+// slots; farm photos show seed work only (sowing, soil, grain and oilseed crops, harvest), never vegetables.
+export type MediaSlotKey =
+  | "hero-kitchen"
+  | "cafe-intro"
+  | "farm"
+  | "farm-2"
+  | "farm-3"
+  | "story-intro"
+  | "store"
+  | "story-today"
+  | "cafe-shelf"
+  | "cafe-plate"
+  | "cafe-kitchen"
+  | "consult-portrait"
+  | "founder-swati"
+  | "founder-anshumala"
+  | "founder-samay";
 
 export type MediaSlot = {
   key: MediaSlotKey;
@@ -22,68 +42,103 @@ export type MediaSlot = {
 
 export const mediaSlots: MediaSlot[] = [
   {
-    key: "hero-main",
-    label: "Home · top · centre product",
-    hint: "One product on a plain white background, shown large in the middle. Square works best.",
-    fallback: studioPhoto("kodo-millet", 1),
-    caption: "Kodo millet",
+    key: "hero-kitchen",
+    label: "Home · first screen beside the menu",
+    hint: "Inside the café: the room, the counter or the open kitchen at work. Portrait (4:5) works best.",
+    fallback: sitePhoto("cafe-room"),
+    caption: "Inside Re Workshop on Ridge Road",
   },
   {
-    key: "hero-shelf",
-    label: "Home · top · tilted photo, top left",
-    hint: "A grocery staple from the shelf. Square works best.",
-    fallback: studioPhoto("kodo-millet", 3),
-    caption: "Kodo millet",
-  },
-  {
-    key: "hero-plate",
-    label: "Home · top · tilted photo, top right",
-    hint: "A café dish or a premix. Square works best.",
-    fallback: studioPhoto("kodo-halva-premix", 3),
-    caption: "Kodo halva premix",
-  },
-  {
-    key: "hero-glass",
-    label: "Home · top · tilted photo, bottom right",
-    hint: "A drink from the café. Square works best.",
-    fallback: staticPhoto("masala-sattu-cooler-premix"),
-    caption: "Masala sattu cooler",
-  },
-  {
-    key: "hero-grain",
-    label: "Home · top · tilted photo, bottom left",
-    hint: "Another staple from the shelf. Square works best.",
-    fallback: studioPhoto("jaggery-granules", 3),
-    caption: "Jaggery granules",
+    key: "cafe-intro",
+    label: "Café page · first screen",
+    hint: "The café as a guest walks in: the room, the shelves, the kitchen. Wide (16:9 or wider) works best.",
+    fallback: sitePhoto("cafe-inside"),
+    caption: "The café on Ridge Road",
   },
   {
     key: "farm",
-    label: "Home · Soil-to-Plate · the farm",
-    hint: "Your own farm: the fields, desi cows, Amrit Mitti being made. Landscape (16:10) works best.",
-    fallback: null,
-    caption: "Our Amrit Krishi farm",
+    label: "Home · the farm spread · main photo",
+    hint: "Seed work on the farm: sowing, tilled soil, a grain field, the harvest. No vegetables. Wide (16:9 or wider), shown edge to edge.",
+    fallback: sitePhoto("seed-sowing-hand"),
+    caption: "Sowing seed by hand",
+  },
+  {
+    key: "farm-2",
+    label: "Home · the farm spread · second photo",
+    hint: "A closer farm photo laid over the main one: a grain or oilseed crop up close, seed in a hand, the soil. No vegetables. Square works best.",
+    fallback: sitePhoto("seed-mustard"),
+    caption: "Mustard in flower",
+  },
+  {
+    key: "farm-3",
+    label: "Our story · Track your grain · farm",
+    hint: "Shown in the farm layer of the grain tracker: sowing, the soil, a grain field. No vegetables. Landscape (16:10) works best.",
+    fallback: sitePhoto("seed-furrows"),
+    caption: "Sowing seed into furrows",
+  },
+  {
+    key: "story-intro",
+    label: "Our story · first screen",
+    hint: "The farm at its best moment: the harvest, a ripe grain field. No vegetables. Wide (16:9 or wider) works best.",
+    fallback: sitePhoto("seed-harvest"),
+    caption: "Bringing in the harvest by hand",
+  },
+  {
+    key: "store",
+    label: "Home · the café spread · main photo",
+    hint: "The store and café as a visitor sees it: the front on Ridge Road or the shelves. Landscape (4:3) works best.",
+    fallback: sitePhoto("store-front"),
+    caption: "Re Workshop on Ridge Road, Jabalpur",
+  },
+  {
+    key: "story-today",
+    label: "Our story · Re Workshop today",
+    hint: "Today at Re Workshop: the store, the café or a dish from the kitchen. Landscape (4:3) works best.",
+    fallback: sitePhoto("kitchen-bao-pocket"),
+    caption: "Bao pockets from our kitchen",
   },
   {
     key: "cafe-shelf",
-    label: "Home · Café · open kitchen",
-    hint: "Grains on the shelf or in the kitchen before cooking. Square works best.",
-    fallback: studioPhoto("kutki-millet", 3),
-    caption: "Nutrient-dense ancient grains",
+    label: "Café page · live transformation",
+    hint: "Grains turning into a dish in the open kitchen: on the stone, in the pan, then on the plate. Landscape (4:3) works best.",
+    fallback: sitePhoto("cafe-ragi-bread"),
+    caption: "Ragi bread from our kitchen",
   },
   {
     key: "cafe-plate",
-    label: "Home · Café · live transformation",
-    hint: "A freshly cooked café dish, e.g. masala idli. Square works best.",
-    fallback: studioPhoto("kodo-upma-premix", 3),
-    caption: "Fresh, steaming, nutritious meals",
+    label: "Home · the café spread · small photo",
+    hint: "One dish from the menu, close up. Square works best.",
+    fallback: sitePhoto("dish-besan-cheela"),
+    caption: "Besan cheela from our menu",
   },
   {
-    key: "menu-photo",
-    label: "Home · Café · millet menu",
-    hint: "A dish or drink from the millet menu. Square works best.",
-    fallback: staticPhoto("masala-sattu-cooler-premix"),
-    caption: "Masala sattu cooler",
+    key: "cafe-kitchen",
+    label: "Café page · open-kitchen café",
+    hint: "The café as a guest sees it: tables, people, the kitchen. Landscape (4:3) works best.",
+    fallback: sitePhoto("cafe-corner"),
+    caption: "A table in the café",
   },
+  {
+    key: "consult-portrait",
+    label: "Home · free consultation · Dr. Swati",
+    hint: "A second photo of Dr. Swati for the consultation card, different from her founder portrait on Our story (each photo appears in one place). Square, face clearly visible. Until one is uploaded the card shows the Re seal.",
+    fallback: null,
+    caption: "Dr. (Mrs.) Swati Chhajed",
+  },
+  ...(
+    [
+      ["founder-swati", "Dr. (Mrs.) Swati Chhajed"],
+      ["founder-anshumala", "Mrs. Anshumala Dhagat"],
+      ["founder-samay", "Mr. Samay Srivastava"],
+    ] as const
+  ).map(([key, name]) => ({
+    key,
+    label: `Our story · founders · ${name}`,
+    hint: "A portrait, head and shoulders, in natural light: at the farm, in the kitchen or in the store. Square works best.",
+    // Portraits of all three founders: Mrs. Anshumala and Mr. Samay (22 Oct 2026), Dr. Swati (26 Oct 2026).
+    fallback: sitePhoto(key),
+    caption: name,
+  })),
 ];
 
 export const mediaSlotIndex = new Map(mediaSlots.map((slot) => [slot.key, slot]));

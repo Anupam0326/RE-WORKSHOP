@@ -41,6 +41,10 @@
 .admin-field [aria-invalid="true"] { border-color: #b4452c; }
 .admin-field__error { color: #8a2f1c; font-size: 0.8125rem; font-weight: 600; }
 .admin-field__hint { color: var(--ink-2); font-size: 0.8125rem; }
+.admin-origin { display: grid; gap: 14px; padding: 14px 16px; border: 1px dashed rgba(17, 34, 26, 0.22); border-radius: 12px; background: var(--mist); }
+.admin-origin[open] { padding-bottom: 18px; }
+.admin-origin summary { color: var(--ink); font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+.admin-origin > * + * { margin-top: 12px; }
 .admin-grid-2 { display: grid; gap: 14px; }
 
 /* Shell */

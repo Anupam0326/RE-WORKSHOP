@@ -1,5 +1,6 @@
 /** Admin data access. Every write is enforced server-side by RLS (admins table), not by this code. */
 
+import { readOrigin, type ProductOrigin } from "@/data/grainTrack";
 import { compressImage } from "@/lib/imageCompress";
 import { deleteImages, rest, rpc, uploadImage } from "@/lib/supabase";
 
@@ -21,11 +22,13 @@ export type AdminProduct = {
   featured: boolean;
   is_active: boolean;
   sort_order: number;
+  /** Seed and origin facts for "Track your grain" (products.origin, added 22 Oct 2026). */
+  origin: ProductOrigin;
   product_images: AdminImage[];
 };
 export type ProductInput = Pick<
   AdminProduct,
-  "name" | "category_id" | "group_label" | "pack_size" | "price_inr" | "availability_note" | "description" | "details" | "featured" | "is_active"
+  "name" | "category_id" | "group_label" | "pack_size" | "price_inr" | "availability_note" | "description" | "details" | "featured" | "is_active" | "origin"
 >;
 export type AdminMedia = { key: string; url: string; url_small: string | null; storage_paths: string[]; alt: string; caption: string };
 export type CategoryInput = Pick<AdminCategory, "name" | "short_name" | "eyebrow" | "description">;
@@ -67,12 +70,13 @@ export function listCategories() {
 
 export async function listProducts() {
   const rows = await rest<AdminProduct[]>(
-    "products?select=id,slug,name,category_id,group_label,pack_size,price_inr,availability_note,description,details,featured,is_active,sort_order,product_images(id,url,url_small,storage_paths,sort_order)&order=sort_order.asc,name.asc",
+    "products?select=id,slug,name,category_id,group_label,pack_size,price_inr,availability_note,description,details,featured,is_active,sort_order,origin,product_images(id,url,url_small,storage_paths,sort_order)&order=sort_order.asc,name.asc",
   );
   return rows.map((row) => ({
     ...row,
     price_inr: row.price_inr == null ? null : Number(row.price_inr),
     availability_note: row.availability_note ?? "",
+    origin: readOrigin(row.origin),
     product_images: [...(row.product_images ?? [])].sort((a, b) => a.sort_order - b.sort_order),
   }));
 }

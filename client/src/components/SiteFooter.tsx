@@ -18,7 +18,6 @@ export function SiteFooter() {
       <div id="visit" className="footer__panel">
         <ReMark className="footer__mark" />
         <div className="footer__cta">
-          <p className="footer__kicker">Visit the store and café</p>
           <h2 className="footer__title">Find us in Jabalpur.</h2>
           <address className="footer__address">
             {storeInfo.addressLines.map((line) => (
@@ -49,10 +48,11 @@ export function SiteFooter() {
             <div>
               <p className="footer__head">Explore</p>
               <ul className="footer__list">
-                <li><SectionLink id="story">Our story</SectionLink></li>
-                <li><SectionLink id="loop">The Soil-to-Plate Loop</SectionLink></li>
-                <li><SectionLink id="cafe">Open-kitchen café</SectionLink></li>
-                <li><SectionLink id="founders">Founders</SectionLink></li>
+                <li><Link href="/our-story">Our story</Link></li>
+                <li><SectionLink id="founders" page="/our-story">Founders</SectionLink></li>
+                <li><SectionLink id="loop" page="/our-story">The Soil-to-Plate Loop</SectionLink></li>
+                <li><Link href="/cafe">Open-kitchen café</Link></li>
+                <li><SectionLink id="menu" page="/cafe">Millet menu</SectionLink></li>
               </ul>
             </div>
             <div>

@@ -13,9 +13,13 @@ import { CatalogProvider } from "./contexts/CatalogContext";
 const loadShop = () => import("@/pages/Shop");
 const loadProduct = () => import("@/pages/ProductDetail");
 const loadCart = () => import("@/pages/Cart");
+const loadCafe = () => import("@/pages/Cafe");
+const loadStory = () => import("@/pages/Story");
 const Shop = lazy(loadShop);
 const ProductDetail = lazy(loadProduct);
 const Cart = lazy(loadCart);
+const Cafe = lazy(loadCafe);
+const Story = lazy(loadStory);
 const NotFound = lazy(() => import("@/pages/NotFound"));
 // Admin is never prefetched for shoppers; it loads only when /admin is opened.
 const Admin = lazy(() => import("@/pages/Admin"));
@@ -30,6 +34,8 @@ function usePrefetchRoutes() {
       loadShop();
       loadProduct();
       loadCart();
+      loadCafe();
+      loadStory();
     };
     const idle = (window as Window & { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback;
     if (idle) idle(prefetch);
@@ -89,6 +95,8 @@ function Router() {
           <Route path="/shop/:category" component={Shop} />
           <Route path="/product/:slug" component={ProductDetail} />
           <Route path="/cart" component={Cart} />
+          <Route path="/cafe" component={Cafe} />
+          <Route path="/our-story" component={Story} />
           <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>

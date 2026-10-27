@@ -1,6 +1,7 @@
 /** A swappable site photo (see data/media.ts): the store's upload, else the slot default, else a branded placeholder. */
 
 import { ReMark } from "@/components/BrandMark";
+import type { ProductPhoto } from "@/data/catalog";
 import { mediaSlotIndex, type MediaSlotKey } from "@/data/media";
 import { useCatalog } from "@/contexts/CatalogContext";
 
@@ -8,7 +9,7 @@ export function useSiteMedia(key: MediaSlotKey) {
   const { getMedia } = useCatalog();
   const slot = mediaSlotIndex.get(key);
   const uploaded = getMedia(key);
-  const photo = uploaded ? { url: uploaded.url, urlSmall: uploaded.urlSmall } : slot?.fallback ?? null;
+  const photo: ProductPhoto | null = uploaded ? { url: uploaded.url, urlSmall: uploaded.urlSmall } : slot?.fallback ?? null;
   const caption = uploaded?.caption || slot?.caption || "";
   return { photo, caption, alt: uploaded?.alt || caption };
 }
@@ -25,9 +26,11 @@ export function SiteImage({ slot, sizes, eager = false }: Props) {
       </div>
     );
   }
-  // Uploaded photos are 600 / 1400 px wide; bundled ones 480 / 960 px.
+  // Uploaded photos are 600 / 1400 px wide; bundled product photos 480 / 960 px; the client's site photos say theirs.
   const uploaded = /-1400\.\w+$/.test(photo.url);
-  const srcSet = photo.urlSmall ? `${photo.urlSmall} ${uploaded ? 600 : 480}w, ${photo.url} ${uploaded ? 1400 : 960}w` : undefined;
+  const small = photo.widthSmall ?? (uploaded ? 600 : 480);
+  const large = photo.width ?? (uploaded ? 1400 : 960);
+  const srcSet = photo.urlSmall && photo.urlSmall !== photo.url ? `${photo.urlSmall} ${small}w, ${photo.url} ${large}w` : undefined;
   return (
     <img
       src={photo.urlSmall ?? photo.url}

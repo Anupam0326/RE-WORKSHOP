@@ -12,7 +12,7 @@ import { ProductImage } from "@/components/ProductImage";
 import { SectionLink } from "@/components/SectionLink";
 import { formatPrice, pickSix, type Product } from "@/data/catalog";
 import { loop } from "@/data/brand";
-import { dishesForProduct, requestTrace } from "@/data/trace";
+import { isTrackable, originFields, requestTrack } from "@/data/grainTrack";
 import { useCart } from "@/contexts/CartContext";
 import { useCatalog } from "@/contexts/CatalogContext";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -103,7 +103,8 @@ export default function ProductDetail() {
   }
 
   const selected = product;
-  const traces = dishesForProduct(selected.slug);
+  const trackable = isTrackable(selected);
+  const originFacts = originFields.filter(({ key }) => selected.origin?.[key]);
   // Six related products (grid rule: full rows): same sub-shelf first, then the same shelf, then the rest of the store.
   const sameShelf = products.filter((item) => item.categorySlug === selected.categorySlug);
   const sameGroup = sameShelf.filter((item) => item.group === selected.group);
@@ -177,23 +178,32 @@ export default function ProductDetail() {
                 </div>
 
                 <div className="product__note">
-                  {traces.length > 0 ? (
+                  {trackable ? (
                     <>
                       <p className="product__note-title">{loop.trace.productTitle}</p>
-                      <p>{loop.trace.productLead}</p>
+                      {originFacts.length > 0 ? (
+                        <dl className="product__origin">
+                          {originFacts.map(({ key, shown }) => (
+                            <div key={key}>
+                              <dt>{shown}</dt>
+                              <dd>{selected.origin?.[key]}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      ) : (
+                        <p>{loop.trace.productLead}</p>
+                      )}
                       <div className="product__traces">
-                        {traces.map((dish) => (
-                          <SectionLink key={dish.id} id="trace" className="text-link" onNavigate={() => requestTrace(dish.id)}>
-                            Trace {dish.label.toLowerCase()} <ArrowRight size={16} aria-hidden="true" />
-                          </SectionLink>
-                        ))}
+                        <SectionLink id="trace" page="/our-story" className="text-link" onNavigate={() => requestTrack(selected.slug)}>
+                          {loop.trace.productLink} <ArrowRight size={16} aria-hidden="true" />
+                        </SectionLink>
                       </div>
                     </>
                   ) : (
                     <>
                       <p className="product__note-title">How Re Workshop works</p>
                       <p>{loop.intro}</p>
-                      <SectionLink id="loop" className="text-link">
+                      <SectionLink id="loop" page="/our-story" className="text-link">
                         The Soil-to-Plate Loop <ArrowRight size={16} aria-hidden="true" />
                       </SectionLink>
                     </>

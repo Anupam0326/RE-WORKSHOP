@@ -2,11 +2,10 @@
 
 import { useDeferredValue, useMemo, useState } from "react";
 import { ArrowRight, Search, ShoppingBasket, UtensilsCrossed, X } from "lucide-react";
-import { useLocation, useRoute } from "wouter";
+import { Link, useLocation, useRoute } from "wouter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SectionLabel } from "@/components/SectionLabel";
-import { SectionLink } from "@/components/SectionLink";
 import { ProductGrid } from "@/components/ProductGrid";
 import { shelfAnchor, type Product } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
@@ -132,9 +131,9 @@ export default function Shop() {
             <div className="panel panel--dark cta-panel">
               <h2>{experience.heading}</h2>
               <p>{experience.live.body}</p>
-              <SectionLink id="cafe" className="btn btn--lime">
+              <Link href="/cafe" className="btn btn--lime">
                 <UtensilsCrossed size={18} aria-hidden="true" /> Visit the café <ArrowRight size={18} aria-hidden="true" />
-              </SectionLink>
+              </Link>
             </div>
           </div>
         </section>

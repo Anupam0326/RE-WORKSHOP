@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-19T00:00:00+05:30",
+  "title": "Design System: Re Workshop",
+  "extensions": {
+    "colorMeta": {
+      "forest": { "role": "primary", "displayName": "Forest slab", "canonical": "#11221a", "tonalRamp": ["#0a140f", "#11221a", "#1a3125", "#24402f", "#3a5a46", "#5f7d69", "#9db3a3", "#dbe5de"] },
+      "lime": { "role": "primary", "displayName": "Board lime", "canonical": "#cfe89d", "tonalRamp": ["#3b4a2c", "#5d7a33", "#86a94a", "#a9c86a", "#bedd7e", "#cfe89d", "#e2f1c4", "#eef5dc"] },
+      "mist": { "role": "neutral", "displayName": "Pale field", "canonical": "#f5f8ec", "tonalRamp": ["#2b2f26", "#5a605b", "#7f8881", "#c7cdbf", "#e3e9d6", "#eef3e2", "#f5f8ec", "#fbfcf7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The home promise and page intro headings." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, often two-tone." },
+      "body": { "displayName": "Body", "purpose": "Everything you read." }
+    },
+    "shadows": [
+      { "name": "slab", "value": "0 2px 2px rgba(17,34,26,.12), 0 24px 48px -24px rgba(17,34,26,.55)", "purpose": "The menu board." },
+      { "name": "panel", "value": "0 18px 50px rgba(17,34,26,.22)", "purpose": "Dark panels." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "All transitions and the board write-in." },
+      { "name": "board-write", "value": "900ms clip-path inset from the left, 90ms stagger, once", "purpose": "The one authored moment, home first screen." }
+    ],
+    "breakpoints": [
+      { "name": "tablet", "value": "640px" },
+      { "name": "board-two-columns", "value": "720px" },
+      { "name": "nav-links", "value": "860px" },
+      { "name": "desktop", "value": "1024px" }
+    ]
+  },
+  "components": [
+    { "name": "Dark button", "kind": "button", "refersTo": "button-dark", "description": "Doors and page actions.", "html": "<a class=\"ds-btn-dark\" href=\"#\">Visit the café</a>", "css": ".ds-btn-dark{display:inline-flex;align-items:center;gap:9px;min-height:50px;padding:0 20px;border-radius:10px;background:#11221a;color:#fff;font:600 0.9875rem Figtree,system-ui,sans-serif;text-decoration:none;transition:background-color 180ms cubic-bezier(.23,1,.32,1)}.ds-btn-dark:hover{background:#24402f}.ds-btn-dark:focus-visible{outline:2px solid #6f9a2e;outline-offset:3px}" },
+    { "name": "Lime button", "kind": "button", "refersTo": "button-lime", "description": "The one action on a dark panel.", "html": "<a class=\"ds-btn-lime\" href=\"#\">Shop the store</a>", "css": ".ds-btn-lime{display:inline-flex;align-items:center;min-height:50px;padding:0 20px;border-radius:10px;background:#cfe89d;color:#11221a;font:600 0.9875rem Figtree,system-ui,sans-serif;text-decoration:none}.ds-btn-lime:hover{background:#bedd7e}.ds-btn-lime:focus-visible{outline:2px solid #6f9a2e;outline-offset:3px}" },
+    { "name": "Menu board", "kind": "custom", "refersTo": "menu-board", "description": "Forest slab, lime dishes, dotted leaders, the grain at right.", "html": "<div class=\"ds-board\"><h3>Mindful Millet Menu</h3><ul><li><span>Kodo Pasta</span><i></i><b>kodo millet</b></li><li><span>Ragi Bao Pockets</span><i></i><b>ragi millet</b></li></ul></div>", "css": ".ds-board{padding:28px 32px;border-radius:22px;background:#11221a;color:#cfe89d;font-family:'Inter Tight',Inter,sans-serif}.ds-board h3{margin:0 0 14px;padding-bottom:14px;border-bottom:1px solid rgba(207,232,157,.22);font-size:1.8rem;letter-spacing:-.035em}.ds-board ul{margin:0;padding:0;list-style:none}.ds-board li{display:flex;align-items:baseline;gap:12px;padding:8px 0;font-size:1.6rem;font-weight:600;letter-spacing:-.03em}.ds-board i{flex:1;border-bottom:2px dotted rgba(207,232,157,.3)}.ds-board b{font:500 .9375rem Figtree,sans-serif;color:rgba(245,248,236,.74)}" },
+    { "name": "Navigation", "kind": "nav", "refersTo": "nav-pill", "description": "Floating forest pill with four places.", "html": "<nav class=\"ds-nav\"><a class=\"on\" href=\"#\">Shop</a><a href=\"#\">Café</a><a href=\"#\">Our story</a><a href=\"#\">Visit us</a></nav>", "css": ".ds-nav{display:flex;gap:4px;padding:8px 14px;border-radius:16px;background:#11221a}.ds-nav a{padding:10px 11px;border-radius:9px;color:rgba(255,255,255,.72);font:500 .9375rem Figtree,sans-serif;text-decoration:none}.ds-nav a:hover{color:#fff;background:rgba(255,255,255,.07)}.ds-nav a.on{color:#cfe89d;background:rgba(255,255,255,.07)}" },
+    { "name": "Shelf pill", "kind": "chip", "refersTo": "shelf-pill", "description": "Shelf filter on the shop page.", "html": "<button class=\"ds-pill\">Grains & flours</button>", "css": ".ds-pill{min-height:40px;padding:0 16px;border:1px solid rgba(17,34,26,.12);border-radius:999px;background:#fff;color:#141714;font:500 .9375rem Figtree,sans-serif}.ds-pill:hover{border-color:#11221a}" }
+  ],
+  "narrative": {
+    "northStar": "The open-kitchen menu board",
+    "overview": "Re Workshop is a store and a café in one room, so the system is built from two materials of that room: a pale field (mist, with a faint grain of soil noise) and dark forest slabs that carry lime lettering, the way a chalk menu board hangs over a counter.",
+    "keyCharacteristics": ["Pale mist field plus one dark forest slab per view; lime only on forest or as an action.", "Inter Tight display at tight tracking, Figtree for everything you read.", "Two-tone headings: a quiet line, then the main line.", "Equal doors: the café and the store always get the same button treatment.", "Grids always end on a full row (3 desktop, 2 tablet, 1 phone).", "Photo slots are honest: a placeholder until a real photo exists."],
+    "rules": [
+      { "name": "The Board Rule", "body": "Lime lettering lives on forest. On light grounds lime may only fill an action or a highlight, never carry text.", "section": "colors" },
+      { "name": "The One Slab Rule", "body": "A view holds one dominant dark slab. Two dark slabs back to back read as a wall: put a light section between them, or use the mist panel for the second one.", "section": "colors" },
+      { "name": "The Two-Tone Rule", "body": "A heading may have a quiet first line and a main line. One quiet line, never more.", "section": "typography" },
+      { "name": "The No-Italic Rule", "body": "Emphasis comes from weight, size or the two-tone split.", "section": "typography" },
+      { "name": "The Light Is Flat Rule", "body": "Nothing on mist or white carries a shadow except a dark slab, and one named exception: the Mounted Photo, the small photo laid over a spread's large one.", "section": "elevation" }
+    ],
+    "dos": ["Do put lime lettering only on forest, and keep one dark slab per view.", "Do give the café and the store the same button treatment wherever both appear.", "Do end every grid on a full row (3 / 2 / 1).", "Do use a dashed placeholder for any photo the client hasn't supplied, and replace it from /admin → Site photos.", "Do keep display tracking at or above -0.04em and display size at or below 6rem."],
+    "donts": ["Don't use italics, all-caps letter-spaced labels, em or en dashes in visible copy, or decorative numbering.", "Don't put products, prices or buy buttons on the home first screen.", "Don't use stock or AI-generated photos of the farm, café, store or founders.", "Don't repeat the \"zero maida\" statement more than once on a page.", "Don't add a colored side stripe (border-left over 1px) or animate padding."]
+  }
+}

@@ -1,37 +1,23 @@
-/** Who we are, the meaning of the name, the Soil-to-Plate Loop and the key brand statement. */
+/**
+ * Story pieces used on the Our story page (and the brand statement on the café page): the meaning of the name and
+ * the Soil-to-Plate Loop with "Track your grain" (the seven-step arc lives in JourneyArc.tsx). Since 18 Oct 2026 these live on their own pages, not on
+ * one long home page, and carry no label pills: the page already says where you are.
+ */
 
 import { useEffect, useRef } from "react";
-import { BookOpen, Hammer, RefreshCcw, Shovel } from "lucide-react";
+import { Hammer } from "lucide-react";
 import { ReMark } from "@/components/BrandMark";
-import { SectionLabel } from "@/components/SectionLabel";
-import { TraceDig } from "@/components/home/TraceDig";
-import { brandStatement, intro, legalEntity, loop, meaning } from "@/data/brand";
-
-export function Manifesto() {
-  return (
-    <section id="story" className="band band--mist band--wave story" aria-labelledby="story-title">
-      <div className="wrap wrap--lined story__inner">
-        <SectionLabel icon={BookOpen}>Our story</SectionLabel>
-        <h2 id="story-title" className="story__statement" data-reveal>
-          {intro.conscious}
-        </h2>
-        {legalEntity && (
-          <p className="story__entity" data-reveal>
-            {intro.ownership(legalEntity)}
-          </p>
-        )}
-      </div>
-    </section>
-  );
-}
+import { GrainTrack } from "@/components/home/GrainTrack";
+import { brandStatement, loop, meaning } from "@/data/brand";
 
 export function Meaning() {
   return (
     <section className="section meaning" aria-labelledby="meaning-title">
       <div className="wrap">
         <header className="head">
-          <SectionLabel icon={RefreshCcw}>The meaning behind “Re Workshop”</SectionLabel>
-          <h2 id="meaning-title">{meaning.heading}</h2>
+          <h2 id="meaning-title">
+            <span className="tone-mute">The meaning behind “Re Workshop”.</span> {meaning.heading}
+          </h2>
         </header>
         <div className="meaning__grid">
           <article className="mcard mcard--re" data-reveal>
@@ -80,18 +66,17 @@ export function SoilToPlate() {
     <section id="loop" className="section loop" aria-labelledby="loop-title">
       <div className="wrap">
         <header className="head">
-          <SectionLabel icon={Shovel}>Soil to plate</SectionLabel>
           <h2 id="loop-title">{loop.heading}</h2>
           <p className="head__intro">{loop.intro}</p>
         </header>
-        <TraceDig />
+        <GrainTrack />
       </div>
     </section>
   );
 }
 
 /** The statement lights up word by word as it scrolls through the screen (static for reduced motion). */
-export function BrandStatement() {
+export function BrandStatement({ light = false }: { light?: boolean }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const words = brandStatement.split(" ");
 
@@ -132,9 +117,9 @@ export function BrandStatement() {
   }, []);
 
   return (
-    <section className="section statement" aria-label="Our promise">
+    <section className={light ? "section statement statement--light" : "section statement"} aria-label="Our promise">
       <div className="wrap">
-        <div className="panel panel--dark grain statement__panel">
+        <div className={light ? "statement__panel" : "panel panel--dark grain statement__panel"}>
           <div className="statement__frame">
             <p ref={ref} className="statement__text">
               {words.map((word, index) => (

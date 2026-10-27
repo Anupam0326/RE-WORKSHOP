@@ -21,7 +21,10 @@ export type Category = {
   coverSlug?: string;
 };
 
-export type ProductPhoto = { url: string; urlSmall?: string | null };
+/** A photo and its smaller copy; widths (px) when known, for an accurate srcset. */
+export type ProductPhoto = { url: string; urlSmall?: string | null; width?: number; widthSmall?: number };
+
+import type { ProductOrigin } from "@/data/grainTrack";
 
 export type Product = {
   /** Database id (uuid) for live products, slug for the bundled fallback. */
@@ -43,6 +46,8 @@ export type Product = {
   featured?: boolean;
   /** Short availability badge, e.g. "Winter only". Empty when always available. */
   availabilityNote?: string;
+  /** Seed and origin facts from the store team (products.origin); empty until they are entered in /admin. */
+  origin?: ProductOrigin;
 };
 
 /**

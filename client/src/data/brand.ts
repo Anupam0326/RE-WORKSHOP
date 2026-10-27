@@ -86,24 +86,31 @@ export const meaning = {
 export const loop = {
   heading: "The Soil-to-Plate Loop",
   intro: "We bridge the gap between ancient heritage wisdom and your busy modern lifestyle through a short, tightly controlled sustainable cycle.",
-  /** The interactive dig: pick a plate, follow it down to the soil (dishes live in data/trace.ts). */
+  /**
+   * "Track your grain" (22 Oct 2026; it replaced "pick a plate"): pick a grain from the shelves and dig down from the
+   * pack to the seed. Logic and the truth rule live in data/grainTrack.ts.
+   */
   trace: {
-    question: "Can you trace your last meal back to the soil?",
-    prompt: "Most food stops at the label. Pick a plate and dig down to where it began.",
-    pickLabel: "Pick a plate",
-    shelvesLabel: "On our shelves",
+    question: "Where did your grain come from?",
+    prompt: "Most food stops at the label. Pick a grain from our shelves and dig down from the pack to the seed it grew from.",
+    pickLabel: "Pick a grain",
+    specificTag: "This grain",
+    generalTag: "How we work",
+    legend: "Lime marks facts recorded for this grain. The rest is how Re Workshop farms and processes.",
     layers: {
-      plate: { depth: "Plate" },
-      kitchen: { depth: "Kitchen", question: "What went into it?" },
-      mill: { depth: "Mill", question: "How was the grain processed?" },
+      shelf: { depth: "On our shelf" },
+      mill: { depth: "Mill", question: "How was it processed?" },
+      harvest: { depth: "Harvest", question: "When was it sown and harvested?" },
+      farm: { depth: "Farm", question: "Where was it grown, and how?" },
       seed: { depth: "Seed", question: "Which seed did it grow from?" },
-      soil: { depth: "Soil", question: "What fed that soil?", answer: "The same soil under every plate: Amrit Mitti." },
     },
     closing: "The loop starts in the soil and ends in your kitchen.",
     closingBody: "Desi cow dung, cow urine and farm biomass go back into the fields as Amrit Mitti, ready for the next harvest.",
-    again: "Trace another plate",
-    productTitle: "Every plate has roots",
-    productLead: "Follow it from the plate back down to the soil it grew in.",
+    ask: "Ask about this batch",
+    again: "Track another grain",
+    productTitle: "Where this grain comes from",
+    productLead: "Dig down from this pack to the seed it grew from.",
+    productLink: "Track this grain",
   },
   steps: [
     {
@@ -137,15 +144,56 @@ export const loop = {
   ],
 };
 
+/**
+ * "How it began", for the Our story page. 23 Oct 2026: Anupam gave the origin: Dr. Swati reversed her own health
+ * issues with proper diet, then wanted the same for everyone else, and that is why Re Workshop exists. Written only
+ * from that and the client's own words (her bio: a sustainable, organic, plant-based diet; her conditions, sent
+ * 23 Oct). Nothing else is added (no dates, places or other founders' roles); the client should approve the wording
+ * and can replace it with the founders' own. `note` is the safety note that goes wherever her health story appears.
+ */
+export const origin: { heading: string; paragraphs: string[]; note: string } | null = {
+  heading: "How Re Workshop began",
+  paragraphs: [
+    "Re Workshop began with one founder’s own health. Dr. (Mrs.) Swati Chhajed reversed her hypothyroidism, photosensitive dermatitis and neuralgia without medication, by changing the way she ate: a sustainable, organic, plant-based diet.",
+    "Having seen what proper food did for her, she wanted the same for everyone else. That wish is why Re Workshop exists: a store and an open-kitchen café built so that anyone can eat the way that helped her.",
+  ],
+  note: "Her own experience, not a promise of the same result. Please don’t stop or change any medicine without your doctor.",
+};
+
 export const brandStatement = "We understand your need to eat healthy in spite of your busy routine!";
+
+/**
+ * Free consultation with Dr. (Mrs.) Swati Chhajed (client, 23 Oct 2026). Her qualifications and her own story are the
+ * client's words (case and "etc." tidied). The story sits beside a safety note on purpose (Anupam's choice): it is
+ * her experience, not a promise, and nobody should stop medicine because of it. Keep the note whenever the story shows.
+ */
+export const consultation = {
+  title: "Free consultation",
+  topic: "on reversal of lifestyle issues.",
+  name: "Dr. (Mrs.) Swati Chhajed",
+  role: "Founder Director, Re Workshop",
+  qualifications: ["Veterinary Pathologist", "Certified Nutritionist", "Working in the field of wellness for more than a decade"],
+  story: "She reversed her own hypothyroidism, photosensitive dermatitis, neuralgia and more without medication.",
+  note: "Her own experience, not a promise of the same result. This is a lifestyle and nutrition chat, not medical treatment; please don’t stop or change any medicine without your doctor.",
+  cta: "Chat with Dr. Swati on WhatsApp",
+  /** Pre-filled first message; the visitor can edit it in WhatsApp before sending. */
+  message: "Hello Dr. Swati, I found you on the Re Workshop website and would like a free consultation about my lifestyle and health.",
+  nav: "Free consultation",
+  navShort: "Free consult",
+  founderLink: "Free consultation with Dr. Swati",
+};
 
 export type Founder = {
   initials: string;
+  /** Site photo slot for the portrait (data/media.ts); the monogram shows until a photo is uploaded. */
+  photoSlot: string;
   name: string;
   role: string;
   credentials: string[];
   lead: string;
   bio: string;
+  /** Offers the free lifestyle consultation (her card links to it). */
+  consults?: boolean;
 };
 
 export const founders = {
@@ -156,6 +204,8 @@ export const founders = {
   people: [
     {
       initials: "SC",
+      photoSlot: "founder-swati",
+      consults: true,
       name: "Dr. (Mrs.) Swati Chhajed",
       role: "Founder Director",
       credentials: ["Veterinary Pathologist", "Certified Nutritionist", "Environmentalist"],
@@ -164,6 +214,7 @@ export const founders = {
     },
     {
       initials: "AD",
+      photoSlot: "founder-anshumala",
       name: "Mrs. Anshumala Dhagat",
       role: "Founder Director",
       credentials: ["Graduate", "Devoted Organic Farmer & Soil Custodian", "75 Years Young"],
@@ -172,6 +223,7 @@ export const founders = {
     },
     {
       initials: "SS",
+      photoSlot: "founder-samay",
       name: "Mr. Samay Srivastava",
       role: "Founder Director",
       credentials: ["Master of Computer Management (BU)", "IT Specialist", "Amrit Organic Farmer"],

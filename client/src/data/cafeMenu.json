@@ -1,0 +1,445 @@
+{
+  "name": "Re Workshop Cafe Menu",
+  "currency": "INR",
+  "categories": [
+    {
+      "id": "breakfast-tea-time",
+      "name": "Breakfast / Tea Time",
+      "items": [
+        {
+          "id": "kodo-upma",
+          "name": "Kodo Upma",
+          "price": 150,
+          "description": "Gluten-free, high-fibre and nutrient-dense snack made with kodo millet. A great alternative to suji upma."
+        },
+        {
+          "id": "10-minute-millet-maggi",
+          "name": "10 Minute Millet Maggi",
+          "price": 105,
+          "description": "Millet-flour noodles prepared in a vegetable Maggi-style."
+        },
+        {
+          "id": "creamy-millet-pasta",
+          "name": "Creamy Millet Pasta",
+          "price": 160,
+          "description": "Pasta made from kodo millet and whole-wheat flour, served in a creamy sauce."
+        },
+        {
+          "id": "korean-noodles-gluten-free",
+          "name": "Korean Noodles (Gluten Free)",
+          "price": 175,
+          "description": "Foxtail millet and rice noodles prepared in Korean style."
+        },
+        {
+          "id": "ragi-bread-sandwich",
+          "name": "Ragi Bread Sandwich",
+          "price": 130,
+          "description": "Ragi-and-wheat bread stuffed with vegetables, mainly peas and onions, with cheese. Served with homemade chutney and sauce."
+        },
+        {
+          "id": "millet-patty-banana-fingers-sweet-potato-fingers",
+          "name": "Millet Patty with Banana Fingers / Sweet Potato Fingers (8 Pieces)",
+          "price": 160,
+          "description": null
+        },
+        {
+          "id": "air-fried-pyaj-pakoda",
+          "name": "Air Fried Pyaj Pakoda (8 Pieces)",
+          "price": 130,
+          "description": "Spring-onion pakodas made with sattu batter and seasonings, air-fried and served with tomato slices and chutneys."
+        },
+        {
+          "id": "millet-dhokla-chaat",
+          "name": "Millet Dhokla Chaat",
+          "price": 160,
+          "description": "A wholesome snack inspired by Gujarati dhokla, made chatpata with a variety of chutneys."
+        },
+        {
+          "id": "millet-appe",
+          "name": "Millet Appe (8 Pieces)",
+          "price": 160,
+          "description": "A snack made with vegetable-and-millet batter, seasoned with curry leaves and sesame, and served with chutney."
+        },
+        {
+          "id": "curd-millet-idli",
+          "name": "Curd Millet Idli (2 Pieces)",
+          "price": 130,
+          "description": "Millet-batter idli served with homemade curd and chutneys."
+        },
+        {
+          "id": "bao-momos",
+          "name": "Bao Momos (8 Pieces)",
+          "price": 160,
+          "description": null
+        },
+        {
+          "id": "sprout-chaat",
+          "name": "Sprout Chaat",
+          "price": 85,
+          "description": "Organic chana (chickpea) and moong (green lentil), sprouted and mixed with seasonings for a protein- and fibre-rich salad."
+        },
+        {
+          "id": "jhal-muri",
+          "name": "Jhal Muri",
+          "price": 85,
+          "description": "A tangy, spicy snack made with puffed rice, organic sprouts and spices, finished with the distinctive flavour of wood-pressed mustard oil. An all-time favourite from eastern India."
+        },
+        {
+          "id": "shakarkand-chaat-seasonal",
+          "name": "Shakarkand Chaat (Seasonal)",
+          "price": 85,
+          "description": "Sweet potato turned into a tangy salad."
+        },
+        {
+          "id": "kuttu-khichdi",
+          "name": "Kuttu Khichdi",
+          "price": 105,
+          "description": "A protein- and fibre-rich snack and an alternative to sabudana khichdi for fasting. Made with buckwheat and peanuts."
+        },
+        {
+          "id": "aadanshilpa-poha",
+          "name": "Aadanshilpa Poha",
+          "price": 85,
+          "description": "A special poha from Jharkhand."
+        }
+      ]
+    },
+    {
+      "id": "brunch-lunch",
+      "name": "Brunch / Lunch",
+      "items": [
+        {
+          "id": "pyaj-paneer-paratha",
+          "name": "Pyaj Paneer Paratha",
+          "price": 210,
+          "description": "Homemade A2-milk paneer and onion stuffed in layers to make a crispy paratha."
+        },
+        {
+          "id": "jwar-litti-chokha",
+          "name": "Jwar Litti Chokha",
+          "price": 230,
+          "description": "A traditional dish from Bihar, made with jowar/bajra flour and stuffed with homemade sattu (barley and chickpea)."
+        },
+        {
+          "id": "seasonal-saag-makka-paratha",
+          "name": "Seasonal Saag with Makka Paratha",
+          "price": 210,
+          "description": null
+        },
+        {
+          "id": "veg-kodo-masoor-khichdi",
+          "name": "Veg Kodo-Masoor Khichdi",
+          "price": 180,
+          "description": "Made with kodo millet, whole masoor lentils and vegetables."
+        },
+        {
+          "id": "millet-fried-rice-saucy-banana-fingers",
+          "name": "Millet Fried Rice with Saucy Banana Fingers",
+          "price": 265,
+          "description": "Millet rice made by substituting traditional rice with millet grains such as foxtail or kodo millet."
+        },
+        {
+          "id": "chana-kadhi-rice",
+          "name": "Chana Kadhi with Rice",
+          "price": 160,
+          "description": "Kadhi made with A2 dahi/chhaach, black chana and a mild flavour of kasuri methi."
+        },
+        {
+          "id": "millet-dosa-roll",
+          "name": "Millet Dosa Roll",
+          "price": 220,
+          "description": "A wholesome millet dosa rolled with vegetable fillings and sauces, cooked with desi ghee, and served with groundnut and coconut chutneys."
+        },
+        {
+          "id": "millet-thatte-idli",
+          "name": "Millet Thatte Idli",
+          "price": 210,
+          "description": "Idli made with millet batter, generously finished with A2 ghee and podi (spice powder), and served with chutneys."
+        },
+        {
+          "id": "millet-moong-roasty",
+          "name": "Millet-Moong Roasty",
+          "price": 230,
+          "description": "A one-dish meal made with millet and green-lentil batter and vegetables, roasted in a pan into a cake-like dish and served with chutneys."
+        },
+        {
+          "id": "black-moong-cheela",
+          "name": "Black Moong Cheela",
+          "price": 185,
+          "description": "A protein- and fibre-rich black moong cheela stuffed with vegetables."
+        },
+        {
+          "id": "besan-cheela",
+          "name": "Besan Cheela",
+          "price": 180,
+          "description": "A wholesome mini-meal made with organic chickpea besan and kaliganga rice flour, stuffed with vegetables, cheese and paneer."
+        }
+      ]
+    },
+    {
+      "id": "sweet-tooth",
+      "name": "Sweet Tooth",
+      "items": [
+        {
+          "id": "raagi-mahua-rab-halwa",
+          "name": "Raagi - Mahua Rab Halwa",
+          "price": 135,
+          "description": "A traditional sweet made in desi cow ghee with raagi flour, jaggery and mahua rab as sweeteners."
+        },
+        {
+          "id": "kodo-lapsi",
+          "name": "Kodo - Lapsi",
+          "price": 135,
+          "description": "A traditional sweet made with kodo millet and organic jaggery, using desi cow ghee."
+        },
+        {
+          "id": "raagi-pancake-mahua-rab",
+          "name": "Raagi Pancake with Mahua Rab",
+          "price": 160,
+          "description": "Soft pancakes made with raagi flour and jaggery, served with mahua rab."
+        },
+        {
+          "id": "puran-poli-2-pcs",
+          "name": "Puran - Poli (2 Pcs)",
+          "price": 150,
+          "description": "A traditional, melt-in-the-mouth sweet flatbread stuffed with organic chana dal, sweetened with unrefined khandsari sugar and served with rich desi cow ghee."
+        },
+        {
+          "id": "shrikhand-ilaichi-jaifal",
+          "name": "Shrikhand (Ilaichi, Jaifal)",
+          "price": 105,
+          "description": "A traditional yoghurt-based sweet made with khandsari (unprocessed sugar)."
+        }
+      ]
+    },
+    {
+      "id": "cool-probiotic-drinks",
+      "name": "Cool Probiotic Drinks",
+      "items": [
+        {
+          "id": "beetroot-amla-smoothie",
+          "name": "Beetroot Amla Smoothie",
+          "price": 60,
+          "description": "A blend of Indian gooseberry (amla) and organic beetroot."
+        },
+        {
+          "id": "panchratan",
+          "name": "Panchratan",
+          "price": 85,
+          "description": "A herbal drink made with amla, lemongrass, ginger, lemon and organic jaggery."
+        },
+        {
+          "id": "cucumber-ambli",
+          "name": "Cucumber Ambli",
+          "price": 105,
+          "description": "A flavourful, refreshing millet drink."
+        },
+        {
+          "id": "millet-ambli",
+          "name": "Millet Ambli",
+          "price": 85,
+          "description": "A probiotic millet drink."
+        },
+        {
+          "id": "wood-apple-bel-smoothie",
+          "name": "Wood Apple (Bel Smoothie)",
+          "price": 65,
+          "description": "Bel (wood apple) pulp blended with organic jaggery and kairi pulp."
+        }
+      ]
+    },
+    {
+      "id": "seasonal-fruity-sips-smoothies",
+      "name": "Fruity Sips & Smoothies",
+      "parentSection": "Summer Cooler (Seasonal)",
+      "items": [
+        {
+          "id": "mill-ango",
+          "name": "Mill-Ango",
+          "price": 135,
+          "description": "Mango chunks served with kodo or foxtail millet."
+        },
+        {
+          "id": "mango-full",
+          "name": "Mango Full",
+          "price": 135,
+          "description": "Mango blended with A2-milk yoghurt, cream and jungle honey."
+        },
+        {
+          "id": "aam-panna",
+          "name": "Aam Panna",
+          "price": 105,
+          "description": "A traditional cooling summer drink made with kairi (raw mango), jaggery, pudina and jeera."
+        },
+        {
+          "id": "all-season-banana-smoothie",
+          "name": "All Season Banana Smoothie",
+          "price": 120,
+          "description": "Banana, yoghurt, honey, amaranth and chia seeds churned into a nutritious drink."
+        },
+        {
+          "id": "minty-grapes-sparkle",
+          "name": "Minty Grapes Sparkle",
+          "price": 105,
+          "description": "Grapes and mint blended with soda."
+        },
+        {
+          "id": "tangy-guava-smoothie",
+          "name": "Tangy Guava Smoothie",
+          "price": 105,
+          "description": "Desi guava blended with herbs and ginger."
+        },
+        {
+          "id": "watermelon-strawberry-splash",
+          "name": "Watermelon Strawberry Splash",
+          "price": 105,
+          "description": "Organic strawberries blended with watermelon crush and sweetened with unprocessed khandsari sugar."
+        },
+        {
+          "id": "muskmelon-honey-dew",
+          "name": "Muskmelon Honey Dew",
+          "price": 105,
+          "description": "Fresh muskmelon blended with sunflower seeds and flavoured with cardamom."
+        },
+        {
+          "id": "apple-apricot-smoothie",
+          "name": "Apple & Apricot Smoothie",
+          "price": 120,
+          "description": "Sundried organic apricots blended with apple and honey."
+        },
+        {
+          "id": "apple-strawberry-smoothie",
+          "name": "Apple Strawberry Smoothie",
+          "price": 120,
+          "description": "Fresh apple and strawberry pulp blended into a refreshing smoothie."
+        }
+      ]
+    },
+    {
+      "id": "protein-smoothies",
+      "name": "Protein Smoothies",
+      "items": [
+        {
+          "id": "vegan-protein-smoothie-sweet-salty",
+          "name": "Vegan Protein Smoothie (Sweet / Salty)",
+          "price": 150,
+          "description": "A plant-based protein smoothie with essential amino acids."
+        },
+        {
+          "id": "banana-protein-smoothie-sweet",
+          "name": "Banana Protein Smoothie (Sweet)",
+          "price": 150,
+          "description": "A post-workout drink combining plant protein and banana."
+        },
+        {
+          "id": "probiotic-protein-smoothie-salty",
+          "name": "Probiotic Protein Smoothie (Salty)",
+          "price": 150,
+          "description": "A drink made with millet ambli and plant protein."
+        },
+        {
+          "id": "power-packed-smoothie-sweet",
+          "name": "Power Packed Smoothie (Sweet)",
+          "price": 160,
+          "description": "A breakfast smoothie combining protein, fibre and carbohydrates."
+        }
+      ]
+    },
+    {
+      "id": "summer-coolers",
+      "name": "Summer Coolers",
+      "items": [
+        {
+          "id": "shikanji",
+          "name": "Shikanji",
+          "price": 105,
+          "description": "A traditional thirst-quencher made with organic lemons, mint and jaggery."
+        },
+        {
+          "id": "mint-buttermilk-pudina-chhaach",
+          "name": "Mint Buttermilk (Pudina Chhaach)",
+          "price": 85,
+          "description": "A2-milk curd churned into chhaas with spearmint and spices."
+        },
+        {
+          "id": "a2-lassi",
+          "name": "A2 Lassi",
+          "price": 85,
+          "description": "A traditional yoghurt drink made with A2-milk curd, organic unprocessed khandsari sugar and rose water."
+        },
+        {
+          "id": "sattu-cooler",
+          "name": "Sattu Cooler",
+          "price": 105,
+          "description": "Roasted chana (chickpea) flour mixed with A2 curd, mint and spices."
+        },
+        {
+          "id": "cold-coffee",
+          "name": "Cold Coffee",
+          "price": 100,
+          "description": "Filter-coffee decoction served with iced A2 milk and organic unprocessed sugar."
+        },
+        {
+          "id": "rose-cooler",
+          "name": "Rose Cooler",
+          "price": 105,
+          "description": "A cooling drink made with rose-petal extract, khandsari, lemon juice and sabja (basil) seeds."
+        },
+        {
+          "id": "ginger-ale",
+          "name": "Ginger Ale",
+          "price": 105,
+          "description": "Ginger-lemon shikanji."
+        }
+      ]
+    },
+    {
+      "id": "hot-sips",
+      "name": "Hot Sips",
+      "items": [
+        {
+          "id": "lemongrass-green-tea",
+          "name": "Lemongrass Green Tea",
+          "price": 25,
+          "description": "A herbal decoction brewed with lemongrass, tulsi, ginger, organic turmeric, a dash of black pepper and lemon juice."
+        },
+        {
+          "id": "filter-coffee",
+          "name": "Filter Coffee",
+          "price": 60,
+          "description": "South Indian-style roasted coffee, brewed with unprocessed sugar and A2 milk."
+        },
+        {
+          "id": "hot-chocolate",
+          "name": "Hot Chocolate",
+          "price": 115,
+          "description": "A2 milk flavoured with chocolate and sweetened with organic sugar."
+        },
+        {
+          "id": "black-coffee",
+          "name": "Black Coffee",
+          "price": 40,
+          "description": "Coffee brewed from roasted beans and sweetened with organic jaggery."
+        },
+        {
+          "id": "turmeric-latte",
+          "name": "Turmeric Latte",
+          "price": 115,
+          "description": "A2 milk boiled with fresh organic turmeric and sweetened with organic sugar."
+        },
+        {
+          "id": "kashmiri-kahwa",
+          "name": "Kashmiri Kahwa",
+          "price": 85,
+          "description": "Green tea leaves brewed with Kashmiri spices."
+        },
+        {
+          "id": "veg-millet-soup",
+          "name": "Veg Millet Soup",
+          "price": 150,
+          "description": "Soup made with seasonal vegetables and millet."
+        }
+      ]
+    }
+  ]
+}
