@@ -60,7 +60,7 @@ export function Hero() {
             <span className="hero__main">We restore life.</span>
           </h1>
           <div className="hero__side">
-            <p className="hero__what">Organic food store and open-kitchen millet café in Jabalpur.</p>
+            <p className="hero__what">Organic food store and café in Jabalpur.</p>
             <div className="hero__doors">
               <Link href="/cafe" className="btn btn--dark hero__door">
                 <UtensilsCrossed size={18} aria-hidden="true" />

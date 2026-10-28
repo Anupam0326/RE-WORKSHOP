@@ -6,7 +6,7 @@ import { BrandMark, ReMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
 import { storeInfo } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
-import { intro, legalEntity } from "@/data/brand";
+import { intro, legalEntity, loop } from "@/data/brand";
 import { whatsappDigits, whatsappReady } from "@/lib/whatsapp";
 
 const hello = encodeURIComponent("Hello Re Workshop, I have a question.");
@@ -50,7 +50,7 @@ export function SiteFooter() {
               <ul className="footer__list">
                 <li><Link href="/our-story">Our story</Link></li>
                 <li><SectionLink id="founders" page="/our-story">Founders</SectionLink></li>
-                <li><SectionLink id="loop" page="/our-story">The Soil-to-Plate Loop</SectionLink></li>
+                <li><SectionLink id="loop" page="/our-story">{loop.heading}</SectionLink></li>
                 <li><Link href="/cafe">Open-kitchen café</Link></li>
                 <li><SectionLink id="menu" page="/cafe">Millet menu</SectionLink></li>
               </ul>

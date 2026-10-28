@@ -17,7 +17,7 @@ import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import { Founders } from "@/components/home/Founders";
 import { JourneyArc } from "@/components/home/JourneyArc";
 import { Meaning, SoilToPlate } from "@/components/home/StorySections";
-import { consultation, experience, intro, journey, legalEntity, origin } from "@/data/brand";
+import { consultation, experience, intro, journey, legalEntity, origin, personalExperienceDisclaimer } from "@/data/brand";
 import { sitePhoto, type SitePhotoName } from "@/data/sitePhotos";
 import { useHashScroll, useReveal } from "@/hooks/useReveal";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -51,7 +51,10 @@ function Origin() {
           ))}
           <p className="chapter__note">
             <Info size={17} aria-hidden="true" />
-            <span>{origin.note}</span>
+            <span className="consult__note-text">
+              <span className="disclaimer">{personalExperienceDisclaimer}</span>
+              <span>{origin.note}</span>
+            </span>
           </p>
           <SectionLink id="consult" className="founder__consult chapter__consult">
             <MessageCircle size={16} aria-hidden="true" /> {consultation.founderLink}

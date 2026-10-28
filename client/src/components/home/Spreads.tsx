@@ -12,7 +12,7 @@ import { ReMark } from "@/components/BrandMark";
 import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import { experience, journey, loop, meaning } from "@/data/brand";
 import { studioPhoto, studioPhotoCount } from "@/data/catalog";
-import { requestTrack } from "@/data/grainTrack";
+import { requestTrack, trackOptions } from "@/data/grainTrack";
 import type { MediaSlotKey } from "@/data/media";
 import { useCatalog } from "@/contexts/CatalogContext";
 
@@ -104,19 +104,20 @@ export function FarmSpread() {
   );
 }
 
-/** The millets, each in its studio bowl: pick one and the grain tracker on Our story opens on it. */
-const DOOR_GRAINS = ["kodo-millet", "kutki-millet", "kangani-millet", "browntop-millet", "sama-millet", "ragi-millet-aata"];
+/**
+ * The grains you can track, each in its studio bowl: pick one and the grain tracker on Our story opens on it.
+ * Exactly the tracker's three options and labels (data/grainTrack.ts; client, 28 Oct 2026).
+ */
 /** The bowl shot is the third studio photo of each grain. */
 const BOWL = 3;
 
 export function GrainDoor() {
   const { getProduct } = useCatalog();
   const [, navigate] = useLocation();
-  const grains = DOOR_GRAINS.filter((slug) => (studioPhotoCount[slug] ?? 0) >= BOWL)
-    .map((slug) => ({ slug, name: getProduct(slug)?.name }))
-    .filter((grain): grain is { slug: string; name: string } => Boolean(grain.name));
-  if (grains.length < 3) return null;
-  const shown = grains.slice(0, grains.length >= 6 ? 6 : 3);
+  const shown = trackOptions
+    .filter(({ slug }) => (studioPhotoCount[slug] ?? 0) >= BOWL && getProduct(slug))
+    .map(({ slug, label }) => ({ slug, name: label }));
+  if (!shown.length) return null;
   const open = (slug: string) => {
     requestTrack(slug);
     navigate("/our-story#trace");
@@ -130,7 +131,7 @@ export function GrainDoor() {
           </h2>
           <p className="head__intro grain-door__intro">Dig down from the pack on our shelf to the seed it grew from.</p>
         </header>
-        <ul className="grain-door__row">
+        <ul className={`grain-door__row grain-door__row--${shown.length}`}>
           {shown.map((grain, index) => {
             const photo = studioPhoto(grain.slug, BOWL);
             return (
@@ -145,7 +146,7 @@ export function GrainDoor() {
                   }}
                 >
                   <span className="grain-door__photo">
-                    <img src={photo.urlSmall ?? photo.url} srcSet={`${photo.urlSmall} 480w, ${photo.url} 960w`} sizes="(min-width: 1024px) 190px, (min-width: 640px) 30vw, 45vw" width={480} height={480} alt="" loading="lazy" decoding="async" />
+                    <img src={photo.urlSmall ?? photo.url} srcSet={`${photo.urlSmall} 480w, ${photo.url} 960w`} sizes="(min-width: 1024px) 250px, 30vw" width={480} height={480} alt="" loading="lazy" decoding="async" />
                   </span>
                   <span className="grain-door__name">{grain.name}</span>
                   <span className="grain-door__go">

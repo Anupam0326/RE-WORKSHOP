@@ -4,13 +4,20 @@
  * Until a portrait is uploaded the card shows the founder's monogram; nothing stands in for a face.
  * `compact` is the home-page version: name, role and lead line, then a link to the full story. No portraits there:
  * each photo appears once on the site (23 Oct 2026), and the portraits belong on Our story.
+ * Side by side (from 860px) the three cards share row tracks (CSS subgrid, --founder-rows = the parts per card), so
+ * the chips, lead lines and bios start level across all three even where a line has to wrap.
+ * 28 Oct 2026 (Anupam): all three cards end with the bio, so they match. Dr. Swati's consultation is a call button on
+ * her name line (dials her number) instead of the disclaimer and link that used to follow her bio; the disclaimer
+ * stays where the client's spec puts it, beside her story on the home consultation and in How Re Workshop began.
  */
 
-import { ArrowRight, MessageCircle } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ArrowRight, Phone } from "lucide-react";
 import { SectionLink } from "@/components/SectionLink";
 import { useSiteMedia } from "@/components/SiteImage";
 import { consultation, founders, type Founder } from "@/data/brand";
 import type { MediaSlotKey } from "@/data/media";
+import { consultCallUrl } from "@/lib/whatsapp";
 
 function Portrait({ person }: { person: Founder }) {
   const { photo, alt } = useSiteMedia(person.photoSlot as MediaSlotKey);
@@ -41,6 +48,8 @@ function Portrait({ person }: { person: Founder }) {
 }
 
 export function Founders({ compact = false }: { compact?: boolean }) {
+  // Parts per card: portrait, name, chips, lead, bio (compact: name, lead).
+  const rows = compact ? 2 : 5;
   return (
     <section id="founders" className={compact ? "section founders founders--compact" : "section founders"} aria-labelledby="founders-title">
       <div className="wrap">
@@ -57,28 +66,34 @@ export function Founders({ compact = false }: { compact?: boolean }) {
             )}
           </div>
         </header>
-        <div className="founders__grid">
+        <div className="founders__grid" style={{ "--founder-rows": rows } as CSSProperties}>
           {founders.people.map((person) => (
             <article key={person.name} className="founder" data-reveal>
               {!compact && <Portrait person={person} />}
-              <div className="founder__head">
+              <div className={!compact && person.consults ? "founder__head founder__head--call" : "founder__head"}>
                 <h3>{person.name}</h3>
                 <p className="founder__role">{person.role}</p>
+                {!compact && person.consults && (
+                  <a href={consultCallUrl} className="round-btn round-btn--lime founder__call" aria-label={consultation.callLabel} title={consultation.callLabel}>
+                    <Phone size={18} aria-hidden="true" />
+                  </a>
+                )}
               </div>
               {!compact && (
-                <ul className="founder__creds" aria-label={`${person.name}, credentials`}>
-                  {person.credentials.map((credential) => (
-                    <li key={credential}>{credential}</li>
+                <div className="founder__creds" role="list" aria-label={`${person.name}, credentials`}>
+                  {person.credentials.map((line) => (
+                    <div key={line.join("|")} className="founder__creds-line">
+                      {line.map((credential) => (
+                        <span key={credential} className="founder__cred" role="listitem">
+                          {credential}
+                        </span>
+                      ))}
+                    </div>
                   ))}
-                </ul>
+                </div>
               )}
               <p className="founder__lead">{person.lead}</p>
               {!compact && <p className="founder__bio">{person.bio}</p>}
-              {!compact && person.consults && (
-                <SectionLink id="consult" className="founder__consult">
-                  <MessageCircle size={16} aria-hidden="true" /> {consultation.founderLink}
-                </SectionLink>
-              )}
             </article>
           ))}
         </div>

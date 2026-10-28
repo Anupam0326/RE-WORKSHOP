@@ -1,6 +1,6 @@
 /**
- * Story pieces used on the Our story page (and the brand statement on the café page): the meaning of the name and
- * the Soil-to-Plate Loop with "Track your grain" (the seven-step arc lives in JourneyArc.tsx). Since 18 Oct 2026 these live on their own pages, not on
+ * Story pieces used on the Our story page (and the brand statement on the café page): "Why ReWorkshop" (was "The
+ * meaning behind Re Workshop", renamed by the client 28 Oct 2026) and the soil to plate to pantry loop with "Track your grain" (the seven-step arc lives in JourneyArc.tsx). Since 18 Oct 2026 these live on their own pages, not on
  * one long home page, and carry no label pills: the page already says where you are.
  */
 
@@ -15,9 +15,7 @@ export function Meaning() {
     <section className="section meaning" aria-labelledby="meaning-title">
       <div className="wrap">
         <header className="head">
-          <h2 id="meaning-title">
-            <span className="tone-mute">The meaning behind “Re Workshop”.</span> {meaning.heading}
-          </h2>
+          <h2 id="meaning-title">{meaning.whyHeading}</h2>
         </header>
         <div className="meaning__grid">
           <article className="mcard mcard--re" data-reveal>

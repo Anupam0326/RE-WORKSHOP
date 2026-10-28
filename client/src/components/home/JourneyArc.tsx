@@ -10,9 +10,20 @@
  * and the page never disagree. No timer: nothing moves unless the visitor moves.
  * Reduced motion: no pinning, no travel; the arc changes step with the arrows or a tap on a step, instantly.
  * Copy: data/brand.ts → journey.
+ *
+ * 28 Oct 2026, client recording (Windows laptop, Chrome with bookmarks bar and taskbar: a short window): the dark band
+ * crossed the centre heading and description. Cause: the pinned dial took its width from the window height (it has to
+ * fit on screen while pinned) but the text inside it kept its size and was 46% of the dial wide, so a short window made
+ * the clear space inside the ring smaller while the text grew taller (more lines). Fix, keeping the design:
+ * - the pinned dial's height budget is now exact (DIAL_RESERVE, same number in index.css), so it shrinks far less;
+ * - inside the ring the heading and description scale with the dial (container units), within readable floors;
+ * - the walk pins only where the whole stage fits on screen: a wide dial at least DIAL_MIN across (else the text no
+ *   longer fits inside the ring), or, on phones, the dial plus its text. Elsewhere it stays in the page and the arrows
+ *   and steps change the step, as with reduced motion;
+ * - the text area keeps the height of the longest step (a hidden sizer), so changing step never moves the dial.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ComponentType, type CSSProperties, type RefObject } from "react";
 import { ChefHat, ChevronDown, ChevronLeft, ChevronRight, Cog, HeartPulse, Layers, Soup, Sprout, Wheat } from "lucide-react";
 import { journey } from "@/data/brand";
 
@@ -20,6 +31,20 @@ const icons: ComponentType<{ size?: number; strokeWidth?: number }>[] = [Layers,
 const last = journey.length - 1;
 /** Height of the floating navigation plus breathing room; the stage pins just below it. */
 const PIN_TOP = 84;
+/**
+ * Pinned wide dial: the height it leaves for everything but its own half circle: PIN_TOP, the stage's padding (24) and
+ * the band under the ring's ends that holds the Soil and Health labels and the hint (--arc-below, 44). index.css uses
+ * the same 152px in the pinned width: min(100%, 980px, (100svh - 152px) * 2).
+ */
+const DIAL_RESERVE = 152;
+/**
+ * Narrowest wide dial that pins. Measured 28 Oct 2026 across every step: the longest (Seeds) clears the band by 14px
+ * at 800px, 35px at 980px; below 800px the margin falls to 5px. Pinning therefore needs a window at least
+ * 800 / 2 + DIAL_RESERVE = 552px tall; shorter windows keep the full-size dial in the page.
+ */
+const DIAL_MIN = 800;
+/** Phones: the stage's padding around the pinned dial and its text (the scroll hint below may fall off the screen). */
+const NARROW_EXTRA = 24;
 
 /** Position on the arc: 0 = far left (Soil), last = far right (Health). */
 function place(index: number) {
@@ -45,10 +70,49 @@ function useReducedMotion() {
   return reduced;
 }
 
+/**
+ * Whether the scroll walk can pin: only when the whole stage fits under the navigation. Wide screens: the pinned dial
+ * would be (svh - DIAL_RESERVE) * 2 wide, which must be at least DIAL_MIN. Phones: the dial is as wide as the page
+ * either way, so its measured height (text area sized for the longest step) plus the hint must fit.
+ */
+function usePinnable(disabled: boolean, arcRef: RefObject<HTMLDivElement | null>) {
+  const [pinnable, setPinnable] = useState(true);
+  useLayoutEffect(() => {
+    if (disabled) return;
+    const probe = document.createElement("div");
+    probe.style.cssText = "position:fixed;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none";
+    document.body.appendChild(probe);
+    const wide = window.matchMedia("(min-width: 860px)");
+    const decide = () => {
+      const height = probe.offsetHeight || window.innerHeight;
+      if (wide.matches) {
+        setPinnable((height - DIAL_RESERVE) * 2 >= DIAL_MIN);
+      } else {
+        const arc = arcRef.current;
+        setPinnable(!!arc && arc.offsetHeight + NARROW_EXTRA <= height - PIN_TOP);
+      }
+    };
+    decide();
+    const observer = "ResizeObserver" in window ? new ResizeObserver(decide) : null;
+    if (arcRef.current) observer?.observe(arcRef.current);
+    window.addEventListener("resize", decide);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", decide);
+      probe.remove();
+    };
+  }, [disabled, arcRef]);
+  return pinnable;
+}
+
 export function JourneyArc() {
   const reduced = useReducedMotion();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const arcRef = useRef<HTMLDivElement>(null);
+  const pinnable = usePinnable(reduced, arcRef);
+  /** The scroll walk: pinned stage, the visitor's scroll moves the seed. Otherwise the arrows and steps pick a step. */
+  const walk = !reduced && pinnable;
   const [progress, setProgress] = useState(0);
   const [picked, setPicked] = useState(0);
   const [risen, setRisen] = useState(false);
@@ -66,7 +130,7 @@ export function JourneyArc() {
   }, []);
 
   useLayoutEffect(() => {
-    if (reduced) return;
+    if (!walk) return;
     let frame = 0;
     const onScroll = () => {
       cancelAnimationFrame(frame);
@@ -80,7 +144,7 @@ export function JourneyArc() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [reduced, measure]);
+  }, [walk, measure]);
 
   // The sunrise: the arc rises and the steps appear once, when the stage first comes into view. `live` keeps the
   // seed's glow breathing only while the arc is on screen.
@@ -101,15 +165,22 @@ export function JourneyArc() {
     return () => observer.disconnect();
   }, []);
 
-  const active = reduced ? picked : Math.min(last, Math.round(progress * last));
-  const trail = reduced ? picked / last : progress;
+  // While the dial is on screen the floating Order now card steps aside (index.css: .arc-on-screen), so it never
+  // covers the Plate or Health step.
+  useEffect(() => {
+    document.documentElement.classList.toggle("arc-on-screen", live);
+    return () => document.documentElement.classList.remove("arc-on-screen");
+  }, [live]);
+
+  const active = walk ? Math.min(last, Math.round(progress * last)) : picked;
+  const trail = walk ? progress : picked / last;
   const step = journey[active];
   const seed = seedAt(trail);
 
-  /** Go to a step: scroll the page to where the seed reaches it (or, with reduced motion, just show it). */
+  /** Go to a step: scroll the page to where the seed reaches it (or, when not walking, just show it). */
   const goTo = (index: number) => {
     const target = Math.min(last, Math.max(0, index));
-    if (reduced) {
+    if (!walk) {
       setPicked(target);
       return;
     }
@@ -121,7 +192,7 @@ export function JourneyArc() {
     window.scrollTo({ top: Math.round(top) + 1, behavior: "smooth" });
   };
 
-  const classes = ["arc", risen ? "is-risen" : "", live ? "is-live" : "", !reduced && progress > 0.015 ? "is-moving" : ""].filter(Boolean).join(" ");
+  const classes = ["arc", risen ? "is-risen" : "", live ? "is-live" : "", walk && progress > 0.015 ? "is-moving" : ""].filter(Boolean).join(" ");
 
   return (
     <section id="journey" className="section journey" aria-labelledby="journey-title">
@@ -131,10 +202,10 @@ export function JourneyArc() {
         </header>
       </div>
 
-      <div ref={scrollerRef} className={reduced ? "arc-scroller" : "arc-scroller is-pinned"}>
+      <div ref={scrollerRef} className={walk ? "arc-scroller is-pinned" : "arc-scroller"}>
         <div ref={stageRef} className="arc-stage">
           <div className="wrap">
-            <div className={classes} style={{ "--p": trail } as CSSProperties}>
+            <div ref={arcRef} className={classes} style={{ "--p": trail } as CSSProperties}>
               <div className="arc__rings" aria-hidden="true">
                 <span className="arc__ring arc__ring--outer" />
                 <span className="arc__ring arc__ring--glow" />
@@ -184,9 +255,20 @@ export function JourneyArc() {
               </ol>
 
               <div id="arc-panel" role="tabpanel" className="arc__panel" aria-live="polite" aria-label={`${step.label}: ${step.tagline}`}>
-                <div className="arc__swap" key={active}>
-                  <h3 className="arc__tagline">{step.tagline}</h3>
-                  <p className="arc__desc">{step.description}</p>
+                <div className="arc__body">
+                  {/* Invisible: every step's text in one cell, so the text area is always as tall as the longest step. */}
+                  <div className="arc__sizer" aria-hidden="true">
+                    {journey.map((item) => (
+                      <div key={item.label} className="arc__sizer-step">
+                        <h3 className="arc__tagline">{item.tagline}</h3>
+                        <p className="arc__desc">{item.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="arc__swap" key={active}>
+                    <h3 className="arc__tagline">{step.tagline}</h3>
+                    <p className="arc__desc">{step.description}</p>
+                  </div>
                 </div>
                 <div className="arc__nav">
                   <button type="button" className="round-btn" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous step">
@@ -201,7 +283,7 @@ export function JourneyArc() {
                 </div>
               </div>
             </div>
-            {!reduced && (
+            {walk && (
               <p className="arc__hint" aria-hidden="true">
                 Scroll to walk from soil to health <ChevronDown size={16} />
               </p>

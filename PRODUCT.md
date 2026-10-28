@@ -33,6 +33,7 @@ Soil to plate, in the brand's own words: "We don't just sell organic food. We re
 ## Capabilities and Constraints
 
 - 57 products on four shelves: Grains & Flours; Dals, Oils & Pantry Staples; Guilt-Free Snacks & Premixes (incl. millet noodles & pasta); Handmade Soaps & Décor.
+- Client-approved phrases (28 Oct 2026, "Exact Copy Updates"): used exactly as supplied, including lower-case starts and punctuation, never corrected or reworded: the origin line, the personal-experience disclaimer, the heritage-seeds line, "Amrit Krishi farmer", "Why ReWorkshop", the modern-food line, "soil to plate to pantry", "traditional processing and slow cooking", "nutrient dense food back to the plate". Track your grain offers exactly Khapli Gehu Aata, Kodo and Moong (Whole Moong).
 - Client copy rules: copy from the client brief verbatim (typo fixes only); no italics; no all-caps labels; no em or en dashes in visible copy; sentence case; no decorative numbering; the "zero maida…" statement appears once on the page (the No-Compromise Code); no health, nutrition or sourcing claims the client has not confirmed.
 - Grid rule: grid rows are always full (3 per row on desktop, 2 on tablets, 1 on phones; product grids are 2 on phones and 3 from tablets up).
 - The first screen must not lead with products, prices or buy buttons: it introduces the brand (client, 18 Oct 2026, after rejecting a product-shelf hero and a grain close-up hero).
@@ -43,7 +44,7 @@ Soil to plate, in the brand's own words: "We don't just sell organic food. We re
 
 - Name "Re Workshop" and the Re seal logo.
 - Colour palette is binding (user): forest #11221a, lime #cfe89d, mist #f5f8ec, with their tints (forest-2/3, lime-2, lime-soft, olive-dim).
-- Hero copy: "We don't just sell organic food. We restore life." and "Organic food store and open-kitchen millet café in Jabalpur."
+- Hero copy: "We don't just sell organic food. We restore life." and "Organic food store and café in Jabalpur." (shortened by Anupam, 28 Oct 2026)
 
 ## Evidence on Hand
 

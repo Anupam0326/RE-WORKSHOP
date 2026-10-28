@@ -41,10 +41,21 @@ export function hasOrigin(product: Pick<Product, "origin">) {
   return Boolean(product.origin && Object.keys(product.origin).length);
 }
 
-/** Grains and the staples made straight from them: the grains shelf and the unpolished dals, plus any product the
- *  store team has written origin facts for. */
-export function isTrackable(product: Product) {
-  return product.categorySlug === "grains-flours" || product.group === "Unpolished dals" || hasOrigin(product);
+/**
+ * Track your grain offers exactly these three options (client, 28 Oct 2026), with these labels. "Moong" is Whole
+ * Moong (sabut-moong, Anupam). Everywhere the tracker is offered (the tracker's picker, the home "Pick a grain" row,
+ * a product page's "Track this grain") reads this list; no other product can be tracked.
+ */
+export const trackOptions: { slug: string; label: string }[] = [
+  { slug: "khapli-gehu-aata", label: "Khapli Gehu Aata" },
+  { slug: "kodo-millet", label: "Kodo" },
+  { slug: "sabut-moong", label: "Moong" },
+];
+
+const trackSlugs = new Set(trackOptions.map((option) => option.slug));
+
+export function isTrackable(product: Pick<Product, "slug">) {
+  return trackSlugs.has(product.slug);
 }
 
 /** The pack's own label says how it was processed (e.g. "Stone milled"); used when the store team has not. */

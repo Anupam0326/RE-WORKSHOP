@@ -17,7 +17,7 @@ import { ProductImage } from "@/components/ProductImage";
 import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import type { Product } from "@/data/catalog";
 import { loop } from "@/data/brand";
-import { hasOrigin, isTrackable, labelProcessing, takeTrackRequest } from "@/data/grainTrack";
+import { hasOrigin, labelProcessing, takeTrackRequest, trackOptions } from "@/data/grainTrack";
 import { useCatalog } from "@/contexts/CatalogContext";
 import { whatsappDigits, whatsappReady } from "@/lib/whatsapp";
 
@@ -84,23 +84,20 @@ function Tags({ items, active }: { items: string[]; active?: string }) {
 }
 
 export function GrainTrack() {
-  const { products, categories } = useCatalog();
+  const { products } = useCatalog();
   const farm = useSiteMedia("farm-3");
-  const trackable = useMemo(() => products.filter(isTrackable), [products]);
+  // Exactly the three options in data/grainTrack.ts (client, 28 Oct 2026), in that order, with their own labels.
+  const options = useMemo(
+    () => trackOptions.flatMap(({ slug, label }) => {
+      const item = products.find((candidate) => candidate.slug === slug);
+      return item ? [{ label, product: item }] : [];
+    }),
+    [products],
+  );
+  const trackable = useMemo(() => options.map((option) => option.product), [options]);
   const [slug, setSlug] = useState(() => takeTrackRequest() ?? DEFAULT_GRAIN);
   const [touched, setTouched] = useState(false);
   const product = trackable.find((item) => item.slug === slug) ?? trackable.find((item) => item.slug === DEFAULT_GRAIN) ?? trackable[0];
-
-  // Picker options, grouped by shelf and sub-shelf in store order.
-  const groups = useMemo(() => {
-    const map = new Map<string, Product[]>();
-    for (const item of trackable) {
-      const shelf = categories.find((category) => category.slug === item.categorySlug)?.shortName ?? "";
-      const key = item.group ? `${item.group}` : shelf;
-      map.set(key, [...(map.get(key) ?? []), item]);
-    }
-    return Array.from(map.entries());
-  }, [trackable, categories]);
 
   if (!product) return null;
 
@@ -134,14 +131,10 @@ export function GrainTrack() {
           <span className="track-pick__label">{copy.pickLabel}</span>
           <span className="track-pick__control">
             <select value={product.slug} onChange={(event) => pick(event.target.value)}>
-              {groups.map(([group, items]) => (
-                <optgroup key={group} label={group}>
-                  {items.map((item) => (
-                    <option key={item.slug} value={item.slug}>
-                      {item.name}
-                    </option>
-                  ))}
-                </optgroup>
+              {options.map(({ label, product: item }) => (
+                <option key={item.slug} value={item.slug}>
+                  {label}
+                </option>
               ))}
             </select>
             <ChevronDown size={18} aria-hidden="true" />

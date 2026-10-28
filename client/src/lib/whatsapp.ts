@@ -32,3 +32,5 @@ export const consultDigits = CONSULT_WHATSAPP.replace(/\D/g, "");
 export function consultChatUrl(message: string) {
   return `https://wa.me/${consultDigits}?text=${encodeURIComponent(message)}`;
 }
+/** The same number dialled directly: the call button beside her name on Our story (28 Oct 2026, Anupam). */
+export const consultCallUrl = `tel:${CONSULT_WHATSAPP}`;

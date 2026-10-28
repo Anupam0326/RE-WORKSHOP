@@ -25,7 +25,7 @@ export const journey: JourneyStep[] = [
     label: "Seeds",
     tagline: "Heritage and ancestral seeds",
     description:
-      "Only unhybridized, native ancestral seeds are sown: nutrient-dense ancient grains like Kodo, Kutki and Jowar millets, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
+      "Only unhybridized, native/indigenous heritage seeds in complete alignment of Amrit Krishi methodology are sown: nutrient-dense ancient grains like Kodo, Kutki and Jowar millets, ancient wheats like Khapli and Sharbati, and traditional rice varieties like Kali Banga.",
   },
   {
     label: "Grains",
@@ -60,7 +60,9 @@ export const journey: JourneyStep[] = [
 ];
 
 export const meaning = {
+  /** Home page name panel. On Our story the section's heading is `whyHeading` (client copy, 28 Oct 2026). */
   heading: "Our name is our roadmap to a better future.",
+  whyHeading: "Why ReWorkshop",
   re: {
     lead: "“Re” represents our commitment to:",
     points: [
@@ -73,18 +75,18 @@ export const meaning = {
   },
   workshop: {
     lead: "A workshop is where broken things are carefully mended, not thrown away. Ours is a food workshop.",
-    body: "Modern food has been broken by chemicals, over-processing and shortcuts, and so has our health. In our workshop, food is rebuilt from the soil up, so what reaches your plate helps repair your body instead of wearing it down.",
+    body: "modern food is ultra processed, chemically laden, dead food. In our workshop, food is rebuilt from the soil up, so what reaches your plate helps repair your body instead of wearing it down.",
     facets: [
       { label: "Raw material", value: "Nutrient-dense ancient grains from living soil" },
       { label: "Tools", value: "Chakki stone mills and Kacchi Ghani wood presses" },
-      { label: "Craft", value: "Slow, traditional recipes in an open kitchen" },
-      { label: "The repair", value: "Real nutrition, back on your plate" },
+      { label: "Craft", value: "traditional processing and slow cooking" },
+      { label: "The repair", value: "nutrient dense food back to the plate" },
     ],
   },
 };
 
 export const loop = {
-  heading: "The Soil-to-Plate Loop",
+  heading: "The soil to plate to pantry loop",
   intro: "We bridge the gap between ancient heritage wisdom and your busy modern lifestyle through a short, tightly controlled sustainable cycle.",
   /**
    * "Track your grain" (22 Oct 2026; it replaced "pick a plate"): pick a grain from the shelves and dig down from the
@@ -125,7 +127,7 @@ export const loop = {
     {
       id: "seeds",
       title: "The Heritage Seeds",
-      paragraphs: ["In this thriving soil, we exclusively sow and protect native, unhybridized ancestral seeds."],
+      paragraphs: ["In this thriving soil, we exclusively sow and protect unhybridized, native/indigenous heritage seeds in complete alignment of Amrit Krishi methodology."],
       focus: [
         { label: "Nutrient-dense ancient grains", value: "Kodo, Kutki, Jowar" },
         { label: "Ancient wheat varieties", value: "Khapli & Sharbati" },
@@ -139,7 +141,7 @@ export const loop = {
       paragraphs: ["We protect this raw nutrition using slow, non-destructive heritage methods:"],
       methods: ["Stone-milled (Chakki)", "Hand-pounding", "Wood-pressed (Kacchi Ghani)"],
       closing:
-        "We then craft them into delicious, ready-to-eat and ready-to-cook everyday foods, choosing the ingredients mindfully to bring nutrition back to the plate without compromising on taste.",
+        "We then craft them into delicious, ready-to-eat and ready-to-cook everyday foods, choosing the ingredients mindfully to bring nutrient dense food back to the plate without compromising on taste.",
     },
   ],
 };
@@ -150,17 +152,27 @@ export const loop = {
  * from that and the client's own words (her bio: a sustainable, organic, plant-based diet; her conditions, sent
  * 23 Oct). Nothing else is added (no dates, places or other founders' roles); the client should approve the wording
  * and can replace it with the founders' own. `note` is the safety note that goes wherever her health story appears.
+ * 28 Oct 2026 (Anupam): one continuous story: she faced the health problems, reversed them by changing her daily
+ * food, and the client's approved line follows on from it ("And " joins it; the line itself is unchanged). Kept from
+ * the client's own words: "hypothyroidism" (not hyper-) and "reversed" (not "cured"). "Without medication" dropped,
+ * as in Anupam's telling; it sat badly beside "don't stop or change any medicine".
  */
 export const origin: { heading: string; paragraphs: string[]; note: string } | null = {
   heading: "How Re Workshop began",
   paragraphs: [
-    "Re Workshop began with one founder’s own health. Dr. (Mrs.) Swati Chhajed reversed her hypothyroidism, photosensitive dermatitis and neuralgia without medication, by changing the way she ate: a sustainable, organic, plant-based diet.",
-    "Having seen what proper food did for her, she wanted the same for everyone else. That wish is why Re Workshop exists: a store and an open-kitchen café built so that anyone can eat the way that helped her.",
+    "Re Workshop began when one of its founders, Dr. (Mrs.) Swati Chhajed, faced several health problems: hypothyroidism, photosensitive dermatitis, neuralgia and more. She reversed all of them by changing the food she ate every day to a sustainable, organic, plant-based diet. And having seen what clean food did to her is why reworkshop came into existence.",
   ],
-  note: "Her own experience, not a promise of the same result. Please don’t stop or change any medicine without your doctor.",
+  note: "Please don’t stop or change any medicine without your doctor.",
 };
 
 export const brandStatement = "We understand your need to eat healthy in spite of your busy routine!";
+
+/**
+ * Client copy changes, 28 Oct 2026 ("ReWorkshop Website: Exact Copy Updates"): approved phrases are used verbatim,
+ * including their lower-case starts and punctuation, and must not be "corrected". This disclaimer sits right after
+ * Dr. Swati's own health story wherever it appears beside the free consultation (home, Our story origin, her card).
+ */
+export const personalExperienceDisclaimer = "this is her own experience and she does not promise the same results";
 
 /**
  * Free consultation with Dr. (Mrs.) Swati Chhajed (client, 23 Oct 2026). Her qualifications and her own story are the
@@ -174,13 +186,15 @@ export const consultation = {
   role: "Founder Director, Re Workshop",
   qualifications: ["Veterinary Pathologist", "Certified Nutritionist", "Working in the field of wellness for more than a decade"],
   story: "She reversed her own hypothyroidism, photosensitive dermatitis, neuralgia and more without medication.",
-  note: "Her own experience, not a promise of the same result. This is a lifestyle and nutrition chat, not medical treatment; please don’t stop or change any medicine without your doctor.",
+  note: "This is a lifestyle and nutrition chat, not medical treatment; please don’t stop or change any medicine without your doctor.",
   cta: "Chat with Dr. Swati on WhatsApp",
   /** Pre-filled first message; the visitor can edit it in WhatsApp before sending. */
   message: "Hello Dr. Swati, I found you on the Re Workshop website and would like a free consultation about my lifestyle and health.",
   nav: "Free consultation",
   navShort: "Free consult",
   founderLink: "Free consultation with Dr. Swati",
+  /** Accessible name and tooltip of the call button beside her name on her founder card. */
+  callLabel: "Call Dr. Swati for a free consultation",
 };
 
 export type Founder = {
@@ -189,10 +203,15 @@ export type Founder = {
   photoSlot: string;
   name: string;
   role: string;
-  credentials: string[];
+  /**
+   * Credential chips, one inner list per line. Every founder has the same shape (client, 28 Oct 2026: one common
+   * two-line grid for all three): the main credential alone on top, two short ones side by side below. The longest
+   * line is 266px wide, so two lines hold on cards 266px wide or more (three columns from 1100px, phones from 360px).
+   */
+  credentials: [string[], string[]];
   lead: string;
   bio: string;
-  /** Offers the free lifestyle consultation (her card links to it). */
+  /** Offers the free lifestyle consultation: a call button sits beside the name on her Our story card. */
   consults?: boolean;
 };
 
@@ -208,7 +227,7 @@ export const founders = {
       consults: true,
       name: "Dr. (Mrs.) Swati Chhajed",
       role: "Founder Director",
-      credentials: ["Veterinary Pathologist", "Certified Nutritionist", "Environmentalist"],
+      credentials: [["Veterinary Pathologist"], ["Certified Nutritionist", "Environmentalist"]],
       lead: "Dr. Swati understands health at a cellular level across the entire living ecosystem.",
       bio: "After successfully reversing her own chronic health issues by shifting to a sustainable, organic, plant-based diet, she directs the scientific and nutritional vision of Re Workshop, ensuring every recipe serves as true, functional medicine.",
     },
@@ -217,7 +236,7 @@ export const founders = {
       photoSlot: "founder-anshumala",
       name: "Mrs. Anshumala Dhagat",
       role: "Founder Director",
-      credentials: ["Graduate", "Devoted Organic Farmer & Soil Custodian", "75 Years Young"],
+      credentials: [["Devoted Organic Farmer & Soil Custodian"], ["Graduate", "75 Years Young"]],
       lead: "The living heartbeat of our agricultural fields.",
       bio: "Mrs. Anshumala brings the invaluable gifts of patience, traditional intuition, and maternal care to physically nurse depleted land back into thriving, chemical-free earth.",
     },
@@ -226,7 +245,7 @@ export const founders = {
       photoSlot: "founder-samay",
       name: "Mr. Samay Srivastava",
       role: "Founder Director",
-      credentials: ["Master of Computer Management (BU)", "IT Specialist", "Amrit Organic Farmer"],
+      credentials: [["Master of Computer Management (BU)"], ["IT Specialist", "Amrit Krishi farmer"]],
       lead: "Mr. Samay applies an architect’s precision to nature.",
       bio: "Working directly on the ground, he builds data-driven structures and frameworks to mentor local farming communities in scientifically transforming fields using the Amrit Mitti methodology.",
     },

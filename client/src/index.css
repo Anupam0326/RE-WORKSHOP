@@ -281,7 +281,6 @@
      screen plus six step-lengths) scrolls past; --p (0 Soil → 1 Health) drives the trail, the seed and the glow. */
   .arc-scroller.is-pinned { --step-scroll: 40svh; height: calc(100svh - 84px + 6 * var(--step-scroll)); }
   .arc-scroller.is-pinned .arc-stage { position: sticky; top: 84px; display: grid; align-content: center; min-height: calc(100svh - 84px); padding-block: 12px; }
-  .arc-scroller.is-pinned .arc { width: min(100%, 980px, calc((100svh - 230px) * 2)); }
   .arc__ring--glow { width: 100%; height: 100%; background: radial-gradient(100% 100% at 50% 100%, rgba(207, 232, 157, 0) 56%, rgba(207, 232, 157, 0.9) 100%); opacity: calc(0.12 + var(--p, 0) * 0.88); }
   .arc__progress { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .arc__track { fill: none; stroke: rgba(207, 232, 157, 0.16); stroke-width: 2.2; }
@@ -294,12 +293,23 @@
   .arc__node.is-on .arc__icon { transform: scale(1.14); box-shadow: 0 0 0 6px rgba(207, 232, 157, 0.55), 0 10px 22px rgba(17, 34, 26, 0.22); }
   .arc__node.is-on .arc__icon::after { content: ""; position: absolute; inset: -1px; border: 2px solid var(--lime-2); border-radius: inherit; pointer-events: none; animation: arc-pulse 1400ms var(--ease-out) both; }
   .arc__swap { display: grid; justify-items: center; gap: inherit; }
+  /* Text area: the active step over an invisible copy of all seven, so it is always as tall as the longest step and
+     changing step never moves the dial (28 Oct 2026). */
+  .arc__body { display: grid; gap: inherit; width: 100%; }
+  .arc__body > *, .arc__sizer > * { grid-area: 1 / 1; }
+  .arc__sizer { display: grid; gap: inherit; visibility: hidden; pointer-events: none; }
+  .arc__sizer-step { display: grid; justify-items: center; gap: inherit; }
+  .arc__body, .arc__sizer { justify-items: center; }
+  .arc__swap { align-self: start; }
   .arc__swap > * { animation: arc-in 600ms var(--ease-out) both; }
   .arc__swap > :nth-child(2) { animation-delay: 70ms; }
   .arc__count { align-self: center; min-width: 56px; color: var(--ink-2); font-size: 0.9375rem; font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
   /* Sunrise: the arc rises into place, then the steps appear one by one around it (once, on arrival). */
   .arc .arc__rings { opacity: 0; transform: translateY(48px) scale(0.96); transform-origin: 50% 100%; transition: opacity 700ms var(--ease-out), transform 1000ms cubic-bezier(0.16, 1, 0.3, 1); }
   .arc.is-risen .arc__rings { opacity: 1; transform: none; }
+  /* The centre text arrives after the ring has settled, so the rising band never sweeps through it (28 Oct 2026). */
+  .arc .arc__panel { opacity: 0; transition: opacity 500ms var(--ease-out) 650ms; }
+  .arc.is-risen .arc__panel { opacity: 1; }
   .arc .arc__step { opacity: 0; transform: translate(-50%, -20%) scale(0.6); transition: opacity 420ms var(--ease-out), transform 620ms cubic-bezier(0.16, 1, 0.3, 1); transition-delay: calc(380ms + var(--i, 0) * 90ms); }
   .arc.is-risen .arc__step { opacity: 1; transform: translate(-50%, -50%); }
   .arc__hint { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; color: var(--ink-2); font-size: 0.875rem; font-weight: 500; transition: opacity 300ms var(--ease-out); }
@@ -346,6 +356,8 @@
   /* Pick a grain: the millets in their studio bowls; each opens the tracker on Our story. */
   .grain-door__intro { max-width: 36ch; }
   .grain-door__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+  /* Three trackable grains (28 Oct 2026): one full row of three at every width. */
+  .grain-door__row.grain-door__row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 780px; }
   .grain-door__bowl { display: grid; justify-items: center; gap: 6px; padding: 8px 6px 14px; border-radius: 16px; text-align: center; transition: background-color 200ms var(--ease-out); }
   .grain-door__bowl:hover { background: var(--mist); }
   .grain-door__photo { display: block; width: 100%; aspect-ratio: 1; }
@@ -682,6 +694,11 @@
   .founders__grid { display: grid; gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--line); }
   .founder { display: grid; align-content: start; gap: 16px; padding: clamp(22px, 3vw, 32px); background: var(--paper); }
   .founder__head { display: grid; gap: 4px; }
+  /* Dr. Swati: name and role on the left, the lime call button beside them (dials her consultation number). */
+  .founder__head--call { grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: center; }
+  .founder__head--call > :not(.founder__call) { grid-column: 1; }
+  .founder__call { grid-column: 2; grid-row: 1 / span 2; }
+  .founder__call:hover:not(:disabled) { background: var(--lime-2); }
   /* Portrait slot: the uploaded photo, or the founder's monogram until the client sends one. */
   .founder__photo { overflow: hidden; aspect-ratio: 1; border-radius: var(--r-md, 16px); background: var(--mist); }
   .founder__photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -689,8 +706,10 @@
   .founder__photo--empty span { color: rgba(17, 34, 26, 0.3); font-family: var(--display); font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem); font-weight: 700; letter-spacing: -0.04em; }
   .founder h3 { font-size: 1.25rem; }
   .founder__role { color: var(--ink-2); font-size: 0.875rem; }
-  .founder__creds { display: flex; flex-wrap: wrap; gap: 6px; }
-  .founder__creds li { padding: 4px 9px; border-radius: 7px; background: var(--lime-soft); color: #2f4417; font-size: 0.8125rem; font-weight: 600; }
+  /* Credential chips in two set lines per founder (data/brand.ts): the main one on top, two short ones below. */
+  .founder__creds { display: grid; align-content: start; gap: 6px; }
+  .founder__creds-line { display: flex; flex-wrap: wrap; gap: 6px; }
+  .founder__cred { padding: 4px 9px; border-radius: 7px; background: var(--lime-soft); color: #2f4417; font-size: 0.8125rem; font-weight: 600; }
   .founder__lead { font-family: var(--display); font-size: 1.15rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.35; }
   .founder__bio { color: var(--ink-2); line-height: 1.7; }
   .founder__consult { display: inline-flex; align-items: center; justify-self: start; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 10px; background: var(--lime-soft); color: var(--forest); font-size: 0.9375rem; font-weight: 600; transition: background-color 160ms var(--ease-out); }
@@ -705,6 +724,9 @@
   .consult__story { max-width: 34ch; color: var(--ink); font-family: var(--display); font-size: var(--fs-lead); font-weight: 500; letter-spacing: -0.015em; line-height: 1.35; }
   .consult__note { display: flex; gap: 10px; max-width: 54ch; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.66); color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
   .consult__note svg { flex: none; margin-top: 2px; color: var(--forest); }
+  /* Client-approved disclaimer (28 Oct 2026), shown verbatim, first in each note beside her story (home consultation, How Re Workshop began). */
+  .consult__note-text { display: grid; gap: 4px; }
+  .disclaimer { color: var(--ink); font-weight: 600; }
   .consult__card { display: grid; gap: 18px; padding: clamp(20px, 2.6vw, 30px); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--paper); }
   .consult__who { display: flex; align-items: center; gap: 14px; }
   .consult__who p { display: grid; gap: 2px; }
@@ -1002,6 +1024,9 @@
   .track-line { left: 44px; top: 66px; }
   .head--split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); align-items: end; gap: 40px; }
   .founders__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Shared row tracks: each card spans the same rows, so chips, leads and bios start level in all three cards. */
+  .founder { grid-row: span var(--founder-rows, 1); grid-template-rows: subgrid; }
+  .founder > * { align-self: start; }
   .product__layout { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 48px; align-items: start; }
   .gallery { position: sticky; top: 96px; }
   .cart-page__layout { grid-template-columns: minmax(0, 1fr) 380px; align-items: start; }
@@ -1056,23 +1081,52 @@
   .pcard__add { width: 44px; height: 44px; }
 }
 @media (min-width: 860px) {
-  /* The arc's centre holds the text on wider screens. */
-  .arc__panel { position: absolute; left: 50%; bottom: 0; width: 46%; margin: 0; transform: translateX(-50%); gap: 8px; }
-  .arc__desc { font-size: 0.9375rem; }
-  .arc { padding-bottom: 0; }
+  /* The arc's centre holds the text on wider screens. 28 Oct 2026 (client recording, short laptop window): the dial
+     is a size container and the centre text scales with it (cqi = 1% of the dial's width), so ring, steps and text
+     stay one drawing at any size. At the full 980px dial the sizes are the original ones (heading 1.6rem, text 15px);
+     the floors keep them readable, and below DIAL_MIN (800px, JourneyArc.tsx) the dial is never pinned that small. */
+  .arc { --arc-below: 44px; container-type: inline-size; padding-bottom: var(--arc-below); }
+  .arc__panel { position: absolute; left: 50%; bottom: var(--arc-below); width: 46%; margin: 0; transform: translateX(-50%); gap: 8px; }
+  .arc__swap { align-self: end; }
+  .arc__tagline { font-size: clamp(1.25rem, 2.62cqi, 1.6rem); }
+  .arc__desc { font-size: clamp(0.8125rem, 1.54cqi, 0.9375rem); }
   .arc__icon { width: 52px; height: 52px; border-radius: 14px; }
+  /* Below a 920px dial a slightly narrower column keeps the longest step (Seeds) clear of the band at every size;
+     46% there let its line breaks swing the clearance down to 6px. From 920px up it is the original 46%. */
+  @container (max-width: 919px) { .arc__panel { width: 44%; } }
   .arc__label { font-size: 0.9375rem; }
+  /* The hint sits in the band under the ring, between the Soil and Health labels, so it costs no height. */
+  .arc__hint { position: relative; margin-top: calc(14px - var(--arc-below)); }
+  /* The whole stage has to fit under the navigation, so the dial gives up exactly what the rest needs:
+     84px pin offset + 24px stage padding + the 44px band = 152px (DIAL_RESERVE in JourneyArc.tsx). It pins only when
+     that leaves at least 800px (DIAL_MIN); in shorter windows it stays in the page and never goes below 800px, the
+     smallest dial whose centre holds every step's text. */
+  .arc { width: min(100%, 980px, max(800px, calc((100svh - 152px) * 2))); }
 }
 @media (max-width: 859px) {
   .arc__label { display: none; }
   .arc__node.is-on .arc__label { display: block; position: absolute; top: 100%; margin-top: 6px; white-space: nowrap; }
-  .arc__panel { margin-top: 44px; }
+  /* Clears the lit Soil or Health label that hangs below the ring's ends (it reached into the heading at 320-360px). */
+  .arc__panel { margin-top: 64px; }
+  /* Phones on their side: the dial shrinks to the screen's height so it can be seen whole (no effect upright). */
+  .arc { width: min(100%, 980px, calc((100svh - 152px) * 2)); }
 }
 @media (max-width: 420px) {
   .arc__icon { width: 38px; height: 38px; border-radius: 10px; }
   .arc__icon svg { width: 16px; height: 16px; }
+  /* Small phones: the lit step's label hangs a little closer and smaller, so it never lands on the next step's icon
+     (at 320px "Seeds" sat on Soil, "Kitchen" on Plate; 28 Oct 2026). */
+  .arc__node.is-on .arc__label { margin-top: 4px; padding: 1px 6px; font-size: 0.75rem; }
+  .arc__panel { margin-top: 52px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
+/* Three trackable grains (28 Oct 2026): one full row of three at every width (outranks the 2/3/6-column rules above). */
+.grain-door__row.grain-door__row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grain-door__row--3 > li { display: grid; }
+.grain-door__row--3 .grain-door__bowl { grid-template-rows: auto 1fr auto; align-items: start; }
+/* The journey dial on screen (JourneyArc sets .arc-on-screen on <html>): the floating Order now card steps aside so it
+   never covers the Plate or Health step (it did at 860-1280px wide). Leaving the dial replays its float-up entrance. */
+.arc-on-screen .order-widget { visibility: hidden; opacity: 0; animation: none; pointer-events: none; }

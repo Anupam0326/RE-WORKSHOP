@@ -13,7 +13,7 @@
 import { Check, Info, MessageCircle } from "lucide-react";
 import { ReMark } from "@/components/BrandMark";
 import { useSiteMedia } from "@/components/SiteImage";
-import { consultation } from "@/data/brand";
+import { consultation, personalExperienceDisclaimer } from "@/data/brand";
 import { consultChatUrl } from "@/lib/whatsapp";
 
 function Avatar() {
@@ -44,7 +44,10 @@ export function Consultation() {
           <p className="consult__story">{consultation.story}</p>
           <p className="consult__note">
             <Info size={17} aria-hidden="true" />
-            <span>{consultation.note}</span>
+            <span className="consult__note-text">
+              <span className="disclaimer">{personalExperienceDisclaimer}</span>
+              <span>{consultation.note}</span>
+            </span>
           </p>
         </div>
 

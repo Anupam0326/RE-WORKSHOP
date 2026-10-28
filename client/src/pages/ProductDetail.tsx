@@ -204,7 +204,7 @@ export default function ProductDetail() {
                       <p className="product__note-title">How Re Workshop works</p>
                       <p>{loop.intro}</p>
                       <SectionLink id="loop" page="/our-story" className="text-link">
-                        The Soil-to-Plate Loop <ArrowRight size={16} aria-hidden="true" />
+                        {loop.heading} <ArrowRight size={16} aria-hidden="true" />
                       </SectionLink>
                     </>
                   )}
