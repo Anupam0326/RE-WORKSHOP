@@ -1,5 +1,5 @@
 /**
- * Floating pill navigation: brand, Shop, Café, Our story, Track your grain (a jump into Our story), Visit us,
+ * Floating pill navigation: brand, Shop, Café, Our story, Track your grain (a jump into Our story), For farmers, Visit us,
  * admin + basket.
  * Client feedback 18 Oct 2026: getting to the shop, the café and the products was confusing, so every item is now a
  * page of its own except "Visit us", which scrolls to the visit panel in the footer of whichever page is open.
@@ -25,6 +25,8 @@ export const navItems: NavItem[] = [
   { label: "Our story", href: "/our-story" },
   // 22 Oct 2026: a direct way to the grain tracker on Our story.
   { label: "Track your grain", section: "trace", page: "/our-story" },
+  // 31 Oct 2026 (client): farmers who want to farm this way can get in touch (pages/Farmers.tsx).
+  { label: "For farmers", href: "/farmers" },
   { label: "Visit us", section: "visit" },
 ];
 

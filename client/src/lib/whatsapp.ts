@@ -34,3 +34,21 @@ export function consultChatUrl(message: string) {
 }
 /** The same number dialled directly: the call button beside her name on Our story (28 Oct 2026, Anupam). */
 export const consultCallUrl = `tel:${CONSULT_WHATSAPP}`;
+
+/** A farmer's details from the For farmers page, as the first WhatsApp message to the store (31 Oct 2026). */
+export type FarmerEnquiry = { name: string; place: string; land?: string; crops?: string; practice?: string; note?: string };
+/** The message's wording, in the language the farmer is reading (data/brand.ts → farmersCopy[lang].message). */
+export type FarmerMessageWords = { hello: string; name: string; place: string; land: string; acres: string; crops: string; practice: string; note: string };
+export function farmerEnquiryUrl(enquiry: FarmerEnquiry, words: FarmerMessageWords) {
+  const lines = [
+    words.hello,
+    "",
+    `${words.name}: ${enquiry.name}`,
+    `${words.place}: ${enquiry.place}`,
+    enquiry.land ? `${words.land}: ${enquiry.land} ${words.acres}` : "",
+    enquiry.crops ? `${words.crops}: ${enquiry.crops}` : "",
+    enquiry.practice ? `${words.practice}: ${enquiry.practice}` : "",
+    enquiry.note ? `${words.note}: ${enquiry.note}` : "",
+  ].filter((line, index) => line || index === 1);
+  return whatsappOrderUrl(lines.join("\n"));
+}

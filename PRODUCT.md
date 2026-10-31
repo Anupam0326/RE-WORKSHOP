@@ -14,6 +14,8 @@ Two audiences, equally important (confirmed 18 Oct 2026):
 
 Both arrive mostly on phones, often from Google, Instagram or a WhatsApp share. The first job is to understand what Re Workshop is and choose: visit the café, or shop the store.
 
+A third, smaller audience since 31 Oct 2026 (client): farmers who farm without chemicals, want to switch, or keep native seed varieties, and want to connect with Re Workshop ("For farmers" page, enquiries to the store's WhatsApp). What Re Workshop offers them is not decided yet, so the page promises nothing; most of them will read Hindi more easily than English.
+
 ## Product Purpose
 
 Re Workshop is an organic food store and an open-kitchen millet café in Jabalpur, presented as a premium lifestyle brand (owned by Resoilfy Agro Farms Pvt. Ltd.). The website explains the soil-to-plate idea, brings people to the café, and lets them build a basket of groceries that is sent as a WhatsApp order. Success: café visits and WhatsApp orders.
@@ -37,7 +39,7 @@ Soil to plate, in the brand's own words: "We don't just sell organic food. We re
 - Client copy rules: copy from the client brief verbatim (typo fixes only); no italics; no all-caps labels; no em or en dashes in visible copy; sentence case; no decorative numbering; the "zero maida…" statement appears once on the page (the No-Compromise Code); no health, nutrition or sourcing claims the client has not confirmed.
 - Grid rule: grid rows are always full (3 per row on desktop, 2 on tablets, 1 on phones; product grids are 2 on phones and 3 from tablets up).
 - The first screen must not lead with products, prices or buy buttons: it introduces the brand (client, 18 Oct 2026, after rejecting a product-shelf hero and a grain close-up hero).
-- Navigation (client feedback, 18 Oct 2026 night: "the interface is a little confusing", "make it simpler"): Shop, Café, Our story, Visit us, plus Track your grain (a jump into Our story, added 22 Oct at Anupam's request); the café and the story are pages of their own. Every home section has one way out. One lime action in the bar on every page: "Free consultation" (23 Oct), to the consultation section on the home page.
+- Navigation (client feedback, 18 Oct 2026 night: "the interface is a little confusing", "make it simpler"): Shop, Café, Our story, Visit us, plus Track your grain (a jump into Our story, added 22 Oct at Anupam's request) and For farmers (a page of its own, 31 Oct, client); the café and the story are pages of their own. Every home section has one way out. One lime action in the bar on every page: "Free consultation" (23 Oct), to the consultation section on the home page.
 - Open: the Kodo Millet pack label says MRP 100 RS vs ₹270 in the catalogue; Millet Noodles pack says 130 g vs 175 g.
 
 ## Brand Commitments

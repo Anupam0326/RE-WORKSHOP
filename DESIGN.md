@@ -158,6 +158,7 @@ A two-material palette: forest and lime for the board, mist and white for the ro
 - **Lead** (500, clamp(1.1rem → 1.35rem), 1.35 to 1.4): the line under a heading that says what the page is.
 - **Body** (400, 1rem to 1.0625rem, 1.6 to 1.75): paragraphs, 52 to 64ch.
 - **Label** (500 to 600, 0.875 to 0.9375rem): grain tags on the board, roles, counts, captions. Sentence case, never letter-spaced capitals.
+- **Phones, below 640px** (31 Oct 2026; the client found the nav and content oversized on a phone): Display 2.25rem, page intro headings 2rem, Headline 1.625rem, Title about 1.125 to 1.3rem, Lead 1.0625rem, Body 1rem; buttons 46px tall, the navigation pill 54px with a 32px seal. Labels and small text (0.75 to 0.9375rem) keep their size, so nothing on a phone is below 12px. Desktop navigation links are 0.875rem since the same day (six places now).
 
 ### Named Rules
 **The Two-Tone Rule.** A heading may have a quiet first line (quiet ink or olive dim) and a main line (forest or ink). One quiet line, never more.
@@ -249,6 +250,16 @@ Softly rounded rectangles: 22px on slabs, panels and photos, 14px on cards and f
 
 ### Founder card
 - A square portrait slot (monogram in a dashed mist frame until uploaded), name, role, credentials as lime-soft chips in two set lines (the main credential alone on top, two short ones side by side below; same shape for all three, 28 Oct 2026), the lead line, then the bio (Our story). All three cards end with the bio so they match; Dr. Swati's only extra is the round lime call button on her name line (the disclaimer and consultation link that used to follow her bio were removed, 28 Oct 2026; the disclaimer stays beside her story on the home consultation and in How Re Workshop began). Side by side (from 860px) the cards share row tracks through CSS subgrid, so chips, leads and bios start level across all three; two chip lines hold wherever a card is 266px or more inside (three columns from 1100px, phones from 360px), and below that a line wraps without breaking the alignment. The compact home version has no portrait (the portraits live on Our story only) and stops after the lead line.
+
+### For farmers (page, 31 Oct 2026)
+- In the navigation as "For farmers" (between Track your grain and Visit us). Text-led: no photo yet, because every seed-work photo is already used once on the site.
+- Mist intro with the two-tone heading "For farmers. Farm with us.", the lead, and two actions (Tell us about your farm, Call). Three white cards: who we would like to hear from. A mist band, How we farm: three items with forest icon tiles (Living soil, Native seeds, No chemicals) and a link to the seven steps. Then the form beside its heading (side by side from 860px).
+- The form: name and village are required, the rest optional (land in acres, what they grow, how they farm today as pill choices, a note). Errors sit under their field; inputs are 16px so phones do not zoom. Sending opens WhatsApp to the store with the details as the first message; nothing is stored on the site.
+- English and Hindi (31 Oct 2026): a lime pill at the top switches language and shows the other language in its own script ("हिंदी में पढ़ें" / "Read in English", with a translate icon). Everything on the page changes, including the form, its errors and the WhatsApp message; the navigation and footer stay English. Opens in Hindi from /farmers?lang=hi (the link to share with farmers), after a visitor chose Hindi before, or on a phone set to Hindi. Hindi uses Noto Sans Devanagari (in the site's font stacks; Google serves it by script, so it loads only when Hindi is on screen), no tight tracking, and taller lines (headings 1.22 to 1.3, text 1.75) so the marks above and below the letters never clip.
+
+### Footer
+- "Find us in Jabalpur." over the farm-sunset photo (dark green-black scrim for white text), the address, then Get directions (lime), Call and WhatsApp; below, a frosted dark sheet with the logo + tagline, Explore, Shop and Contact columns, and the copyright and legal-entity lines.
+- Phones, below 640px (31 Oct 2026; it was 2.1 screens tall at 360px, now 1.2): the three actions are one row of tiles (icon above a short label: Directions, Call, WhatsApp); the logo + tagline are left out (the logo is in the header, the tagline opens Our story); Explore and Shop sit side by side; Contact is a row of chips (both numbers, the email, Instagram as an icon); the legal lines keep clear of the floating WhatsApp button. 640px and up unchanged.
 
 ### Mist panel
 - The light counterpart of the dark panel: mist with grain, a 1px dashed edge, forest text and a dark button. Used when a page already has its dark slab (the café page's "The Organic Grocery Store" panel).

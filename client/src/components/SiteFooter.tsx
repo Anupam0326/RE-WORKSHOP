@@ -1,8 +1,14 @@
-/** Footer: the visit/contact panel (#visit, on every page), quick links, legal entity. */
+/**
+ * Footer: the visit/contact panel (#visit, on every page), quick links, legal entity.
+ * 31 Oct 2026 (Anupam: "looks very big on a mobile device"): on phones (below 640px) it was 2.1 screens tall at 360px.
+ * Now: the three actions sit in one row of tiles with short labels, Explore and Shop sit side by side, the contact
+ * links are one wrapped row of chips, and the logo + tagline (already in the header and on Our story) are left out.
+ * Tablet and desktop are unchanged.
+ */
 
 import { ArrowUpRight, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Link } from "wouter";
-import { BrandMark, ReMark } from "@/components/BrandMark";
+import { BrandMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
 import { storeInfo } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
@@ -16,7 +22,18 @@ export function SiteFooter() {
   return (
     <footer className="footer">
       <div id="visit" className="footer__panel">
-        <ReMark className="footer__mark" />
+        <div className="footer__bg" aria-hidden="true">
+          <img
+            src="/site/farm-sunset-1600.webp"
+            srcSet="/site/farm-sunset-800.webp 800w, /site/farm-sunset-1600.webp 1600w"
+            sizes="100vw"
+            alt=""
+            width={1600}
+            height={900}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
         <div className="footer__cta">
           <h2 className="footer__title">Find us in Jabalpur.</h2>
           <address className="footer__address">
@@ -26,10 +43,12 @@ export function SiteFooter() {
           </address>
           <div className="footer__actions">
             <a href={storeInfo.mapUrl} target="_blank" rel="noreferrer" className="btn btn--lime">
-              <MapPin size={18} aria-hidden="true" /> Get directions
+              <MapPin size={18} aria-hidden="true" /> <span className="footer__long">Get directions</span>
+              <span className="footer__short">Directions</span>
             </a>
             <a href={`tel:${storeInfo.phones[0].tel}`} className="btn btn--ghost-light">
-              <Phone size={18} aria-hidden="true" /> Call {storeInfo.phones[0].display}
+              <Phone size={18} aria-hidden="true" /> <span className="footer__long">Call {storeInfo.phones[0].display}</span>
+              <span className="footer__short">Call</span>
             </a>
             {whatsappReady && (
               <a href={`https://wa.me/${whatsappDigits}?text=${hello}`} target="_blank" rel="noopener noreferrer" className="btn btn--ghost-light">
@@ -45,7 +64,7 @@ export function SiteFooter() {
             <p>To truly nourish our bodies, we must first heal our earth.</p>
           </div>
           <div className="footer__cols">
-            <div>
+            <div className="footer__col">
               <p className="footer__head">Explore</p>
               <ul className="footer__list">
                 <li><Link href="/our-story">Our story</Link></li>
@@ -55,7 +74,7 @@ export function SiteFooter() {
                 <li><SectionLink id="menu" page="/cafe">Millet menu</SectionLink></li>
               </ul>
             </div>
-            <div>
+            <div className="footer__col">
               <p className="footer__head">Shop</p>
               <ul className="footer__list">
                 {categories.map((category) => (
@@ -65,7 +84,7 @@ export function SiteFooter() {
                 ))}
               </ul>
             </div>
-            <div>
+            <div className="footer__col footer__col--contact">
               <p className="footer__head">Contact</p>
               <ul className="footer__list footer__list--contact">
                 {storeInfo.phones.map((phone) => (
@@ -81,8 +100,11 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href={storeInfo.instagram} target="_blank" rel="noreferrer">
-                    <Instagram size={15} aria-hidden="true" /> Instagram <ArrowUpRight size={14} aria-hidden="true" />
+                  <a href={storeInfo.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+                    <Instagram size={15} aria-hidden="true" />
+                    <span className="footer__long">
+                      Instagram <ArrowUpRight size={14} aria-hidden="true" />
+                    </span>
                   </a>
                 </li>
               </ul>

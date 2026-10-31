@@ -197,6 +197,134 @@ export const consultation = {
   callLabel: "Call Dr. Swati for a free consultation",
 };
 
+/**
+ * For farmers (client, 31 Oct 2026): Re Workshop as a meeting point for farmers who want to farm this way. The client has
+ * not said yet what a farmer who joins gets (training, seeds, buying the harvest), so this page promises nothing: it says
+ * how Re Workshop farms, in the words of the seven-step journey above, and asks the farmer to get in touch. Enquiries go
+ * to the store's WhatsApp (Anupam's choice). When the client decides the offer, add it here, in both languages.
+ *
+ * In English and Hindi (31 Oct 2026, Anupam: "the farmers might not know English"). The Hindi is written for the page,
+ * plain and spoken, not machine translated; the client should read it before it goes live. Both versions must keep the
+ * same shape (TypeScript checks it), and the WhatsApp message goes out in the language the farmer is reading.
+ */
+const farmersEn = {
+  lang: "en",
+  metaTitle: "For farmers",
+  metaDescription:
+    "Farm with Re Workshop, Jabalpur: living soil, native seeds and Amrit Krishi. If you farm without chemicals, want to switch, or keep native seed varieties, tell us about your farm on WhatsApp.",
+  /** The language switch shows the other language, written in that language. */
+  switchTo: "हिंदी में पढ़ें",
+  switchLang: "hi",
+  quiet: "For farmers.",
+  title: "Farm with us.",
+  lead: "Our grains come from living soil, native seeds and Amrit Krishi. If you farm this way, or want to start, we would like to hear from you.",
+  body: "Tell us about your land and what you grow, and we will get in touch.",
+  call: "Call",
+  whoHeading: "Who we would like to hear from",
+  who: [
+    { title: "You already farm without chemicals", body: "Organic or natural, on any size of land. Tell us what you grow and where." },
+    { title: "You want to make the switch", body: "You farm with chemicals today and want to move to living soil. Start the conversation here." },
+    { title: "You keep native seeds", body: "Old varieties of millets, wheat or rice that have been grown in your family for years. We would like to know about them." },
+  ],
+  howHeading: "How we farm",
+  how: [
+    { title: "Living soil", body: "Amrit Krishi, India’s ancient regenerative method: desi cow dung, cow urine and farm biomass bring the soil back to life." },
+    { title: "Native seeds", body: "Only unhybridized, native/indigenous heritage seeds: millets like Kodo, Kutki and Jowar, wheats like Khapli, rice like Kali Banga." },
+    { title: "No chemicals", body: "Grown in living soil without pesticides or chemicals, from the seed to the harvest." },
+  ],
+  howMore: "See all seven steps, from soil to health",
+  formHeading: "Tell us about your farm",
+  formIntro: "Fill in what you can. Only your name and your village are needed.",
+  callLine: "Prefer to talk?",
+  fields: {
+    name: "Your name",
+    place: "Village or town, and district",
+    placeExample: "e.g. Shahpura, Jabalpur",
+    land: "Land, in acres",
+    crops: "What you grow now",
+    cropsExample: "e.g. wheat, kodo, gram",
+    practice: "How you farm today",
+    note: "Anything else",
+    optional: "(optional)",
+  },
+  errors: { name: "Please write your name.", place: "Please write your village or town." },
+  practices: ["Organic or natural already", "With chemicals, want to switch", "Just starting out"],
+  submit: "Send on WhatsApp",
+  formNote: "WhatsApp opens with your details filled in. Check them and press send; nothing is saved on this website.",
+  sent: { before: "WhatsApp should be open with your message. If it did not open,", link: "open it here" },
+  /** The first WhatsApp message to the store, line by line. */
+  message: {
+    hello: "Namaste Re Workshop, I am a farmer and I would like to connect with you about farming.",
+    name: "Name",
+    place: "Village / district",
+    land: "Land",
+    acres: "acres",
+    crops: "Growing now",
+    practice: "Farming today",
+    note: "Message",
+  },
+};
+
+export type FarmersCopy = Omit<typeof farmersEn, "lang" | "switchLang"> & { lang: "en" | "hi"; switchLang: "en" | "hi" };
+
+const farmersHi: FarmersCopy = {
+  lang: "hi",
+  metaTitle: "किसानों के लिए",
+  metaDescription:
+    "Re Workshop, जबलपुर के साथ खेती करें: जीवित मिट्टी, देसी बीज और अमृत कृषि। अगर आप बिना रसायन के खेती करते हैं, बदलना चाहते हैं, या आपके पास देसी बीज हैं, तो WhatsApp पर अपने खेत के बारे में बताइए।",
+  switchTo: "Read in English",
+  switchLang: "en",
+  quiet: "किसानों के लिए।",
+  title: "हमारे साथ खेती करें।",
+  lead: "हमारा अनाज जीवित मिट्टी, देसी बीज और अमृत कृषि से आता है। अगर आप इसी तरह खेती करते हैं, या शुरू करना चाहते हैं, तो हम आपसे बात करना चाहेंगे।",
+  body: "अपनी ज़मीन और फ़सल के बारे में बताइए, हम आपसे संपर्क करेंगे।",
+  call: "कॉल करें",
+  whoHeading: "हम किनसे बात करना चाहते हैं",
+  who: [
+    { title: "आप पहले से बिना रसायन के खेती करते हैं", body: "जैविक हो या प्राकृतिक, ज़मीन छोटी हो या बड़ी। बताइए आप क्या उगाते हैं और कहाँ।" },
+    { title: "आप बदलाव करना चाहते हैं", body: "अभी आप रसायन से खेती करते हैं और जीवित मिट्टी की ओर बढ़ना चाहते हैं। बात यहीं से शुरू कीजिए।" },
+    { title: "आपके पास देसी बीज हैं", body: "मोटे अनाज, गेहूँ या धान की पुरानी किस्में, जो आपके परिवार में बरसों से उगाई जा रही हैं। हम उनके बारे में जानना चाहेंगे।" },
+  ],
+  howHeading: "हम खेती कैसे करते हैं",
+  how: [
+    { title: "जीवित मिट्टी", body: "अमृत कृषि, मिट्टी को फिर से उपजाऊ बनाने की भारत की प्राचीन पद्धति: देसी गाय का गोबर, गोमूत्र और खेत के जैविक अवशेष मिट्टी में फिर से जान डालते हैं।" },
+    { title: "देसी बीज", body: "सिर्फ़ बिना हाइब्रिड वाले, देसी पारंपरिक बीज: कोदो, कुटकी और ज्वार जैसे मोटे अनाज, खपली जैसा गेहूँ, काली बंगा जैसा धान।" },
+    { title: "कोई रसायन नहीं", body: "बीज से कटाई तक, जीवित मिट्टी में, बिना कीटनाशक या रसायन के।" },
+  ],
+  howMore: "मिट्टी से सेहत तक, सातों चरण देखें (अंग्रेज़ी में)",
+  formHeading: "अपने खेत के बारे में बताइए",
+  formIntro: "जितना हो सके भरिए। सिर्फ़ आपका नाम और गाँव ज़रूरी है।",
+  callLine: "बात करना चाहते हैं?",
+  fields: {
+    name: "आपका नाम",
+    place: "गाँव या कस्बा, और ज़िला",
+    placeExample: "जैसे: शाहपुरा, जबलपुर",
+    land: "ज़मीन (एकड़ में)",
+    crops: "अभी आप क्या उगाते हैं",
+    cropsExample: "जैसे: गेहूँ, कोदो, चना",
+    practice: "अभी आप खेती कैसे करते हैं",
+    note: "और कुछ बताना हो तो",
+    optional: "(ज़रूरी नहीं)",
+  },
+  errors: { name: "कृपया अपना नाम लिखिए।", place: "कृपया अपना गाँव या कस्बा लिखिए।" },
+  practices: ["पहले से जैविक या प्राकृतिक", "रसायन से, बदलना चाहते हैं", "अभी शुरुआत कर रहे हैं"],
+  submit: "WhatsApp पर भेजें",
+  formNote: "WhatsApp आपकी जानकारी भरकर खुलेगा। एक बार देख लीजिए और भेजें दबाइए; इस वेबसाइट पर कुछ भी सेव नहीं होता।",
+  sent: { before: "WhatsApp आपके संदेश के साथ खुल गया होगा। अगर नहीं खुला, तो", link: "यहाँ खोलिए" },
+  message: {
+    hello: "नमस्ते Re Workshop, मैं किसान हूँ। खेती के बारे में आपसे बात करनी है।",
+    name: "नाम",
+    place: "गाँव / ज़िला",
+    land: "ज़मीन",
+    acres: "एकड़",
+    crops: "अभी की फ़सल",
+    practice: "अभी की खेती",
+    note: "संदेश",
+  },
+};
+
+export const farmersCopy: Record<"en" | "hi", FarmersCopy> = { en: farmersEn as FarmersCopy, hi: farmersHi };
+
 export type Founder = {
   initials: string;
   /** Site photo slot for the portrait (data/media.ts); the monogram shows until a photo is uploaded. */
