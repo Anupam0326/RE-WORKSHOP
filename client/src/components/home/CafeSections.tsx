@@ -1,5 +1,6 @@
 /** The No-Compromise Code: on the home page and the café page (it covers the café and the packaged foods). */
 
+import type { CSSProperties } from "react";
 import { noCompromise } from "@/data/brand";
 
 /**
@@ -19,11 +20,13 @@ export function NoCompromise() {
             <p className="zero__word" aria-hidden="true">
               Zero
             </p>
+            {/* 3 Nov 2026: as the list comes into view each ingredient is struck out in lime, one after another, so
+                "zero" is shown as well as said (index.css, "Zero, struck out"). */}
             <ul className="zero__list">
-              {noCompromise.rules.map((rule) => (
-                <li key={rule} className="zero__item">
+              {noCompromise.rules.map((rule, index) => (
+                <li key={rule} className="zero__item" style={{ "--i": index } as CSSProperties}>
                   <span className="sr-only">Zero </span>
-                  {rule}
+                  <span className="zero__strike">{rule}</span>
                 </li>
               ))}
             </ul>

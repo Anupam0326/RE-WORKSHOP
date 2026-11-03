@@ -109,7 +109,7 @@
   .section--flush-top { padding-top: 0; }
   .band { position: relative; }
   .band--mist { background: var(--mist); }
-  .band--mist, .band--lines { border-block: 1px dashed rgba(17, 34, 26, 0.16); }
+  .band--mist { border-block: 1px dashed rgba(17, 34, 26, 0.16); }
   .band--mist { background-image: var(--grain-on-light); }
   /* Doubled class on purpose: it must beat the `background:` shorthand on .panel--dark and .store-card, which come later. */
   .grain.grain { background-image: var(--grain-on-dark); }
@@ -152,9 +152,12 @@
   .btn:active { transform: scale(0.97); }
   .btn:disabled { cursor: not-allowed; opacity: 0.55; transform: none; }
   .btn--sm { min-height: 42px; padding: 0 15px; font-size: 0.9375rem; }
-  .btn--dark { background: var(--forest); color: #fff; box-shadow: 0 6px 18px rgba(17, 34, 26, 0.22); }
+  .btn--dark { background: var(--forest); color: #fff; }
   .btn--dark:hover { background: var(--forest-3); }
-  .btn--lime { background: var(--lime); color: var(--forest); box-shadow: 0 0 0 1px rgba(17, 34, 26, 0.06) inset; }
+  .btn--lime { background: var(--lime); color: var(--forest); }
+  /* White door on dark photographs (home hero, 3 Nov 2026). */
+  .btn--white { background: #fff; color: var(--forest); }
+  .btn--white:hover { background: var(--mist); }
   .btn--lime:hover { background: var(--lime-2); }
   .btn--ghost { border-color: rgba(17, 34, 26, 0.22); background: var(--paper); color: var(--forest); }
   .btn--ghost:hover { border-color: var(--forest); }
@@ -204,24 +207,6 @@
   .menu-sheet__foot { display: grid; gap: 10px; margin-top: auto; padding-top: 28px; }
   .menu-sheet__address { display: inline-flex; gap: 8px; margin-top: 8px; color: rgba(255, 255, 255, 0.7); font-size: 0.9375rem; line-height: 1.5; }
 
-  /* ================= Hero ================= */
-  /* Hero: the café menu board (impeccable skill, 18 Oct 2026; contract in client/index.html). A pale field page,
-     the promise in forest ink, two equal doors, then the open kitchen's board: dark forest slab, lime lettering,
-     the grain in each dish where a board would print the price. One authored motion: the lines are written in. */
-  .hero { position: relative; background: var(--mist) var(--grain-on-light); border-bottom: 1px dashed rgba(17, 34, 26, 0.16); color: var(--ink); }
-  .hero__inner { display: grid; gap: clamp(24px, 3vw, 40px); padding-top: calc(clamp(96px, 9vw, 120px) + env(safe-area-inset-top)); padding-bottom: clamp(28px, 4vw, 56px); }
-  .hero__top { display: grid; gap: 22px; align-items: end; }
-  .hero__title { display: grid; gap: 6px; color: var(--forest); font-weight: 700; text-wrap: balance; }
-  .hero__lead { color: var(--olive-dim); font-size: clamp(1.2rem, 0.95rem + 1vw, 1.9rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
-  .hero__main { font-size: clamp(2.9rem, 1.1rem + 5.4vw, 5.75rem); letter-spacing: -0.04em; line-height: 0.94; }
-  .hero__side { display: grid; gap: 18px; }
-  .hero__what { max-width: 32ch; color: var(--ink-2); font-family: var(--display); font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.35; text-wrap: pretty; }
-  /* Two doors of equal weight: same size, same colour; the words and icons tell them apart. */
-  .hero__doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: 460px; }
-  .hero__door { min-height: 54px; padding-inline: 16px; box-shadow: none; }
-  .hero__door svg { flex: none; color: var(--lime); }
-
-  .hero__stage { display: grid; gap: 14px; }
   .board { position: relative; display: grid; gap: clamp(14px, 1.8vw, 22px); padding: clamp(20px, 3vw, 40px) clamp(18px, 3.2vw, 44px) clamp(16px, 2.4vw, 30px); border-radius: var(--r-lg); background-color: var(--forest); color: var(--mist); box-shadow: 0 2px 2px rgba(17, 34, 26, 0.12), 0 24px 48px -24px rgba(17, 34, 26, 0.55); }
   .board :focus-visible { outline-color: var(--lime); }
   .board__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; padding-bottom: clamp(12px, 1.4vw, 18px); border-bottom: 1px solid rgba(207, 232, 157, 0.22); }
@@ -229,21 +214,7 @@
   .board__place { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; color: rgba(245, 248, 236, 0.78); font-size: 0.9375rem; font-weight: 500; transition: color 160ms var(--ease-out); }
   .board__place:hover { color: var(--lime); }
   .board__place svg { flex: none; }
-  .board__list { display: grid; gap: 0 clamp(28px, 4vw, 56px); }
-  .board__dish { display: flex; align-items: last baseline; gap: 12px; min-height: 50px; padding-block: 8px; color: var(--lime); animation: board-write 900ms var(--ease-out) backwards; animation-delay: calc(200ms + var(--n, 0) * 90ms); }
-  .board__name { min-width: 0; font-family: var(--display); font-size: clamp(1.3rem, 0.95rem + 1.25vw, 2.05rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
   .board__leader { flex: 1 1 24px; min-width: 24px; border-bottom: 2px dotted rgba(207, 232, 157, 0.3); transform: translateY(-0.3em); }
-  .board__tag { flex: none; color: rgba(245, 248, 236, 0.74); font-size: 0.9375rem; font-weight: 500; white-space: nowrap; }
-  .board__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 18px; padding-top: clamp(12px, 1.4vw, 18px); border-top: 1px solid rgba(207, 232, 157, 0.22); color: rgba(245, 248, 236, 0.86); font-size: 1rem; line-height: 1.45; }
-  .board__foot-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--lime); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(207, 232, 157, 0.45); text-decoration-thickness: 1px; text-underline-offset: 5px; transition: text-decoration-color 160ms var(--ease-out); }
-  .board__foot-link:hover { text-decoration-color: var(--lime); }
-  .board__foot-link svg { transition: transform 200ms var(--ease-out); }
-  .board__foot-link:hover svg { transform: translateX(3px); }
-  .hero__photo { overflow: hidden; border-radius: var(--r-lg); aspect-ratio: 4 / 3; background: var(--mist); }
-  .hero__photo img, .hero__photo .product-fallback { width: 100%; height: 100%; object-fit: cover; }
-  .hero__photo img { object-position: 68% 50%; }  /* keeps the room and shelves in the narrow frame */
-  /* Marked place for the client's open-kitchen photo: the branded placeholder, framed so it reads as a slot. */
-  .hero__photo .site-fallback { border: 1px dashed rgba(17, 34, 26, 0.24); border-radius: inherit; }
   /* ================= Journey arc (Our story) ================= */
   /* Back on 22 Oct 2026 and playing by itself: lime progress line along the band, a pulse on the lit step, the
      centre text rising in, a countdown ring round the pause button. Static with reduced motion. */
@@ -318,64 +289,86 @@
   .arc.is-moving ~ .arc__hint { opacity: 0; }
 
   /* ================= Home spreads (22 Oct 2026, impeccable: magazine spreads) ================= */
-  /* Words on one side, a large photo with a smaller one laid over its corner on the other; sides alternate.
-     Photos are the client's own (site photo slots); dashed placeholders until they are uploaded. */
-  .spread { padding-block: var(--section-y); }
-  .spread--mist { border-block: 1px dashed rgba(17, 34, 26, 0.16); background: var(--mist) var(--grain-on-light); }
-  .spread__inner { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
-  .spread__text { display: grid; justify-items: start; gap: 18px; }
-  .spread__title { max-width: 15ch; font-size: var(--fs-h2); text-wrap: balance; }
-  .spread__lead { max-width: 38ch; color: var(--ink); font-family: var(--display); font-size: var(--fs-lead); font-weight: 500; letter-spacing: -0.015em; line-height: 1.4; }
-  .spread__body { max-width: 54ch; color: var(--ink-2); font-size: 1.0625rem; line-height: 1.7; }
-  .spread__links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin-top: 6px; }
-  .spread__links .btn { box-shadow: none; }
-  .spread__media { position: relative; padding: 0 clamp(28px, 7vw, 88px) clamp(36px, 6vw, 72px) 0; }
-  .spread--flip .spread__media { padding: 0 0 clamp(36px, 6vw, 72px) clamp(28px, 7vw, 88px); }
-  .spread__main, .spread__inset { position: relative; overflow: hidden; margin: 0; background: var(--mist); }
-  .spread__main { aspect-ratio: 4 / 3; border-radius: var(--r-lg); }
-  .spread__inset { position: absolute; right: 0; bottom: 0; width: clamp(130px, 40%, 300px); aspect-ratio: 1; border: 6px solid var(--paper); border-radius: 18px; box-shadow: 0 2px 2px rgba(17, 34, 26, 0.08), 0 22px 40px -22px rgba(17, 34, 26, 0.5); }
-  .spread--flip .spread__inset { right: auto; left: 0; }
-  .spread--mist .spread__inset { border-color: var(--mist); }
-  .spread__main img, .spread__main .product-fallback, .spread__inset img, .spread__inset .product-fallback { width: 100%; height: 100%; object-fit: cover; }
-  .spread__main .site-fallback, .spread__inset .site-fallback { border: 1px dashed rgba(17, 34, 26, 0.24); border-radius: inherit; }
-  .spread__inset .product-fallback span { font-size: 0.8125rem; }
-  .spread__main figcaption { position: absolute; left: 12px; bottom: 12px; max-width: calc(58% - 24px); padding: 6px 10px; border-radius: 8px; background: var(--forest); color: rgba(255, 255, 255, 0.9); font-size: 0.8125rem; font-weight: 500; }
-  .spread__inset figcaption, .spread__main:has(.site-fallback) figcaption { display: none; }
-  /* The full-bleed spread (the farm): the photo runs edge to edge, the words sit under it, the small photo is mounted
-     over the photo's lower edge on wide screens. A change of scale from the column spreads around it. */
-  .spread--bleed { padding-top: 0; }
-  /* Capped at 1440px: the client's field photo is 1280px wide, and stretching it further would blur it. */
-  .spread__band { max-width: 1440px; margin-inline: auto; }
-  .spread__band .spread__main { width: 100%; aspect-ratio: 4 / 3; border-radius: 0; }
-  /* People in the farm photos stand in the top third: keep their heads in when the band crops top and bottom. */
-  .spread__band .spread__main img { object-position: 50% 30%; }
-  .spread__band .spread__main figcaption { left: max(12px, calc((100vw - 1200px) / 2)); }
-  .spread--bleed .spread__inner { align-items: start; }
-  .spread--bleed .spread__text { padding-top: clamp(28px, 4vw, 48px); }
-  .spread--bleed .spread__inset { position: relative; right: auto; bottom: auto; order: -1; width: min(46%, 340px); margin-top: calc(-1 * clamp(64px, 20vw, 120px)); justify-self: end; }
 
-  /* Pick a grain: the millets in their studio bowls; each opens the tracker on Our story. */
-  .grain-door__intro { max-width: 36ch; }
-  .grain-door__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
-  /* Three trackable grains (28 Oct 2026): one full row of three at every width. */
-  .grain-door__row.grain-door__row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 780px; }
-  .grain-door__bowl { display: grid; justify-items: center; gap: 6px; padding: 8px 6px 14px; border-radius: 16px; text-align: center; transition: background-color 200ms var(--ease-out); }
-  .grain-door__bowl:hover { background: var(--mist); }
-  .grain-door__photo { display: block; width: 100%; aspect-ratio: 1; }
-  .grain-door__photo img { width: 100%; height: 100%; object-fit: contain; transition: transform 420ms var(--ease-out); }
-  .grain-door__bowl:hover .grain-door__photo img, .grain-door__bowl:focus-visible .grain-door__photo img { transform: translateY(-6px) rotate(-4deg) scale(1.03); }
-  .grain-door__name { font-family: var(--display); font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; }
-  .grain-door__go { display: inline-flex; align-items: center; gap: 4px; color: var(--forest); font-size: 0.875rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--lime-2); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  /* ================= Home (3 Nov 2026) ================= */
+  /* A reviewer found the site cluttered and the menu-board hero weak. The home page is six sections now, each one idea:
+     the shop front (hero), the consultation band, the café and the store side by side, the code, the farm, the footer.
+     Type on this page keeps to five sizes (hero, section heading, lead, text, small); no rules, boxes or shadows at
+     rest: surfaces are told apart by a step in tone. Motion explains: the photo settles, the packs stand up on the shelf,
+     the four ingredients are struck out. Everything is simply there with reduced motion. */
 
-  /* The name, set as type on the forest slab. */
-  .name-spread__panel { display: grid; gap: clamp(20px, 3vw, 32px); padding: clamp(36px, 6vw, 72px) clamp(20px, 5vw, 64px); }
-  .name-spread__seal { position: absolute; right: -80px; top: -80px; width: 320px; height: auto; color: rgba(207, 232, 157, 0.07); pointer-events: none; }
-  .name-spread__title { position: relative; max-width: 18ch; color: #fff; font-size: var(--fs-h2); }
-  .name-spread__grid { position: relative; display: grid; gap: 4px 48px; align-items: center; }
-  .name-spread__re { color: var(--lime); font-family: var(--display); font-size: clamp(4rem, 2.6rem + 5vw, 6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.85; }
-  .name-spread__points { display: grid; border-top: 1px solid var(--line-light); }
-  .name-spread__points li { padding-block: 12px; border-bottom: 1px solid var(--line-light); color: #fff; font-family: var(--display); font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem); font-weight: 500; letter-spacing: -0.02em; }
-  .name-spread__workshop { position: relative; max-width: 52ch; color: rgba(255, 255, 255, 0.78); font-size: 1.0625rem; line-height: 1.65; }
+  /* Hero: one photograph of the place (the shop front at night) with the words over its dark lower left. A neutral
+     scrim under the words is the only gradient on the page. */
+  .hero { position: relative; isolation: isolate; display: grid; align-items: end; min-height: clamp(560px, 100svh, 980px); overflow: hidden; background: #0b120e; color: #fff; }
+  .hero__media { position: absolute; inset: 0; z-index: -2; margin: 0; }
+  .hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+  @media (max-width: 1023px) and (orientation: portrait) { .hero__media img { object-position: 50% 30%; } }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(8, 14, 10, 0.92) 0%, rgba(8, 14, 10, 0.6) 34%, rgba(8, 14, 10, 0) 64%), linear-gradient(90deg, rgba(8, 14, 10, 0.55) 0%, rgba(8, 14, 10, 0) 58%); pointer-events: none; }
+  .hero__inner { display: grid; justify-items: start; gap: 18px; padding-top: calc(120px + env(safe-area-inset-top)); padding-bottom: clamp(40px, 8vh, 96px); }
+  .hero__title { display: grid; gap: 10px; color: #fff; font-weight: 700; text-wrap: balance; }
+  .hero__lead { color: rgba(255, 255, 255, 0.8); font-size: clamp(1.15rem, 0.9rem + 1vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; }
+  .hero__main { font-size: clamp(3rem, 1.1rem + 6.4vw, 7rem); letter-spacing: -0.045em; line-height: 0.92; }
+  .hero__what { max-width: 34ch; color: rgba(255, 255, 255, 0.88); font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); font-weight: 500; line-height: 1.4; }
+  .hero__doors { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .hero__door { min-width: 200px; min-height: 54px; }
+  .hero__door svg { flex: none; }
+
+  /* The café and the store, side by side as equals. */
+  .ways__grid { display: grid; gap: 64px; }
+  .way { display: grid; align-content: start; justify-items: start; gap: 14px; }
+  .way__media { position: relative; width: 100%; margin: 0 0 10px; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--r-lg); background: var(--mist); }
+  .way__media img, .way__media .product-fallback { width: 100%; height: 100%; object-fit: cover; }
+  .way__title { max-width: 16ch; font-size: var(--fs-h2); }
+  .way__text { max-width: 44ch; color: var(--ink); font-size: 1.0625rem; line-height: 1.6; }
+  .way__aisles { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+  .way__aisles a { display: inline-flex; align-items: center; min-height: 40px; color: var(--ink-2); font-size: 0.9375rem; font-weight: 500; transition: color 160ms var(--ease-out); }
+  .way__aisles a:hover { color: var(--forest); }
+  .way__go { margin-top: -4px; }
+  /* The store's shelf: two planks, six real packs (pack shots on white, blended into the mist so no white box shows),
+     standing up one after another as the section comes into view. */
+  .shelf { padding: 6% 7% 5%; background: var(--mist); }
+  .shelf__packs { position: relative; height: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); column-gap: 4%; align-items: end; }
+  .shelf__packs::before, .shelf__packs::after { content: ""; position: absolute; left: -4%; right: -4%; height: 12px; border-radius: 3px; background: var(--forest); }
+  .shelf__packs::before { top: calc(50% - 12px); }
+  .shelf__packs::after { bottom: 0; }
+  /* No z-index or lasting transform here: either would put the pack in its own layer and the blend would show white. */
+  .shelf__pack { display: flex; align-items: flex-end; justify-content: center; height: 100%; padding-bottom: 12px; }
+  .shelf__link { display: block; width: 100%; max-height: 100%; border-radius: 12px; transition: transform 260ms var(--ease-out); }
+  .shelf__link:hover, .shelf__link:focus-visible { transform: translateY(-6px); }
+  .shelf__link img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; mix-blend-mode: multiply; transform: translateY(5%) scale(1.12); transform-origin: 50% 100%; }
+  .js .shelf__pack { opacity: 0; transform: translateY(30px); transition: opacity 450ms var(--ease-out), transform 650ms cubic-bezier(0.16, 1, 0.3, 1); transition-delay: calc(250ms + var(--i, 0) * 110ms); }
+  .js .way.is-in .shelf__pack { opacity: 1; transform: none; }
+  .js .way.is-in .shelf__pack:not(:hover) { will-change: auto; }
+
+  /* The farm: the field edge to edge, then what we do and "pick a grain". */
+  .farm { background: var(--mist) var(--grain-on-light); }
+  .farm__photo { max-width: 1440px; height: clamp(240px, 46vh, 520px); margin: 0 auto; overflow: hidden; background: var(--mist); }
+  .farm__photo img, .farm__photo .product-fallback { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .farm__inner { display: grid; gap: 48px; padding-top: clamp(40px, 6vw, 80px); padding-bottom: var(--section-y); }
+  .farm__text { display: grid; justify-items: start; gap: 16px; }
+  .farm__text h2 { max-width: 14ch; font-size: var(--fs-h2); }
+  .farm__text p { max-width: 42ch; color: var(--ink); font-family: var(--display); font-size: var(--fs-lead); font-weight: 500; letter-spacing: -0.015em; line-height: 1.35; }
+  .farm__track { display: grid; gap: 18px; }
+  .farm__track h3 { max-width: 24ch; font-size: var(--fs-h3); }
+  .bowls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .bowl { display: grid; justify-items: center; gap: 4px; padding: 10px 6px 14px; border-radius: 16px; background: #fff; text-align: center; transition: transform 220ms var(--ease-out); }
+  .bowl:hover, .bowl:focus-visible { transform: translateY(-4px); }
+  .bowl__photo { display: block; width: 100%; aspect-ratio: 1; }
+  .bowl__photo img { width: 100%; height: 100%; object-fit: contain; }
+  .bowl__name { font-family: var(--display); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; }
+  .bowl__go { display: inline-flex; align-items: center; gap: 4px; color: var(--forest); font-size: 0.875rem; font-weight: 600; }
+  .js .bowls > li { opacity: 0; transform: translateY(24px); transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out); transition-delay: calc(200ms + var(--i, 0) * 110ms); }
+  .js .farm__track.is-in .bowls > li { opacity: 1; transform: none; }
+
+  /* Zero, struck out: as the list comes into view each ingredient gets a lime line through it, one after another. */
+  .zero__strike { position: relative; display: inline-block; transition: color 500ms var(--ease-out); transition-delay: calc(500ms + var(--i, 0) * 260ms); }
+  .zero__strike::after { content: ""; position: absolute; left: -4%; right: -4%; top: 54%; height: 0.1em; border-radius: 999px; background: var(--lime); transform: scaleX(0); transform-origin: left center; transition: transform 520ms cubic-bezier(0.65, 0, 0.35, 1); transition-delay: inherit; }
+  .zero__item { --i: 0; }
+  .zero.is-in .zero__strike { color: rgba(255, 255, 255, 0.62); }
+  .zero.is-in .zero__strike::after, html:not(.js) .zero__strike::after { transform: scaleX(1); }
+
+  /* Footer: the closing invitation that left the home page (3 Nov 2026). */
+  .footer__invite { max-width: 46ch; color: rgba(255, 255, 255, 0.86); font-family: var(--display); font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.3rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1.4; text-wrap: balance; }
 
   /* ================= Café and Our story pages (18 Oct 2026) ================= */
   /* Page intro: same pale field as the home hero, two-tone heading, the page's words and actions, one wide photo. */
@@ -478,7 +471,6 @@
   .today__actions .btn { box-shadow: none; }
   .today__photo { aspect-ratio: 4 / 3; }
 
-
   /* From our fields: three of the client's farm photos, one row. */
   .fields__intro { max-width: 44ch; }
   .fields__row { display: grid; gap: 14px; }
@@ -499,28 +491,12 @@
 
   /* ================= Dark panels ================= */
   .panel { position: relative; overflow: hidden; border-radius: var(--r-lg); }
-  .panel--dark { background: var(--forest); color: #fff; box-shadow: var(--shadow-panel); }
+  .panel--dark { background: var(--forest); color: #fff; }
   .panel--mist { border: 1px dashed rgba(17, 34, 26, 0.18); background: var(--mist) var(--grain-on-light); color: var(--ink); }
   .panel--mist.cta-panel p { color: var(--ink-2); }
   .panel--dark h2, .panel--dark h3 { color: #fff; }
-  .panel__title { display: grid; place-items: center; min-height: 104px; padding: 24px var(--gutter); border-bottom: 1px solid var(--line-light); text-align: center; }
-  .panel__title h2 { font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem); }
 
-  /* Shop by shelf */
-  .shelves { padding-top: clamp(40px, 6vw, 72px); }
   .journey { padding-top: clamp(24px, 4vw, 56px); }
-  .shelf-tiles { display: grid; gap: 1px; background: var(--line-light); }
-  .shelf-tile { display: grid; gap: 4px; height: 100%; padding: 8px 8px 16px; background: var(--forest); text-align: center; transition: background-color 180ms var(--ease-out); }
-  .shelf-tile:hover { background: var(--forest-2); }
-  .shelf-tile__media { display: block; overflow: hidden; aspect-ratio: 1; border-radius: 12px; background: #fff; }
-  .shelf-tile__media img, .shelf-tile__media .product-fallback { width: 100%; height: 100%; object-fit: cover; transition: transform 400ms var(--ease-out); }
-  .shelf-tile:hover .shelf-tile__media img { transform: scale(1.04); }
-  .shelf-tile__name { margin-top: 10px; color: var(--lime); font-family: var(--display); font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
-  .shelf-tile__count { color: rgba(255, 255, 255, 0.6); font-size: 0.8125rem; }
-  .shelf-tile__media--all { display: grid; place-content: center; justify-items: center; gap: 6px; background: var(--lime); color: var(--forest); }
-  .shelf-tile__media--all strong { font-family: var(--display); font-size: clamp(2.6rem, 1.8rem + 2.4vw, 3.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.9; }
-  .shelf-tile__media--all svg { transition: transform 200ms var(--ease-out); }
-  .shelf-tile--all:hover .shelf-tile__media--all svg { transform: translateX(4px); }
 
   /* ================= Journey arc ================= */
 
@@ -644,14 +620,11 @@
   .zero { display: grid; justify-items: center; gap: clamp(14px, 3vw, 24px); }
   .zero__word { color: var(--lime); font-family: var(--display); font-size: clamp(5.5rem, 3.2rem + 9vw, 11rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.8; padding-right: 0.06em; }
   .zero__list { display: grid; width: min(100%, 440px); }
-  .zero__item { padding: 12px 6px; border-top: 1px dashed var(--line-light); color: #fff; font-family: var(--display); font-size: clamp(1.45rem, 1.15rem + 1vw, 2.1rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; text-align: center; }
-  .zero__item:last-child { border-bottom: 1px dashed var(--line-light); }
+  .zero__item { padding: 8px 6px; color: #fff; font-family: var(--display); font-size: clamp(1.45rem, 1.15rem + 1vw, 2.1rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; text-align: center; }
   @media (min-width: 760px) {
     .zero { grid-template-columns: auto auto; justify-content: center; align-items: center; column-gap: clamp(36px, 5vw, 72px); }
-    .zero__list { width: auto; min-width: 340px; padding-left: clamp(32px, 4.5vw, 64px); border-left: 1px solid var(--line-light); }
+    .zero__list { width: auto; min-width: 340px; }
     .zero__item { padding-inline: 2px; text-align: left; }
-    .zero__item:first-child { border-top: 0; }
-    .zero__item:last-child { border-bottom: 0; }
   }
 
   /* ================= Store ================= */
@@ -716,34 +689,27 @@
   .founder__consult { display: inline-flex; align-items: center; justify-self: start; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 10px; background: var(--lime-soft); color: var(--forest); font-size: 0.9375rem; font-weight: 600; transition: background-color 160ms var(--ease-out); }
   .founder__consult:hover { background: var(--lime); }
 
-  /* Free consultation (23 Oct 2026): a lime-soft band right under the hero, the offer and her story on the left,
-     one white card on the right for the action (who, qualifications, the exact first message, the button). */
-  .consult { background: var(--lime-soft) var(--grain-on-light); border-bottom: 1px dashed rgba(17, 34, 26, 0.16); }
-  .consult__inner { display: grid; gap: clamp(26px, 4vw, 56px); align-items: center; }
-  .consult__text { display: grid; gap: clamp(16px, 2vw, 22px); align-content: start; }
-  .consult__title { max-width: 16ch; font-size: var(--fs-h2); }
-  .consult__story { max-width: 34ch; color: var(--ink); font-family: var(--display); font-size: var(--fs-lead); font-weight: 500; letter-spacing: -0.015em; line-height: 1.35; }
-  .consult__note { display: flex; gap: 10px; max-width: 54ch; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.66); color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
-  .consult__note svg { flex: none; margin-top: 2px; color: var(--forest); }
+  /* Free consultation: a lime-soft band under the hero. 3 Nov 2026 (reviewer: cluttered): no card, no checklist, no
+     chat preview. The offer, her story and the client's disclaimer on the left; who and the button on the right. */
+  .consult { padding-block: clamp(48px, 7vw, 88px); background: var(--lime-soft); }
+  .consult__inner { display: grid; gap: 28px; align-items: end; }
+  .consult__text { display: grid; gap: 16px; align-content: start; }
+  .consult__title { max-width: 21ch; font-size: var(--fs-h2); }
+  .consult__story { max-width: 40ch; color: var(--ink); font-family: var(--display); font-size: var(--fs-lead); font-weight: 500; letter-spacing: -0.015em; line-height: 1.35; }
+  .consult__note { max-width: 60ch; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
   /* Client-approved disclaimer (28 Oct 2026), shown verbatim, first in each note beside her story (home consultation, How Re Workshop began). */
   .consult__note-text { display: grid; gap: 4px; }
   .disclaimer { color: var(--ink); font-weight: 600; }
-  .consult__card { display: grid; gap: 18px; padding: clamp(20px, 2.6vw, 30px); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--paper); }
+  .consult__act { display: grid; gap: 16px; }
   .consult__who { display: flex; align-items: center; gap: 14px; }
-  .consult__who p { display: grid; gap: 2px; }
+  .consult__who p { display: grid; gap: 3px; }
   .consult__who strong { font-family: var(--display); font-size: 1.1875rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
-  .consult__who span { color: var(--ink-2); font-size: 0.875rem; }
-  .consult__avatar { display: grid; flex: none; place-items: center; overflow: hidden; width: 60px; height: 60px; border-radius: 999px; background: var(--mist); }
+  .consult__who span { color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; }
+  .consult__avatar { display: grid; flex: none; place-items: center; overflow: hidden; width: 56px; height: 56px; border-radius: 999px; background: var(--mist); }
   .consult__avatar img { width: 100%; height: 100%; object-fit: cover; }
   .consult__avatar--seal { background: var(--forest); color: var(--lime); }
   .consult__avatar--seal svg { width: 64%; height: auto; }
-  .consult__quals { display: grid; gap: 9px; padding-top: 16px; border-top: 1px solid var(--line); }
-  .consult__quals li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9875rem; font-weight: 500; line-height: 1.4; }
-  .consult__quals svg { flex: none; box-sizing: content-box; padding: 3px; border-radius: 999px; background: var(--lime); color: var(--forest); }
-  .consult__chat { display: grid; justify-items: end; gap: 6px; padding: 14px; border-radius: 14px; background: var(--mist); }
-  .consult__bubble { max-width: 92%; padding: 11px 14px; border-radius: 14px 14px 4px 14px; background: var(--lime); color: var(--forest); font-size: 0.9375rem; line-height: 1.5; }
-  .consult__chat figcaption { color: var(--ink-2); font-size: 0.8125rem; }
-  .consult__cta { min-height: 54px; box-shadow: none; }
+  .consult__cta { min-height: 54px; }
 
   /* The one lime action in the navigation, on every page and at every width. */
   .nav__consult { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; margin-right: 4px; padding: 0 14px; border-radius: 10px; background: var(--lime); color: var(--forest); font-size: 0.875rem; font-weight: 600; white-space: nowrap; transition: background-color 160ms var(--ease-out); }
@@ -751,11 +717,6 @@
   .nav__consult:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
   .nav__consult-long { display: none; }
   .menu-sheet__admin { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; color: rgba(255, 255, 255, 0.7); font-size: 0.9375rem; }
-
-  /* ================= Final message ================= */
-  .final { padding-bottom: clamp(20px, 3vw, 32px); }
-  .final__quote { display: grid; padding: clamp(40px, 7vw, 72px) calc(var(--gutter) + 8px); font-family: var(--display); font-size: clamp(1.6rem, 1rem + 2.6vw, 3.2rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; text-align: center; }
-  .final__quote span { text-wrap: balance; }
 
   /* ================= Footer ================= */
   .footer { padding: 4px 4px calc(4px + env(safe-area-inset-bottom)); }
@@ -993,9 +954,6 @@
   .order-widget__btn svg { width: 17px; height: 17px; }
 }
 @media (min-width: 640px) {
-  .shelf-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .shelf-tiles > li:last-child:nth-child(3n + 1) { grid-column: span 3; }
-  .shelf-tiles > li:last-child:nth-child(3n + 2) { grid-column: span 2; }
   .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
   .facets { grid-template-columns: 1fr 1fr; }
   .shop__tools { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); align-items: center; }
@@ -1019,7 +977,7 @@
   .nav__consult-short { display: none; }
 }
 @media (min-width: 1024px) {
-  .consult__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+  .consult__inner { grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.8fr); gap: clamp(40px, 6vw, 96px); }
 }
 @media (min-width: 640px) {
   .duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1040,36 +998,13 @@
   .chapter__inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: start; }
 }
 @media (min-width: 640px) {
-  .grain-door__row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .fields__row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 860px) {
-  .name-spread__grid { grid-template-columns: auto minmax(0, 1fr); }
   .dish-row--6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .cafe-board__columns { columns: 2; column-gap: clamp(40px, 5vw, 72px); }
 }
-@media (min-width: 1024px) {
-  .spread__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
-  .spread--flip .spread__inner { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-  .spread--flip .spread__media { order: -1; }
-  .spread__band .spread__main { aspect-ratio: 21 / 8; }
-  .spread--bleed .spread__inner { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-  .spread--bleed .spread__inset { order: 0; width: min(100%, 340px); margin-top: calc(-1 * clamp(90px, 10vw, 170px)); }
-  .grain-door__row { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-}
-@media (min-width: 720px) {
-  .board__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .board__name { font-size: clamp(1.3rem, 0.7rem + 1.25vw, 1.85rem); }
-}
-@media (min-width: 1024px) {
-  /* The promise and the doors share the top row; the board and the kitchen photo share the stage. */
-  .hero__top { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; }
-  .hero__side { padding-bottom: 6px; }
-  .hero__stage { grid-template-columns: minmax(0, 1fr) clamp(260px, 24vw, 340px); gap: 16px; }
-  .hero__photo { aspect-ratio: auto; }
-}
 @media (min-width: 860px) {
-  .featured .product-grid { gap: 16px; }
   .meaning__grid { grid-template-columns: 1fr 1.15fr; }
   .dig { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px; align-items: start; }
   .dig__side { position: sticky; top: 110px; }
@@ -1092,11 +1027,6 @@
   .footer__bottom { grid-column: 1 / -1; }
 }
 @media (min-width: 1024px) {
-  .shelf-tile { padding: 12px 12px 20px; }
-  .shelf-tile__media { aspect-ratio: 4 / 3; }
-  .shelf-tile__media img { object-fit: contain; }
-  .shelf-tile__name { font-size: 1.3rem; }
-  /* A whole-store card that fills a row on its own lies flat: figure, text and buttons side by side. */
   .product-grid { gap: 16px; }
   .pcard__body { padding: 14px 16px 16px; }
   .pcard__name { font-size: 1.125rem; }
@@ -1115,11 +1045,7 @@
   .nav__brand { margin-right: 10px; }
 }
 @media (max-width: 639px) {
-  /* Phones: the doors stay side by side; the dish's grain drops under its name so long names never squeeze. */
-  .hero__door { padding-inline: 10px; gap: 7px; font-size: 0.9375rem; }
-  .board__dish { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0 12px; min-height: 46px; padding-block: 7px; }
   .board__leader { display: none; }
-  .board__tag { align-self: center; font-size: 0.875rem; }
   /* The eight menu section links scroll sideways on phones, like the shop's shelf pills, instead of five rows. */
   .cafe-menu__sections { flex-wrap: nowrap; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
   .cafe-menu__sections::-webkit-scrollbar { display: none; }
@@ -1129,12 +1055,6 @@
   .book__page { padding: 0; border: 0; border-radius: 0; background: none; }
   .book__folio { display: none; }
   .catalog__group { scroll-margin-top: 160px; }
-  .shelf-tile { grid-template-columns: 76px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 14px; row-gap: 2px; padding: 10px 14px 10px 10px; text-align: left; }
-  .shelf-tile__media { grid-row: span 2; }
-  .shelf-tile__name { align-self: end; margin-top: 0; }
-  .shelf-tile__count { align-self: start; }
-  .shelf-tile__media--all strong { font-size: 1.6rem; }
-  .shelf-tile__media--all svg { display: none; }
 }
 @media (max-width: 559px) {
   .mcard--re { border-bottom-left-radius: 64px; }
@@ -1185,10 +1105,6 @@
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
-/* Three trackable grains (28 Oct 2026): one full row of three at every width (outranks the 2/3/6-column rules above). */
-.grain-door__row.grain-door__row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.grain-door__row--3 > li { display: grid; }
-.grain-door__row--3 .grain-door__bowl { grid-template-rows: auto 1fr auto; align-items: start; }
 /* For farmers: three cards and three ways in a row, the form beside its heading (rows always full). */
 @media (min-width: 560px) {
   .farm-form__row { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
@@ -1213,35 +1129,30 @@
   .brand-lockup--compact .brand-lockup__wordmark span:first-child { font-size: 0.9375rem; }
   .menu-sheet__link { min-height: 52px; font-size: 1.5rem; }
   /* First screens sit closer under the slimmer navigation. */
-  .hero__inner { padding-top: calc(84px + env(safe-area-inset-top)); }
   .intro__inner { padding-top: calc(92px + env(safe-area-inset-top)); }
   .page-head { padding-top: calc(104px + env(safe-area-inset-top)); }
   .product { padding-top: calc(88px + env(safe-area-inset-top)); }
   .cart-page { padding-top: calc(96px + env(safe-area-inset-top)); }
   /* Page titles */
-  .hero__main { font-size: 2.25rem; }
-  .hero__lead, .intro__lead { font-size: 1.0625rem; }
-  .hero__what { font-size: 1rem; }
+  .intro__lead { font-size: 1.0625rem; }
   .intro__main, .page-head h1 { font-size: 2rem; }
   .product__copy h1 { font-size: 1.75rem; }
   .cart-page h1, .not-found h1, .footer__title { font-size: 1.875rem; }
   /* Section headings and big lines */
-  .panel__title h2, .catalog__head h2, .related .head h2, .statement__text { font-size: 1.5rem; }
-  .final__quote, .dig__question { font-size: 1.375rem; }
+  .catalog__head h2, .related .head h2, .statement__text { font-size: 1.5rem; }
+  .dig__question { font-size: 1.375rem; }
   .duo__title, .board__title { font-size: 1.3125rem; }
-  .board__name, .menu-cat__title, .zero__item, .dig-plate__name { font-size: 1.125rem; }
+  .menu-cat__title, .zero__item, .dig-plate__name { font-size: 1.125rem; }
   /* Display words keep their scale against the page, a step smaller. */
-  .name-spread__re { font-size: 3.25rem; }
   .zero__word { font-size: 4.25rem; }
   .mcard__word { font-size: 2.25rem; }
   .product__price, .cart-summary__total strong { font-size: 1.625rem; }
   /* Reading text */
-  .head__intro, .spread__body, .intro__text, .duo__body, .today__text p, .chapter__text, .dig__prompt, .code__intro, .page-head__lead, .name-spread__workshop, .farm-form__intro { font-size: 1rem; }
-  .name-spread__points li, .mcard__points li { font-size: 1.0625rem; }
+  .head__intro, .intro__text, .duo__body, .today__text p, .chapter__text, .dig__prompt, .code__intro, .page-head__lead, .farm-form__intro { font-size: 1rem; }
+  .mcard__points li { font-size: 1.0625rem; }
   .founder__lead, .consult__who strong { font-size: 1.0625rem; }
   /* Buttons */
   .btn { min-height: 46px; padding: 0 18px; font-size: 0.9375rem; }
-  .hero__door { min-height: 48px; }
 }
 /* Footer on phones (31 Oct 2026): was 2.1 screens tall at 360px, 2.8 at 320px. One row of action tiles, Explore and
    Shop side by side, contact as chips (Instagram as an icon), no repeated logo + tagline, tighter spacing. 640px and up
@@ -1262,8 +1173,58 @@
   .footer__list--contact { display: flex; flex-wrap: wrap; gap: 8px; }
   .footer__list--contact a { min-height: 40px; min-width: 44px; justify-content: center; padding: 0 12px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 999px; font-size: 0.8125rem; }
   /* Clear of the floating WhatsApp button (56px, 14px from the corner) when scrolled to the very end. */
-  .footer__bottom { gap: 4px; padding: 14px 44px 0 0; font-size: 0.75rem; line-height: 1.45; }
+  .footer__bottom { gap: 4px; padding: 14px 44px 0 0; font-size: 0.8125rem; line-height: 1.45; }
 }
 /* The journey dial on screen (JourneyArc sets .arc-on-screen on <html>): the floating Order now card steps aside so it
    never covers the Plate or Health step (it did at 860-1280px wide). Leaving the dial replays its float-up entrance. */
 .arc-on-screen .order-widget { visibility: hidden; opacity: 0; animation: none; pointer-events: none; }
+
+/* ===== Home (3 Nov 2026): layout by width, motion ===== */
+@media (min-width: 860px) {
+  .ways__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 4vw, 64px); }
+  .farm__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+}
+/* Phones: the photo stands on top in a 4:5 crop that keeps the whole sign; the words sit on the dark ground under it. */
+@media (max-width: 639px) {
+  .hero { display: block; min-height: 0; }
+  .hero__media { position: relative; inset: auto; aspect-ratio: 4 / 5; }
+  .hero::after { background: linear-gradient(0deg, #0b120e 0%, #0b120e 36%, rgba(11, 18, 14, 0) 62%); }
+  .hero__inner { position: relative; margin-top: -132px; padding-top: 0; padding-bottom: 36px; gap: 14px; }
+  .hero__main { font-size: 2.75rem; }
+  /* Large enough to read as the first line of the headline, not a label above it. */
+  .hero__lead { font-size: 1.375rem; }
+  .hero__what { font-size: 1rem; }
+  .hero__doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 8px; }
+  .hero__door { min-width: 0; min-height: 50px; padding-inline: 10px; gap: 7px; }
+  .consult__inner { gap: 24px; }
+  .ways__grid { gap: 48px; }
+  .farm__inner { gap: 36px; }
+  .bowl__name { font-size: 0.9375rem; }
+  .footer__invite { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* The photo settles from a slight zoom; the lines rise in one after another. */
+  .hero__media img { animation: home-settle 1800ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero__lead, .hero__main, .hero__what, .hero__doors { animation: home-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero__lead { animation-delay: 150ms; }
+  .hero__main { animation-delay: 260ms; }
+  .hero__what { animation-delay: 420ms; }
+  .hero__doors { animation-delay: 540ms; }
+  /* As the page scrolls past the hero, the photo drifts a little slower than the page (where the browser can). */
+  @supports (animation-timeline: view()) {
+    .hero__media { animation: home-drift linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+  }
+}
+/* Short landscape screens (a phone on its side): the whole first screen, buttons included, fits the height. */
+@media (min-width: 640px) and (max-height: 560px) {
+  .hero { min-height: 100svh; }
+  .hero__inner { gap: 10px; padding-top: calc(84px + env(safe-area-inset-top)); padding-bottom: 20px; }
+  .hero__lead { font-size: 1.125rem; }
+  .hero__main { font-size: clamp(2.25rem, 12vh, 4rem); }
+  .hero__what { font-size: 1rem; }
+  .hero__doors { margin-top: 4px; }
+  .hero__door { min-height: 46px; }
+}
+@keyframes home-settle { from { transform: scale(1.08); } to { transform: none; } }
+@keyframes home-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes home-drift { to { transform: translateY(14%); } }

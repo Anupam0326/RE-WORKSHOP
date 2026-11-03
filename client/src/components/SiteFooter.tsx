@@ -12,7 +12,7 @@ import { BrandMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
 import { storeInfo } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
-import { intro, legalEntity, loop } from "@/data/brand";
+import { finalMessage, intro, legalEntity, loop } from "@/data/brand";
 import { whatsappDigits, whatsappReady } from "@/lib/whatsapp";
 
 const hello = encodeURIComponent("Hello Re Workshop, I have a question.");
@@ -36,6 +36,8 @@ export function SiteFooter() {
         </div>
         <div className="footer__cta">
           <h2 className="footer__title">Find us in Jabalpur.</h2>
+          {/* 3 Nov 2026: the closing invitation left the home page and lives here, on every page. */}
+          <p className="footer__invite">{finalMessage.join(" ")}</p>
           <address className="footer__address">
             {storeInfo.addressLines.map((line) => (
               <span key={line}>{line}</span>

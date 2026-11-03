@@ -409,7 +409,7 @@ export function ProductEditor({ product, products, categories, defaultCategoryId
                 <input type="checkbox" checked={featured} onChange={(event) => touch(setFeatured)(event.target.checked)} />
                 <span>
                   <strong>Feature on home page</strong>
-                  <small>Shows in “Staples to start with”.</small>
+                  <small>Stands on the shelf in the home page’s store half (up to six; products with a studio pack photo).</small>
                 </span>
               </label>
             </div>

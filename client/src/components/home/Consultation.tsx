@@ -1,16 +1,17 @@
 /**
  * Free consultation with Dr. (Mrs.) Swati Chhajed (client, 23 Oct 2026): "anyone willing to have a chat session with
- * her can connect directly", visible at a glance. Second section of the home page, right under the menu board, and
- * the target of the lime "Free consultation" button in the navigation on every page (#consult).
+ * her can connect directly", visible at a glance. Second section of the home page, and the target of the lime
+ * "Free consultation" button in the navigation on every page (#consult).
  *
- * Left: the offer, her own story and the safety note (kept together, always). Right: one card for the action: who
- * you'll be talking to, her qualifications, the exact first message WhatsApp opens with, and the button. The chat
- * goes straight to her own number (lib/whatsapp.ts), not the store's.
+ * 3 Nov 2026 (reviewer: the site is cluttered): one slim band instead of a two-column block with a card. Left: the offer,
+ * her own story and the client's disclaimer with the safety note (kept together, always; spec 28 Oct). Right: who you
+ * will talk to, her qualifications on one line, and the button. The preview of the first WhatsApp message is gone (the
+ * message is still filled in when WhatsApp opens). The chat goes straight to her own number (lib/whatsapp.ts).
  * Her photo is its own site photo slot ("consult-portrait"), never her founder portrait: each photo appears once.
  * Until one is uploaded the card shows the Re seal, not an empty frame.
  */
 
-import { Check, Info, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { ReMark } from "@/components/BrandMark";
 import { useSiteMedia } from "@/components/SiteImage";
 import { consultation, personalExperienceDisclaimer } from "@/data/brand";
@@ -35,7 +36,7 @@ function Avatar() {
 export function Consultation() {
   const href = consultChatUrl(consultation.message);
   return (
-    <section id="consult" className="section consult" aria-labelledby="consult-title">
+    <section id="consult" className="consult" aria-labelledby="consult-title">
       <div className="wrap consult__inner">
         <div className="consult__text" data-reveal>
           <h2 id="consult-title" className="consult__title">
@@ -43,35 +44,18 @@ export function Consultation() {
           </h2>
           <p className="consult__story">{consultation.story}</p>
           <p className="consult__note">
-            <Info size={17} aria-hidden="true" />
-            <span className="consult__note-text">
-              <span className="disclaimer">{personalExperienceDisclaimer}</span>
-              <span>{consultation.note}</span>
-            </span>
+            <span className="disclaimer">{personalExperienceDisclaimer}</span> {consultation.note}
           </p>
         </div>
-
-        <div className="consult__card" data-reveal>
+        <div className="consult__act" data-reveal>
           <div className="consult__who">
             <Avatar />
             <p>
               <strong>{consultation.name}</strong>
-              <span>{consultation.role}</span>
+              <span>{consultation.qualifications.join(" · ")}</span>
             </p>
           </div>
-          <ul className="consult__quals" aria-label="Experience and qualifications">
-            {consultation.qualifications.map((item) => (
-              <li key={item}>
-                <Check size={16} strokeWidth={2.4} aria-hidden="true" />
-                {item}
-              </li>
-            ))}
-          </ul>
-          <figure className="consult__chat">
-            <blockquote className="consult__bubble">{consultation.message}</blockquote>
-            <figcaption>WhatsApp opens with this message. Change it before you send if you like.</figcaption>
-          </figure>
-          <a href={href} target="_blank" rel="noopener noreferrer" className="btn btn--dark btn--full consult__cta">
+          <a href={href} target="_blank" rel="noopener noreferrer" className="btn btn--dark consult__cta">
             <MessageCircle size={19} aria-hidden="true" /> {consultation.cta}
           </a>
         </div>

@@ -53,27 +53,3 @@ export function dishPhoto(id: string): ProductPhoto | null {
 export function photographedDishes() {
   return dishPhotoIds.map((id) => menuItem(id)).filter((item): item is MenuItem => Boolean(item));
 }
-
-/**
- * The eight dishes on the home page menu board, each with every grain its menu name or description names (where a
- * board would print a price). Only dishes that state their grain; a dish that leaves the menu drops off.
- */
-const boardPicks: { id: string; grain: string }[] = [
-  // The brief's highlights (idli, dosa, dhokla, kodo pasta, ragi bread sandwich, drinks) as they appear on the real
-  // menu, plus two breakfasts; short names so each fits a line or two on the board, paired by length row by row.
-  { id: "kodo-upma", grain: "kodo millet" },
-  { id: "millet-thatte-idli", grain: "millet" },
-  { id: "millet-dosa-roll", grain: "millet" },
-  { id: "kuttu-khichdi", grain: "buckwheat" },
-  { id: "creamy-millet-pasta", grain: "kodo millet, wheat" },
-  { id: "ragi-bread-sandwich", grain: "ragi, wheat" },
-  { id: "millet-dhokla-chaat", grain: "millet" },
-  { id: "millet-ambli", grain: "millet" },
-];
-
-export function boardDishes() {
-  return boardPicks.flatMap(({ id, grain }) => {
-    const item = menuItem(id);
-    return item ? [{ ...item, grain }] : [];
-  });
-}

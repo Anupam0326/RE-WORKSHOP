@@ -7,21 +7,22 @@
 import type { ProductPhoto } from "@/data/catalog";
 import { sitePhoto } from "@/data/sitePhotos";
 
-// 18 Oct 2026: the home hero is the café menu board with one open-kitchen photo; the client asked for photos of the
-// farm, the café, the store and every founder, so those slots exist even before the photos do (branded placeholder).
+// The client asked for photos of the farm, the café, the store and every founder, so those slots exist even before
+// the photos do (branded placeholder).
+// 3 Nov 2026 (reviewer: "too cluttered"; Anupam: a standard hero): the home page opens on the shop front at night,
+// then the café and the store side by side, then the farm. The menu-board hero, the farm's second photo and the
+// café spread's dish photo are gone, so their slots are too (no uploads were lost: only story-today had one).
 // 23 Oct 2026 (Anupam): one photo, one place. No slot is shown in two places and no photo is the default of two
 // slots; farm photos show seed work only (sowing, soil, grain and oilseed crops, harvest), never vegetables.
 export type MediaSlotKey =
-  | "hero-kitchen"
+  | "home-hero"
+  | "home-cafe"
   | "cafe-intro"
   | "farm"
-  | "farm-2"
   | "farm-3"
   | "story-intro"
-  | "store"
   | "story-today"
   | "cafe-shelf"
-  | "cafe-plate"
   | "cafe-kitchen"
   | "consult-portrait"
   | "founder-swati"
@@ -42,9 +43,16 @@ export type MediaSlot = {
 
 export const mediaSlots: MediaSlot[] = [
   {
-    key: "hero-kitchen",
-    label: "Home · first screen beside the menu",
-    hint: "Inside the café: the room, the counter or the open kitchen at work. Portrait (4:5) works best.",
+    key: "home-hero",
+    label: "Home · first screen, full width",
+    hint: "The place as a visitor arrives: the shop front, ideally at dusk with the sign lit. Wide (16:10), at least 2000 px wide; the headline sits over its lower left, so keep that part calm.",
+    fallback: sitePhoto("hero-store"),
+    caption: "Re Workshop on Ridge Road, Jabalpur",
+  },
+  {
+    key: "home-cafe",
+    label: "Home · the café, beside the store",
+    hint: "Inside the café: the room, the counter or the open kitchen at work. Landscape (4:3) works best.",
     fallback: sitePhoto("cafe-room"),
     caption: "Inside Re Workshop on Ridge Road",
   },
@@ -57,17 +65,10 @@ export const mediaSlots: MediaSlot[] = [
   },
   {
     key: "farm",
-    label: "Home · the farm spread · main photo",
+    label: "Home · the farm, full width",
     hint: "Seed work on the farm: sowing, tilled soil, a grain field, the harvest. No vegetables. Wide (16:9 or wider), shown edge to edge.",
     fallback: sitePhoto("seed-sowing-hand"),
     caption: "Sowing seed by hand",
-  },
-  {
-    key: "farm-2",
-    label: "Home · the farm spread · second photo",
-    hint: "A closer farm photo laid over the main one: a grain or oilseed crop up close, seed in a hand, the soil. No vegetables. Square works best.",
-    fallback: sitePhoto("seed-mustard"),
-    caption: "Mustard in flower",
   },
   {
     key: "farm-3",
@@ -84,13 +85,6 @@ export const mediaSlots: MediaSlot[] = [
     caption: "Bringing in the harvest by hand",
   },
   {
-    key: "store",
-    label: "Home · the café spread · main photo",
-    hint: "The store and café as a visitor sees it: the front on Ridge Road or the shelves. Landscape (4:3) works best.",
-    fallback: sitePhoto("store-front"),
-    caption: "Re Workshop on Ridge Road, Jabalpur",
-  },
-  {
     key: "story-today",
     label: "Our story · Re Workshop today",
     hint: "Today at Re Workshop: the store, the café or a dish from the kitchen. Landscape (4:3) works best.",
@@ -103,13 +97,6 @@ export const mediaSlots: MediaSlot[] = [
     hint: "Grains turning into a dish in the open kitchen: on the stone, in the pan, then on the plate. Landscape (4:3) works best.",
     fallback: sitePhoto("cafe-ragi-bread"),
     caption: "Ragi bread from our kitchen",
-  },
-  {
-    key: "cafe-plate",
-    label: "Home · the café spread · small photo",
-    hint: "One dish from the menu, close up. Square works best.",
-    fallback: sitePhoto("dish-besan-cheela"),
-    caption: "Besan cheela from our menu",
   },
   {
     key: "cafe-kitchen",

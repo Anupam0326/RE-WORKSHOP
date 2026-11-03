@@ -105,11 +105,11 @@ components:
 
 ## Overview
 
-**Creative North Star: "The open-kitchen menu board"**
+**Creative North Star: "The open-kitchen menu board"** (the home page has opened on a photograph of the shop front since 3 Nov 2026; the board survives as the café page's menu book)
 
 Re Workshop is a store and a café in one room, so the system is built from two materials of that room: a pale field (mist, with a faint grain of soil noise) and dark forest slabs that carry lime lettering, the way a chalk menu board hangs over a counter. Pages open on the pale field with a two-tone promise in forest ink, then hand the eye to one dark slab. Everything else is quiet: white product cards, hairline rules, dashed band edges.
 
-Density is low and reading-led. Each page does one job (home: who we are and the two doors; Café; Our story; Shop), and each section holds one idea. Motion is rare and authored: the menu board's lines are written in once on the home page; on Our story the visitor's scroll walks the seven-step arc (a glowing seed travels the band; the one authored scroll moment on the site) and the grain tracker replays its dig when a new grain is picked; elsewhere content simply fades in as it arrives. Nothing plays with reduced motion. Imagery is the client's own photography: phone photos of the café, the shelves, the shop front and, from the farm, seed work only (sowing, tilled soil, grain and oilseed crops, the harvest; never vegetables), bundled in client/public/site/, and the studio product shots. **One Photo, One Place:** no site photo appears twice anywhere on the site; each slot is shown in one place and no photo is the default of two slots. Product packshots are the one exception (a product's photo on its card and its page; the gallery's thumbnail strip). Founder portraits are the client's own (all three since 26 Oct 2026). Any slot still without a real photo (the consultation card's photo of Dr. Swati) shows the Re seal or a monogram in a dashed frame, never stock or generated images.
+Density is low and reading-led. Each page does one job (home: who we are and the two doors; Café; Our story; Shop), and each section holds one idea. **3 Nov 2026 (a reviewer: "very cluttered, too much data"):** the home page went from eleven sections to six and from 11 screens to under 6, with about five type sizes, no rules, boxes or shadows at rest (measured with the taste skill's inspector: 9 fails to 0). Motion explains rather than decorates: on the home page the shop-front photo settles and the promise rises in, six packs stand up on the store's shelf, and the four banned ingredients are struck out in lime; on Our story the visitor's scroll walks the seven-step arc (a glowing seed travels the band; the one authored scroll moment on the site) and the grain tracker replays its dig when a new grain is picked; elsewhere content simply fades in as it arrives. Nothing plays with reduced motion. Imagery is the client's own photography: phone photos of the café, the shelves, the shop front and, from the farm, seed work only (sowing, tilled soil, grain and oilseed crops, the harvest; never vegetables), bundled in client/public/site/, and the studio product shots. **One Photo, One Place:** no site photo appears twice anywhere on the site; each slot is shown in one place and no photo is the default of two slots. Product packshots are the one exception (a product's photo on its card and its page; the gallery's thumbnail strip). Founder portraits are the client's own (all three since 26 Oct 2026). Any slot still without a real photo (the consultation card's photo of Dr. Swati) shows the Re seal or a monogram in a dashed frame, never stock or generated images.
 
 The client copy rules are part of the visual system: no italics anywhere, no all-caps labels, no em or en dashes in visible copy, sentence case, no decorative numbering.
 
@@ -169,18 +169,17 @@ A two-material palette: forest and lime for the board, mist and white for the ro
 
 Content sits in a 1200px column with a 16 / 24 / 32px gutter (phone / tablet / desktop). Sections breathe at clamp(72px, 10vw, 128px). Page intros and the home hero clear the floating nav with about 100 to 130px of top padding.
 
-Intros split from 1024px into a heading column (about 60%) and a side column (what the page is, then its actions), with one wide photo below (4:3 on phones, 21:8 on desktop). The home stage puts the menu board beside a portrait photo slot (about 24vw, 260 to 340px). The menu board lists dishes in one column on phones and two from 720px.
+Intros split from 1024px into a heading column (about 60%) and a side column (what the page is, then its actions), with one wide photo below (4:3 on phones, 21:8 on desktop). The home page opens on a full-width photograph instead (see Home hero).
 
 **The Full Row Rule.** Every grid ends on a full row: 3 per row on desktop, 2 on tablets, 1 on phones (product grids: 2 on phones). When real items don't fill a row, add a useful closing tile, never a fake item. A plain list (the seven steps) is the answer when a count can't fill rows.
 
 ## Elevation & Depth
 
-Mostly flat, with depth reserved for the dark slabs. Light surfaces are separated by hairlines (rgba(17, 34, 26, 0.12)) and dashed band edges, not shadows.
+Mostly flat. Light surfaces are separated by a step in tone (white, mist, lime-soft) and space; the home page has no hairlines or dashed edges since 3 Nov 2026, and other pages are moving the same way.
 
 ### Shadow Vocabulary
-- **Slab** (`box-shadow: 0 2px 2px rgba(17,34,26,.12), 0 24px 48px -24px rgba(17,34,26,.55)`): the menu board.
-- **Panel** (`box-shadow: 0 18px 50px rgba(17,34,26,.22)`): dark panels (No-Compromise Code, shop CTA panels, the dig).
-- Buttons on the pale field (the hero doors, intro actions) are flat.
+- **Slab** (`box-shadow: 0 2px 2px rgba(17,34,26,.12), 0 24px 48px -24px rgba(17,34,26,.55)`): the café menu book.
+- Dark panels (No-Compromise Code, shop CTA panels, the dig) and every button are flat since 3 Nov 2026: a shadow is for what floats (the navigation, the order card, menus).
 
 ### Named Rules
 **The Light Is Flat Rule.** Nothing on mist or white carries a shadow except a dark slab, and one named exception: **the Mounted Photo**, the small photo laid over a spread's large one, which carries a soft drop shadow so it reads as a print set on top.
@@ -194,20 +193,21 @@ Softly rounded rectangles: 22px on slabs, panels and photos, 14px on cards and f
 ### Buttons
 - **Shape:** gently rounded (10px), 50px tall (54px for the hero doors), icon left of the label.
 - **Dark:** forest with white text; the default for doors and page actions. Hover lifts to forest-hover (#24402f).
-- **Lime:** lime with forest text; the one action on a dark panel.
+- **Lime:** lime with forest text; the one action on a dark panel, and the café door on the home photo.
+- **White:** white with forest text; the store door on the home photo, beside the lime one (same size: equal doors).
 - **Ghost:** white with a forest hairline border; secondary actions such as Call.
 - **Focus:** a 2px green outline, offset 3px (lime on forest).
 
 ### Navigation
 - A floating forest pill (60px, 16px radius) with the Re mark, five items (Shop, Café, Our story, Track your grain, Visit us), one lime action ("Free consultation"), and admin + basket icons. The current page is lit lime. Links show from 860px; below that a full-screen forest menu sheet lists the same five at 1.85rem with the basket and a call button.
 
-### Menu board (signature)
-- The forest slab with grain. The title in lime at up to 2.25rem; the location link top right.
-- Each dish in lime display type, a dotted leader, and the grain at right where a board would print a price. Since 22 Oct 2026 the eight dishes are real menu items (data/cafeMenu.ts), short names chosen to fit a line or two, each tagged with every grain its menu name or description states.
-- One foot line with a lime underlined link (5px offset) to the full menu (/cafe#menu). Lines are written in once (clip from left, 90ms stagger); static with reduced motion. No interaction.
+### Home hero (3 Nov 2026)
+- One photograph of the place: the shop front on Ridge Road at night, the lit "Re Workshop" sign (site photo slot "home-hero"; default cut from the 4000 x 3000 original). 16:10 on laptops and landscape tablets, filling the first screen (560 to 980px tall), the words over its dark lower left on a neutral scrim (the only gradient on the page). Phones and upright tablets get a 4:5 crop that keeps the whole sign; on phones the photo stands on top and the words sit on the dark ground under it.
+- The two-tone promise in white ("We don't just sell organic food." at about 1.75rem, "We restore life." up to 7rem), "Organic food store and café in Jabalpur.", then the two equal doors: Visit the café (lime) and Shop the store (white), 54px.
+- Motion: the photo settles from a 1.08 zoom over 1.8s while the lines rise in 110 to 160ms apart; where the browser can, the photo drifts a little slower than the page as it scrolls away. Nothing moves with reduced motion. Short landscape screens (a phone on its side) shrink the type so the doors stay on the first screen.
 
 ### Free consultation (home, second section)
-- A lime-soft band with grain right under the hero (dashed lower edge), so it is the first thing after the menu board. Left: a two-tone heading ("Free consultation" strong, "on reversal of lifestyle issues." quiet), her story as a lead line, and the safety note right under it in a soft white box with an info icon (the story never shows without the note). Right: one white card (hairline, no shadow): who (round avatar: her consultation photo when uploaded, else the Re seal on forest), her qualifications with lime check badges, the exact first message as a lime chat bubble on mist ("WhatsApp opens with this message"), and the forest button "Chat with Dr. Swati on WhatsApp" to her own number.
+- Since 3 Nov 2026 one slim lime-soft band (no card, no checklist, no chat preview). Left: the two-tone heading ("Free consultation" strong, "on reversal of lifestyle issues." quiet), her story as a lead line, and right under it the client's disclaimer in bold followed by the safety note (the story never shows without them). Right: who (round avatar: her consultation photo when uploaded, else the Re seal on forest), her three qualifications on one line, and the forest button "Chat with Dr. Swati on WhatsApp" to her own number (the first message is still filled in).
 - Reached from everywhere: the lime "Free consultation" button in the navigation ("Free consult" below 1100px; on phones the admin icon moves into the menu sheet to make room), a lime button at the top of the phone menu sheet, the lime-soft link under How Re Workshop began, and a round lime call button beside her name on her Our story card (dials her number directly; 28 Oct 2026).
 
 ### Café menu book (Café page)
@@ -232,18 +232,12 @@ Softly rounded rectangles: 22px on slabs, panels and photos, 14px on cards and f
 - Two tags keep truth visible: lime "This grain" for facts recorded in /admin or printed on the label; outline "How we work" for the brief's general method. A grain without recorded facts says so in a note under the pack.
 - Picking a grain replays the dig: layers blur-rise in one after another (140ms apart), nodes pop, the dotted line draws down.
 
-### Spread (home)
-- Two columns from 1024px: words (5 parts) and media (7 parts), swapping sides from one spread to the next; stacked on phones.
-- Words: the headline (brief copy, no label in front of it), a lead line in display type, one paragraph, one dark button: one way out.
-- Media: one large 4:3 photo (22px radius) with a smaller square photo mounted over its outer bottom corner (6px border in the ground colour, soft drop shadow). The large photo carries its caption as a forest chip, bottom left.
-- Full-bleed variant (the farm): the photo runs edge to edge (21:8 on desktop), the words sit under it, the mounted photo overlaps its lower edge. Use it once per page, for the change of scale.
-- Alternates paper and mist grounds; a mist spread gets dashed top and bottom edges.
+### Café and store (home, 3 Nov 2026)
+- The two halves of Re Workshop side by side as equals (stacked on phones): the café as a 4:3 photo of the room, its heading, one line and "See the café and the menu"; the store as a 4:3 mist panel with two forest planks and six real packs standing on them (studio pack shots, blended into the mist with multiply so no white box shows; the products marked "Feature on home page" in /admin first), its heading, one line, the everyday shelves as plain links and "All 57 products". The packs stand up one after another (110ms apart) as the section arrives. Replaced the café spread, "Shop by shelf" and the six-card "Staples to start with".
 
-### Pick a grain row (home)
-- The millets in their white studio bowls on the page itself: 6 in one row on desktop, 3 on tablets, 2 on phones. Name, then a lime-underlined "Track it". The bowl lifts and tilts on hover. Opens the grain tracker on Our story at that grain.
-
-### Name panel (home)
-- Forest slab with the faint Re seal: the name heading, a 6rem lime "Re" beside the five Re- lines (lime "Re" prefix, hairline rules), the workshop line, a light text link.
+### Farm and grain (home, 3 Nov 2026)
+- On mist: the farm photo edge to edge (up to 1440px wide, 240 to 520px tall), then two columns: "Regenerative organic farming" with one lead line and a link to Our story; "Where did your grain come from? Pick a grain." with the tracker's three grains in their white studio bowls on white tiles (they rise in one after another; each opens the tracker on Our story at that grain). Replaced the farm spread (and its second photo) and the separate "Pick a grain" section.
+- Left the home page with the 3 Nov declutter: the founders row and the name panel (both on Our story), the six staples grid (the shop; six now stand on the home shelf), the closing invitation (now in the footer).
 
 ### Page intro
 - Mist field, two-tone heading, a lead line plus body copy and actions in the side column, one wide photo slot with a forest caption chip once a real photo exists.
@@ -258,7 +252,7 @@ Softly rounded rectangles: 22px on slabs, panels and photos, 14px on cards and f
 - English and Hindi (31 Oct 2026): a lime pill at the top switches language and shows the other language in its own script ("हिंदी में पढ़ें" / "Read in English", with a translate icon). Everything on the page changes, including the form, its errors and the WhatsApp message; the navigation and footer stay English. Opens in Hindi from /farmers?lang=hi (the link to share with farmers), after a visitor chose Hindi before, or on a phone set to Hindi. Hindi uses Noto Sans Devanagari (in the site's font stacks; Google serves it by script, so it loads only when Hindi is on screen), no tight tracking, and taller lines (headings 1.22 to 1.3, text 1.75) so the marks above and below the letters never clip.
 
 ### Footer
-- "Find us in Jabalpur." over the farm-sunset photo (dark green-black scrim for white text), the address, then Get directions (lime), Call and WhatsApp; below, a frosted dark sheet with the logo + tagline, Explore, Shop and Contact columns, and the copyright and legal-entity lines.
+- "Find us in Jabalpur." over the farm-sunset photo (dark green-black scrim for white text), the closing invitation ("Come for your weekly or monthly groceries, …", moved here from the home page on 3 Nov 2026), the address, then Get directions (lime), Call and WhatsApp; below, a frosted dark sheet with the logo + tagline, Explore, Shop and Contact columns, and the copyright and legal-entity lines.
 - Phones, below 640px (31 Oct 2026; it was 2.1 screens tall at 360px, now 1.2): the three actions are one row of tiles (icon above a short label: Directions, Call, WhatsApp); the logo + tagline are left out (the logo is in the header, the tagline opens Our story); Explore and Shop sit side by side; Contact is a row of chips (both numbers, the email, Instagram as an icon); the legal lines keep clear of the floating WhatsApp button. 640px and up unchanged.
 
 ### Mist panel
@@ -274,7 +268,7 @@ Softly rounded rectangles: 22px on slabs, panels and photos, 14px on cards and f
 - **Do** give the café and the store the same button treatment wherever both appear.
 - **Do** end every grid on a full row (3 / 2 / 1).
 - **Do** use a dashed placeholder for any photo the client hasn't supplied, and replace it from /admin → Site photos.
-- **Do** keep display tracking at or above -0.04em and display size at or below 6rem.
+- **Do** keep display tracking at or above -0.045em and display size at or below 6rem (the home promise "We restore life." alone goes to 7rem).
 
 ### Don't:
 - **Don't** use italics, all-caps letter-spaced labels, em or en dashes in visible copy, or decorative numbering.
