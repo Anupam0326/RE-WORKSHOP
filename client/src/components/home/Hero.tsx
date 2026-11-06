@@ -3,9 +3,11 @@
  * standard hero that does not look generated. One real photograph of the place, the promise, what it is, two doors.
  *
  * The photograph is the shop front on Ridge Road at night (the "home-hero" site photo; the client can replace it in
- * /admin → Site photos). By default it is art-directed: a 16:10 crop for tablets and laptops with the words over its
- * dark lower left, and a 4:5 crop on phones and upright tablets that keeps the whole "Re Workshop" sign (on phones the
- * words sit on the dark ground below it). An uploaded photo is used as one image for both.
+ * /admin → Site photos). 6 Nov 2026 (Anupam): replaced with an enhanced version of the same shot, 1448 x 1086, so the
+ * largest file is 1448 px wide (the 2400 px file is gone). By default it is art-directed: a 16:10 crop for tablets and
+ * laptops with the words over its lower left, and a 4:5 crop on phones and upright tablets that keeps the whole
+ * "Re Workshop" sign (on phones the words sit on the dark ground below it). An uploaded photo is used as one image for
+ * both.
  *
  * The two doors stay equal (client, 18 Oct 2026: café and store carry the same weight), each a page of its own.
  * Motion: the photograph settles from a slight zoom while the lines rise in one after another (index.css,
@@ -31,13 +33,13 @@ function HeroPhoto() {
   return (
     <picture className="hero__media">
       {/* Phones, and tablets held upright: the 4:5 crop, which keeps the whole sign in a tall frame. */}
-      <source media="(max-width: 639px), (max-width: 1023px) and (orientation: portrait)" srcSet="/site/hero-store-portrait-720.webp 720w, /site/hero-store-portrait-1080.webp 1080w" sizes="100vw" width={720} height={900} />
+      <source media="(max-width: 639px), (max-width: 1023px) and (orientation: portrait)" srcSet="/site/hero-store-portrait-720.webp 720w, /site/hero-store-portrait-1080.webp 869w" sizes="100vw" width={720} height={900} />
       <img
         src="/site/hero-store-1600.webp"
-        srcSet="/site/hero-store-800.webp 800w, /site/hero-store-1600.webp 1600w, /site/hero-store-2400.webp 2400w"
+        srcSet="/site/hero-store-800.webp 800w, /site/hero-store-1600.webp 1448w"
         sizes="100vw"
-        width={1600}
-        height={1000}
+        width={1448}
+        height={905}
         alt="The Re Workshop shop front on Ridge Road at night: the lit sign, and the café open inside"
         fetchPriority="high"
         decoding="async"

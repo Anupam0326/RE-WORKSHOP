@@ -19,9 +19,9 @@ const widths: Record<string, [number, number]> = {
   "cafe-room": [1158, 800],
   "kitchen-bao-pocket": [1200, 800],
   "store-front": [1600, 800],
-  // Home first screen (3 Nov 2026): the shop front at night, cut from the 4000 x 3000 original; 16:10 here, plus a
-  // 4:5 phone crop and a 2400 px file used directly by components/home/Hero.tsx.
-  "hero-store": [1600, 800],
+  // Home first screen: the shop front at night. 6 Nov 2026 (Anupam): an enhanced version of the 3 Nov photo, 1448 x 1086;
+  // 16:10 here, plus a 4:5 phone crop used directly by components/home/Hero.tsx.
+  "hero-store": [1448, 800],
   // The farm (Farm Images, 23 Oct 2026): seed work only, no vegetables.
   "seed-furrows": [1280, 800],
   "seed-grain-field": [960, 800],
