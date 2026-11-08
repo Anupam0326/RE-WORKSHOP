@@ -62,7 +62,7 @@ A special poha from Jharkhand. The source describes it as low in glycaemic index
 ## Brunch / Lunch
 
 ### Pyaj Paneer Paratha — ₹210
-Homemade A2-milk paneer and onion stuffed in layers to make a crispy paratha.
+Homemade A2-milk paneer and onion stuffed in layers to make a crispy paratha made with desi ghee.
 
 ### Jwar Litti Chokha — ₹230
 A traditional dish from Bihar, made with jowar/bajra flour and stuffed with homemade sattu (barley and chickpea).

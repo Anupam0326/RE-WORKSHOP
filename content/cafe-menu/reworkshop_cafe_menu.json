@@ -13,7 +13,8 @@
     "Descriptions have been lightly edited for spelling, punctuation and readability without intentionally changing the dishes.",
     "No dietary, allergen, nutrition, availability or tax information has been added unless it appears in the source menu.",
     "Items with missing or questionable source text are identified in review_notes; confirm those details before publishing.",
-    "22 Oct 2026 (website): two descriptions reworded so no editor wording reaches customers (Aadanshilpa Poha, Banana Protein Smoothie); see their review_notes. The file as supplied is kept beside this one as reworkshop_cafe_menu.as-supplied.json."
+    "22 Oct 2026 (website): two descriptions reworded so no editor wording reaches customers (Aadanshilpa Poha, Banana Protein Smoothie); see their review_notes. The file as supplied is kept beside this one as reworkshop_cafe_menu.as-supplied.json.",
+    "8 Nov 2026 (website, client's note): Pyaj Paneer Paratha now ends \"made with desi ghee\"."
   ],
   "categories": [
     {
@@ -137,7 +138,7 @@
           "id": "pyaj-paneer-paratha",
           "name": "Pyaj Paneer Paratha",
           "price": 210,
-          "description": "Homemade A2-milk paneer and onion stuffed in layers to make a crispy paratha."
+          "description": "Homemade A2-milk paneer and onion stuffed in layers to make a crispy paratha made with desi ghee."
         },
         {
           "id": "jwar-litti-chokha",

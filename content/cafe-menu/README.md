@@ -22,6 +22,11 @@ Dish photos are listed in `client/src/data/cafeMenu.ts` (`dishPhotoIds`); the ph
 - Aadanshilpa Poha: "The source describes it as low in glycaemic index and high in iron." became "A special poha from Jharkhand." The health claim waits for the client's confirmation.
 - Banana Protein Smoothie: "described in the source as a post-workout drink" became "A post-workout drink combining plant protein and banana."
 
+## Edits from the client's notes (8 Nov 2026)
+
+- Pyaj Paneer Paratha: "made with desi ghee" added to the end of its description.
+- Asked for, waiting on the client: the serving size of the Shrikhand and of the Halwa. Nothing is shown until they give it.
+
 ## To confirm with the client before launch
 
 - Bao Momos (8 Pieces): description missing (the printed menu repeats the Curd Millet Idli text). The "BAO POCKET" photo was not matched to it.

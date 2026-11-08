@@ -507,7 +507,8 @@
   .mcard__word { font-size: clamp(2.6rem, 1.8rem + 3vw, 4.25rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.9; }
   .mcard__lead { font-family: var(--display); font-size: var(--fs-lead); font-weight: 500; letter-spacing: -0.02em; line-height: 1.35; }
   .mcard--re { border-radius: var(--r-lg) var(--r-lg) var(--r-lg) 96px; background: var(--forest) var(--grain-on-dark); color: #fff; box-shadow: var(--shadow-panel); }
-  .re-prefix { margin-right: 1px; color: var(--lime); font-family: var(--display); font-weight: 700; letter-spacing: -0.03em; }
+  /* "Re" is joined to its word; only the colour differs (client, 8 Nov 2026). */
+  .re-prefix { color: var(--lime); }
   .mcard--re .mcard__word { color: var(--lime); }
   .mcard__seal { position: absolute; right: -60px; top: -60px; width: 240px; height: 240px; color: rgba(207, 232, 157, 0.07); }
   .mcard__points { display: grid; margin-top: 4px; border-top: 1px solid var(--line-light); }
@@ -615,12 +616,15 @@
   .code__panel { padding: clamp(40px, 7vw, 80px) clamp(18px, 5vw, 64px); border-radius: var(--r-lg) 96px var(--r-lg) var(--r-lg); }
   .code__head { display: grid; justify-items: center; gap: 14px; max-width: 720px; margin: 0 auto clamp(28px, 5vw, 48px); text-align: center; }
   .code__head h2 { font-size: var(--fs-h2); }
-  .code__intro { max-width: 58ch; color: rgba(255, 255, 255, 0.72); font-size: 1.0625rem; }
+  /* 8 Nov 2026: the intro is now the short lead-in "Everything we cook contains:", so it is set as a line of its own. */
+  .code__intro { max-width: 58ch; color: rgba(255, 255, 255, 0.86); font-family: var(--display); font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.6rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1.3; }
   /* One big "Zero" is the focal point; the four ingredients it rules out sit beside it. */
   .zero { display: grid; justify-items: center; gap: clamp(14px, 3vw, 24px); }
-  .zero__word { color: var(--lime); font-family: var(--display); font-size: clamp(5.5rem, 3.2rem + 9vw, 11rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.8; padding-right: 0.06em; }
+  /* 8 Nov 2026 (client: "the font size here needs to be adjusted"): "Zero" came down (max 176px, now 112px) and the four
+     ingredients went up, so "Zero Maida" reads as one phrase instead of one huge word beside small print. */
+  .zero__word { color: var(--lime); font-family: var(--display); font-size: clamp(4.5rem, 2.9rem + 5.2vw, 7rem); font-weight: 700; letter-spacing: -0.04em; line-height: 0.8; padding-right: 0.06em; }
   .zero__list { display: grid; width: min(100%, 440px); }
-  .zero__item { padding: 8px 6px; color: #fff; font-family: var(--display); font-size: clamp(1.45rem, 1.15rem + 1vw, 2.1rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; text-align: center; }
+  .zero__item { padding: 8px 6px; color: #fff; font-family: var(--display); font-size: clamp(1.6rem, 1.3rem + 1vw, 2.25rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; text-align: center; }
   @media (min-width: 760px) {
     .zero { grid-template-columns: auto auto; justify-content: center; align-items: center; column-gap: clamp(36px, 5vw, 72px); }
     .zero__list { width: auto; min-width: 340px; }
@@ -1142,13 +1146,15 @@
   .catalog__head h2, .related .head h2, .statement__text { font-size: 1.5rem; }
   .dig__question { font-size: 1.375rem; }
   .duo__title, .board__title { font-size: 1.3125rem; }
-  .menu-cat__title, .zero__item, .dig-plate__name { font-size: 1.125rem; }
+  .menu-cat__title, .dig-plate__name { font-size: 1.125rem; }
+  .zero__item { font-size: 1.375rem; }
   /* Display words keep their scale against the page, a step smaller. */
-  .zero__word { font-size: 4.25rem; }
+  .zero__word { font-size: 3.5rem; }
   .mcard__word { font-size: 2.25rem; }
   .product__price, .cart-summary__total strong { font-size: 1.625rem; }
   /* Reading text */
-  .head__intro, .intro__text, .duo__body, .today__text p, .chapter__text, .dig__prompt, .code__intro, .page-head__lead, .farm-form__intro { font-size: 1rem; }
+  .head__intro, .intro__text, .duo__body, .today__text p, .chapter__text, .dig__prompt, .page-head__lead, .farm-form__intro { font-size: 1rem; }
+  .code__intro { font-size: 1.25rem; }
   .mcard__points li { font-size: 1.0625rem; }
   .founder__lead, .consult__who strong { font-size: 1.0625rem; }
   /* Buttons */

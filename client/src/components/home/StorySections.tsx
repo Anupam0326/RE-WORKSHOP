@@ -25,11 +25,13 @@ export function Meaning() {
             <ul className="mcard__points">
               {meaning.re.points.map((point) => (
                 <li key={point}>
+                  {/* 8 Nov 2026 (client): "Re" joined to its word, only the colour different. The row is a flex row with a
+                      gap, so the word is one element; as two, the gap split it into "Re storing". */}
                   {point.startsWith("Re") ? (
-                    <>
+                    <span>
                       <span className="re-prefix">Re</span>
                       {point.slice(2)}
-                    </>
+                    </span>
                   ) : (
                     point
                   )}

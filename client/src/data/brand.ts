@@ -162,10 +162,15 @@ export const origin: { heading: string; paragraphs: string[]; note: string } | n
   paragraphs: [
     "Re Workshop began when one of its founders, Dr. (Mrs.) Swati Chhajed, faced several health problems: hypothyroidism, photosensitive dermatitis, neuralgia and more. She reversed all of them by changing the food she ate every day to a sustainable, organic, plant-based diet. And having seen what clean food did to her is why reworkshop came into existence.",
   ],
-  note: "Please don’t stop or change any medicine without your doctor.",
+  note: "Please don’t stop or change any medicine without consulting your doctor.",
 };
 
-export const brandStatement = "We understand your need to eat healthy in spite of your busy routine!";
+/**
+ * 8 Nov 2026: "in spite" is held together by a no-break space. The line broke between "in" and "spite" at every width,
+ * which reads like a mistake; the client's note ("We..... inspite of your busy routine") most likely points at it.
+ * The words are split on ordinary spaces, so "in spite" lights up as one word.
+ */
+export const brandStatement = "We understand your need to eat healthy in\u00A0spite of your busy routine!";
 
 /**
  * Client copy changes, 28 Oct 2026 ("ReWorkshop Website: Exact Copy Updates"): approved phrases are used verbatim,
@@ -185,8 +190,14 @@ export const consultation = {
   name: "Dr. (Mrs.) Swati Chhajed",
   role: "Founder Director, Re Workshop",
   qualifications: ["Veterinary Pathologist", "Certified Nutritionist", "Working in the field of wellness for more than a decade"],
-  story: "She reversed her own hypothyroidism, photosensitive dermatitis, neuralgia and more without medication.",
-  note: "This is a lifestyle and nutrition chat, not medical treatment; please don’t stop or change any medicine without your doctor.",
+  /**
+   * 8 Nov 2026 (client): "Chat with Dr Mrs Swati Chhajed who has...... medication and to know more about lifestyle diseases
+   * and nutrition." The middle is her story as it stood; her name is written the site's way, and "and to know" became
+   * "to know" so the sentence reads (the client can put the "and" back).
+   */
+  story:
+    "Chat with Dr. (Mrs.) Swati Chhajed, who has reversed her own hypothyroidism, photosensitive dermatitis, neuralgia and more without medication, to know more about lifestyle diseases and nutrition.",
+  note: "This is a lifestyle and nutrition chat, not medical treatment; please don’t stop or change any medicine without consulting your doctor.",
   cta: "Chat with Dr. Swati on WhatsApp",
   /** Pre-filled first message; the visitor can edit it in WhatsApp before sending. */
   message: "Hello Dr. Swati, I found you on the Re Workshop website and would like a free consultation about my lifestyle and health.",
@@ -380,12 +391,16 @@ export const founders = {
   ] satisfies Founder[],
 };
 
+/**
+ * 8 Nov 2026 (client notes via Anupam): the heading became "An Open kitchen that resets your body." (the capital O is the
+ * client's, kept as written) and the concept line now ends "a café designed entirely around health and wellness".
+ */
 export const experience = {
   eyebrow: "The Re Workshop experience: our store and open-kitchen café",
-  heading: "A kitchen that resets your body.",
+  heading: "An Open kitchen that resets your body.",
   invite: "We invite you to step inside a space where conscious living comes to life.",
   concept:
-    "Re Workshop is a unique, conceptual destination that blends a premium grocery store with a mindful, live wellness café designed entirely around transparency.",
+    "Re Workshop is a unique, conceptual destination that blends a premium grocery store with a café designed entirely around health and wellness.",
   openKitchen: {
     title: "The transparent open-kitchen café",
     body: "Take a seat at our wellness café and watch your health reset in real-time.",
@@ -411,10 +426,14 @@ export const milletMenu = {
   ],
 };
 
-/** The one place the "zero maida" code appears, for the café and the foods we make. */
+/**
+ * The one place the "zero maida" code appears, for the café and the foods we make. 8 Nov 2026 (client): the intro is now
+ * "Everything we cook contains:", read straight into "Zero Maida, Zero Refined Oil…"; it was "True to our word, everything
+ * we cook in our live café and craft for your kitchen follows a strict code of health:".
+ */
 export const noCompromise = {
   heading: "The No-Compromise Code",
-  intro: "True to our word, everything we cook in our live café and craft for your kitchen follows a strict code of health:",
+  intro: "Everything we cook contains:",
   rules: ["Maida", "Refined Oil", "Processed White Sugar", "Corn Starch"],
 };
 
