@@ -1,5 +1,12 @@
 /**
- * Home. 3 Nov 2026: a reviewer found the site cluttered ("too much data") and the menu-board hero weak. Eleven sections
+ * Home. 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam): the order now follows what a
+ * first-time visitor asks, one answer per section:
+ * what is this place (hero: a strip of photos, the two doors) → the open kitchen and the store, side by side → what the
+ * food is made without (the No-Compromise Code) → where the grain comes from (the farm, pick a grain, for farmers) →
+ * who to talk to (the free consultation) → where it is (the footer: address, directions, call, WhatsApp).
+ * The consultation used to be second; it now closes the page next to the contact details.
+ *
+ * Earlier: 3 Nov 2026: a reviewer found the site cluttered ("too much data") and the menu-board hero weak. Eleven sections
  * became six, each saying one thing with one way on to the page that holds the rest:
  * the shop front (hero) → the free consultation → the café and the store side by side → the No-Compromise Code → the
  * farm and "pick a grain" → the footer (visit us).
@@ -26,10 +33,10 @@ export default function Home() {
       <SiteHeader />
       <main id="main" className="home">
         <Hero />
-        <Consultation />
         <CafeAndStore />
         <NoCompromise />
         <FarmAndGrain />
+        <Consultation />
       </main>
       <SiteFooter />
     </div>

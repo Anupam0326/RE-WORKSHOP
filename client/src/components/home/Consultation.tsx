@@ -1,4 +1,10 @@
 /**
+ * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam): this band no longer sits under the
+ * hero, where it made the home page look like it was promoting the practitioner before the café or the store. It now
+ * closes the page, right above the address and the contact buttons, so the journey ends: what we cook, what we sell,
+ * how it is grown, then talk to Dr. Swati or visit. The client's disclaimer line and the "not medical treatment"
+ * clause are gone from here. 15 Nov 2026, later (Anupam, with Dr. Swati's approval): the medicine sentence went too, here and on Our story.
+ *
  * Free consultation with Dr. (Mrs.) Swati Chhajed (client, 23 Oct 2026): "anyone willing to have a chat session with
  * her can connect directly", visible at a glance. Second section of the home page, and the target of the lime
  * "Free consultation" button in the navigation on every page (#consult).
@@ -14,7 +20,7 @@
 import { MessageCircle } from "lucide-react";
 import { ReMark } from "@/components/BrandMark";
 import { useSiteMedia } from "@/components/SiteImage";
-import { consultation, personalExperienceDisclaimer } from "@/data/brand";
+import { consultation } from "@/data/brand";
 import { consultChatUrl } from "@/lib/whatsapp";
 
 function Avatar() {
@@ -43,9 +49,6 @@ export function Consultation() {
             {consultation.title} <span className="tone-mute">{consultation.topic}</span>
           </h2>
           <p className="consult__story">{consultation.story}</p>
-          <p className="consult__note">
-            <span className="disclaimer">{personalExperienceDisclaimer}</span> {consultation.note}
-          </p>
         </div>
         <div className="consult__act" data-reveal>
           <div className="consult__who">

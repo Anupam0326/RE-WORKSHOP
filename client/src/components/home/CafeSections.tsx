@@ -1,4 +1,9 @@
-/** The No-Compromise Code: on the home page and the café page (it covers the café and the packaged foods). */
+/**
+ * The No-Compromise Code, on the home page (it covers the café and the packaged foods).
+ * 15 Nov 2026 (the reviewer's brief): a small hand-written "We believe", underlined, sits above the heading, so the code
+ * reads as something the people behind the place hold to, not a label. The café page no longer repeats this panel; its
+ * pointers carry the same promise in one line.
+ */
 
 import type { CSSProperties } from "react";
 import { noCompromise } from "@/data/brand";
@@ -13,6 +18,7 @@ export function NoCompromise() {
       <div className="wrap">
         <div className="panel panel--dark grain code__panel">
           <div className="code__head">
+            <p className="code__kicker">{noCompromise.kicker}</p>
             <h2 id="code-title">{noCompromise.heading}</h2>
             <p className="code__intro">{noCompromise.intro}</p>
           </div>

@@ -5,12 +5,17 @@
 //   node scripts/cafe-menu.mjs          check the source and write the customer copy
 //   node scripts/cafe-menu.mjs --check  only check that the customer copy matches the source (exit 1 if not)
 //
-// To change a dish or a price: edit the source JSON, run this script, commit both files.
+// It also writes client/src/data/cafeMenuStats.json (15 Nov 2026): how many dishes and drinks the menu lists and its
+// lowest and highest price. The home page quotes those three numbers; importing them from this small file keeps the
+// whole menu out of the script every visitor downloads first.
+//
+// To change a dish or a price: edit the source JSON, run this script, commit all three files.
 
 import { readFileSync, writeFileSync } from "node:fs";
 
 const SOURCE = new URL("../content/cafe-menu/reworkshop_cafe_menu.json", import.meta.url);
 const TARGET = new URL("../client/src/data/cafeMenu.json", import.meta.url);
+const STATS = new URL("../client/src/data/cafeMenuStats.json", import.meta.url);
 
 const source = JSON.parse(readFileSync(SOURCE, "utf8"));
 const problems = [];
@@ -39,15 +44,25 @@ if (problems.length) {
 
 const output = `${JSON.stringify({ name: source.menu_name, currency: source.currency.code, categories }, null, 2)}\n`;
 const count = categories.reduce((sum, category) => sum + category.items.length, 0);
+const prices = categories.flatMap((category) => category.items.map((item) => item.price));
+const stats = `${JSON.stringify({ count, low: Math.min(...prices), high: Math.max(...prices) })}\n`;
+// Compared without regard to line endings: a Windows checkout stores these files with CRLF.
+const read = (url) => {
+  try {
+    return readFileSync(url, "utf8").replace(/\r\n/g, "\n");
+  } catch {
+    return "";
+  }
+};
 
 if (process.argv.includes("--check")) {
-  const current = readFileSync(TARGET, "utf8");
-  if (current !== output) {
-    console.error("client/src/data/cafeMenu.json is out of date: run node scripts/cafe-menu.mjs");
+  if (read(TARGET) !== output || read(STATS) !== stats) {
+    console.error("client/src/data/cafeMenu.json or cafeMenuStats.json is out of date: run node scripts/cafe-menu.mjs");
     process.exit(1);
   }
   console.log(`Café menu up to date: ${categories.length} categories, ${count} items.`);
 } else {
   writeFileSync(TARGET, output);
-  console.log(`Wrote client/src/data/cafeMenu.json: ${categories.length} categories, ${count} items.`);
+  writeFileSync(STATS, stats);
+  console.log(`Wrote client/src/data/cafeMenu.json and cafeMenuStats.json: ${categories.length} categories, ${count} items.`);
 }

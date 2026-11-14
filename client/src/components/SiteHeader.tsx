@@ -1,4 +1,14 @@
 /**
+ * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam):
+ * - "Menu" (the café's menu, a jump into the café page) took the place of "Track your grain". Grain tracking is still on
+ *   Our story, on the home page's farm section and on the three grains' product pages, where the page explains why you
+ *   would track a grain; as a bare navigation word it raised the question instead of answering it.
+ * - Phones: the bar used to show only the logo, the lime "Free consult" button, the basket and the three-line button, so
+ *   the places to go were hidden until that button was tapped. Now "Café" and "Shop" are in the bar itself, the
+ *   three-line button says "More" beside it (from 380px), and the consultation button moved into the menu (still lime,
+ *   first in the list of actions). It is back in the bar from 560px, as a quiet outline, not the brightest thing on the
+ *   first screen: the consultation is where the home page ends now, not where it starts.
+ *
  * Floating pill navigation: brand, Shop, Café, Our story, Track your grain (a jump into Our story), For farmers, Visit us,
  * admin + basket.
  * Client feedback 18 Oct 2026: getting to the shop, the café and the products was confusing, so every item is now a
@@ -22,9 +32,9 @@ type NavItem = { label: string; href?: string; match?: string[]; section?: strin
 export const navItems: NavItem[] = [
   { label: "Shop", href: "/shop", match: ["/shop", "/product", "/cart"] },
   { label: "Café", href: "/cafe" },
+  // 15 Nov 2026: the café's menu, one tap from anywhere (it replaced "Track your grain", see the note above).
+  { label: "Menu", section: "menu", page: "/cafe" },
   { label: "Our story", href: "/our-story" },
-  // 22 Oct 2026: a direct way to the grain tracker on Our story.
-  { label: "Track your grain", section: "trace", page: "/our-story" },
   // 31 Oct 2026 (client): farmers who want to farm this way can get in touch (pages/Farmers.tsx).
   { label: "For farmers", href: "/farmers" },
   { label: "Visit us", section: "visit" },
@@ -102,6 +112,14 @@ export function SiteHeader() {
               ),
             )}
           </nav>
+          {/* Phones and small tablets: the two main places, always in sight. The full list is in the menu. */}
+          <nav className="nav__quick" aria-label="Main places">
+            {navItems.slice(0, 2).map((item) => (
+              <Link key={item.label} href={item.href!} className={isCurrent(item, location) ? "nav__link is-active" : "nav__link"} aria-current={isCurrent(item, location) ? "page" : undefined}>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
           <div className="nav__actions">
             <SectionLink id="consult" className="nav__consult" aria-label={`${consultation.nav} with ${consultation.name}`}>
               <MessageCircle size={16} aria-hidden="true" />
@@ -119,7 +137,10 @@ export function SiteHeader() {
               {itemCount > 0 && <span className="nav__count">{itemCount}</span>}
             </Link>
             <button ref={menuButtonRef} type="button" className="nav__icon nav__menu" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu">
-              <Menu size={21} />
+              <Menu size={21} aria-hidden="true" />
+              <span className="nav__menu-label" aria-hidden="true">
+                More
+              </span>
             </button>
           </div>
         </div>

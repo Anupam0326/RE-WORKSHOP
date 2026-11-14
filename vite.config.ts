@@ -4,10 +4,11 @@ import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { defineConfig } from "vite";
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin()];
-
-export default defineConfig({
-  plugins,
+// 15 Nov 2026: the source-location plugin (it writes data-loc="client/src/…:line" on every element) is for the editor
+// only. It was also running in production builds, where it added 1,250 attributes to the scripts every visitor
+// downloads and showed the source paths to anyone who looked.
+export default defineConfig(({ command }) => ({
+  plugins: [react(), tailwindcss(), ...(command === "serve" ? [jsxLocPlugin()] : [])],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -31,4 +32,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

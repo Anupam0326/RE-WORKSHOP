@@ -276,3 +276,19 @@ Softly rounded rectangles: 22px on slabs, panels and photos, 14px on cards and f
 - **Don't** use stock or AI-generated photos of the farm, café, store or founders.
 - **Don't** repeat the "zero maida" statement more than once on a page.
 - **Don't** add a colored side stripe (border-left over 1px) or animate padding.
+
+## Change brief, 15 Nov 2026
+
+These replace the matching entries above.
+
+- **Home hero**: a full-width strip of photos (scroll snapping; dots, arrows, pause). One sentence in two tones, 2rem on phones to 3.375rem, max 27ch: "We make food for" quiet, the rest white. The line under it changes with the photo. Only the first photo loads with the page; the rest load one ahead, after the page has loaded. It turns by itself every 6.5 s until touched; never with reduced motion.
+- **Café half (home)**: a forest panel, "An Open kitchen" in lime (one line), "that resets your body." smaller in white, three pointers (icon tile, bold title, one plain line), lime button.
+- **Store half (home)**: "The Organic Grocery Store" on one line at every width (the size gives way), the product count under it, one sentence, shelf links, a dark button.
+- **No-Compromise Code**: "We believe" above the heading in a hand-written face (Caveat, a 3.8 KB file with only those letters, served from the site), lime, underlined, turned 3 degrees. The only hand-written text on the site.
+- **Farm**: the heading sits on the photo over a dark fade at its foot.
+- **Free consultation**: last section of the home page. Navigation button: 1px lime outline, lime text, no fill.
+- **Navigation**: Shop, Café, Menu, Our story, For farmers, Visit us. Phones: Shop and Café in the bar, "More" beside the three-line icon from 380px.
+- **Footer**: the address in display type (1.375rem on phones to 2.5rem), a small lime "Visit Re Workshop" above it. The link sheet has no backdrop blur on phones.
+- **Café page**: headline as on the home panel but forest on mist; four pointers; a strip of 4:3 photos with captions under them, the next photo showing at the edge. Menu: pill tabs (wrap on desktop, scroll sideways on phones), rows of dish and price with a hairline between, two columns from 860px, a chevron where a description opens.
+- **Retired**: the café menu book and its Slab shadow, the café page's two photo cards, the light statement panel, the home consultation band's disclaimer line.
+- **Our story arc**: below 860px it no longer pins or follows the scroll; arrows and taps change the step.

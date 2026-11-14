@@ -88,8 +88,13 @@ function usePinnable(disabled: boolean, arcRef: RefObject<HTMLDivElement | null>
       if (wide.matches) {
         setPinnable((height - DIAL_RESERVE) * 2 >= DIAL_MIN);
       } else {
-        const arc = arcRef.current;
-        setPinnable(!!arc && arc.offsetHeight + NARROW_EXTRA <= height - PIN_TOP);
+        // 15 Nov 2026 (the reviewer's brief: the site felt jittery on Rs. 15-20,000 phones, and this scroll-driven arc
+        // was the effect already suspected of being heavy): below 860px the arc no longer pins and follows the scroll.
+        // It redrew the band, the glow and the lit steps on every scroll frame; the arrows and a tap on a step change
+        // the step instead, as they already did with reduced motion and on short phones. Our story is also about two
+        // screens shorter on a phone for it. To bring the walk back on phones, restore the line below.
+        // const arc = arcRef.current; setPinnable(!!arc && arc.offsetHeight + NARROW_EXTRA <= height - PIN_TOP);
+        setPinnable(false);
       }
     };
     decide();

@@ -1,63 +1,115 @@
 /**
- * Home first screen (3 Nov 2026). A reviewer found the site cluttered and the menu-board hero weak; Anupam asked for a
- * standard hero that does not look generated. One real photograph of the place, the promise, what it is, two doors.
+ * Home first screen.
  *
- * The photograph is the shop front on Ridge Road at night (the "home-hero" site photo; the client can replace it in
- * /admin → Site photos). 6 Nov 2026 (Anupam): replaced with an enhanced version of the same shot, 1448 x 1086, so the
- * largest file is 1448 px wide (the 2400 px file is gone). By default it is art-directed: a 16:10 crop for tablets and
- * laptops with the words over its lower left, and a 4:5 crop on phones and upright tablets that keeps the whole
- * "Re Workshop" sign (on phones the words sit on the dark ground below it). An uploaded photo is used as one image for
- * both.
+ * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam): one photograph became a strip of
+ * photographs the visitor swipes through, like an Instagram post, because a first-time visitor on a phone saw the sign
+ * and two buttons and could not tell what the place offers. Each photo shows one thing (the shop front, inside, a dish,
+ * the farm) and the line under the headline changes with the photo on screen. The headline is new too: the reviewer's
+ * "We make food for your parents, grandparents and your kids" in place of "We don’t just sell organic food. We restore
+ * life." (data/brand.ts → hero). The free-consultation band no longer follows the hero; it closes the page.
+ *
+ * Photos are site photo slots (/admin → Site photos), the client's own, never stock. Two slots have no photo yet (the
+ * open kitchen, the store's shelves); they join the strip by themselves when the store uploads one. By default each
+ * photo is art-directed: a 16:10 crop for tablets and laptops and a 4:5 crop for phones and upright tablets. An
+ * uploaded photo is used as one image for both.
+ *
+ * Weight: only the first photo loads with the page (high priority); the rest wait until the page has finished loading
+ * and then load one ahead of the photo on screen, or wait for a swipe if the phone's data saver is on
+ * (hooks/useCarousel.ts). The swipe is the browser's own
+ * scroll snapping. The strip turns by itself every few seconds until it is touched, and never with reduced motion.
  *
  * The two doors stay equal (client, 18 Oct 2026: café and store carry the same weight), each a page of its own.
- * Motion: the photograph settles from a slight zoom while the lines rise in one after another (index.css,
- * "Home hero"). With reduced motion everything is simply there.
  */
 
 import { ShoppingBasket, UtensilsCrossed } from "lucide-react";
 import { Link } from "wouter";
-import { useSiteMedia } from "@/components/SiteImage";
+import { CarouselControls } from "@/components/CarouselControls";
 import { useCatalog } from "@/contexts/CatalogContext";
+import { hero } from "@/data/brand";
+import type { MediaSlotKey } from "@/data/media";
+import { useCarousel } from "@/hooks/useCarousel";
 
-function HeroPhoto() {
-  const { getMedia } = useCatalog();
-  const { photo, alt } = useSiteMedia("home-hero");
-  const uploaded = getMedia("home-hero");
-  if (uploaded && photo) {
-    return (
-      <div className="hero__media">
-        <img src={photo.url} srcSet={photo.urlSmall ? `${photo.urlSmall} 600w, ${photo.url} 1400w` : undefined} sizes="100vw" width={1400} height={875} alt={alt} fetchPriority="high" decoding="async" />
-      </div>
-    );
+type Art = {
+  /** File name stem in /site: <stem>-800.webp, <stem>-1600.webp, <stem>-portrait-720.webp, <stem>-portrait-1080.webp. */
+  stem: string;
+  /** Real pixel widths of the 16:10 "1600" file and the 4:5 "1080" file (phone photos are smaller than their names). */
+  wide: number;
+  tall: number;
+  alt: string;
+};
+
+type Slide = { slot: MediaSlotKey; art: Art | null; caption: string; uploadedCaption?: string };
+
+const slides = (productCount: number): Slide[] => [
+  { slot: "home-hero", art: { stem: "hero-store", wide: 1448, tall: 869, alt: "The Re Workshop shop front on Ridge Road at night: the lit sign, and the café open inside" }, caption: hero.captions.front },
+  { slot: "home-cafe", art: { stem: "hero-inside", wide: 1158, tall: 695, alt: "Inside Re Workshop: a café table in the middle of the room, shelves of packed grains and flours along the walls" }, caption: hero.captions.inside },
+  { slot: "home-kitchen", art: null, caption: hero.captions.kitchen },
+  { slot: "home-dish", art: { stem: "hero-dish", wide: 1200, tall: 1080, alt: "Besan Cheela on a plate, folded, with chutneys" }, caption: hero.captions.dish, uploadedCaption: hero.captions.dishGeneric },
+  { slot: "home-shelves", art: null, caption: hero.captions.shelves(productCount) },
+  { slot: "home-farm", art: { stem: "hero-farm", wide: 960, tall: 960, alt: "Mustard in flower at the edge of a green field on the farm" }, caption: hero.captions.farm },
+];
+
+function SlidePhoto({ slide, first, uploaded }: { slide: Slide; first: boolean; uploaded: { url: string; urlSmall: string | null; alt: string } | undefined }) {
+  // Later photos are only put on the page when they are next in line (useCarousel → mayLoad), so they can load at once.
+  const loading = "eager";
+  const priority = first ? "high" : "low";
+  if (uploaded) {
+    return <img src={uploaded.url} srcSet={uploaded.urlSmall ? `${uploaded.urlSmall} 600w, ${uploaded.url} 1400w` : undefined} sizes="100vw" width={1400} height={875} alt={uploaded.alt || slide.caption} loading={loading} fetchPriority={priority} decoding="async" />;
   }
+  const art = slide.art!;
   return (
-    <picture className="hero__media">
-      {/* Phones, and tablets held upright: the 4:5 crop, which keeps the whole sign in a tall frame. */}
-      <source media="(max-width: 639px), (max-width: 1023px) and (orientation: portrait)" srcSet="/site/hero-store-portrait-720.webp 720w, /site/hero-store-portrait-1080.webp 869w" sizes="100vw" width={720} height={900} />
-      <img
-        src="/site/hero-store-1600.webp"
-        srcSet="/site/hero-store-800.webp 800w, /site/hero-store-1600.webp 1448w"
+    <picture>
+      {/* Phones, and tablets held upright: the 4:5 crop. */}
+      <source
+        media="(max-width: 639px), (max-width: 1023px) and (orientation: portrait)"
+        srcSet={`/site/${art.stem}-portrait-720.webp ${Math.min(720, art.tall)}w, /site/${art.stem}-portrait-1080.webp ${art.tall}w`}
         sizes="100vw"
-        width={1448}
-        height={905}
-        alt="The Re Workshop shop front on Ridge Road at night: the lit sign, and the café open inside"
-        fetchPriority="high"
-        decoding="async"
+        width={720}
+        height={900}
       />
+      <img src={`/site/${art.stem}-1600.webp`} srcSet={`/site/${art.stem}-800.webp 800w, /site/${art.stem}-1600.webp ${art.wide}w`} sizes="100vw" width={1448} height={905} alt={art.alt} loading={loading} fetchPriority={priority} decoding="async" />
     </picture>
   );
 }
 
 export function Hero() {
+  const { getMedia, products } = useCatalog();
+  // A slide exists when the store has uploaded its photo or the site carries a default for it.
+  const shown = slides(products.length)
+    .map((slide) => ({ slide, uploaded: getMedia(slide.slot) }))
+    .filter(({ slide, uploaded }) => uploaded || slide.art);
+  const carousel = useCarousel(shown.length, { auto: 6500 });
+  const current = shown[Math.min(carousel.active, shown.length - 1)];
+  const caption = current.uploaded ? current.uploaded.caption || current.slide.uploadedCaption || current.slide.caption : current.slide.caption;
+
   return (
-    <section className="hero" aria-labelledby="hero-title">
-      <HeroPhoto />
+    <section ref={carousel.rootRef} className="hero" aria-labelledby="hero-title">
+      <div {...carousel.stripProps} className="hero__strip" role="group" aria-roledescription="carousel" aria-label="Photos of Re Workshop: swipe, or use the arrow keys">
+        {shown.map(({ slide, uploaded }, index) => (
+          <div key={slide.slot} className="hero__slide" role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${shown.length}`}>
+            {carousel.mayLoad(index) && <SlidePhoto slide={slide} first={index === 0} uploaded={uploaded} />}
+          </div>
+        ))}
+      </div>
       <div className="wrap hero__inner">
+        <CarouselControls
+          className="hero__ctl"
+          label="Photos of Re Workshop"
+          count={shown.length}
+          active={carousel.active}
+          onSelect={carousel.select}
+          onPrevious={carousel.previous}
+          onNext={carousel.next}
+          playing={carousel.playing}
+          onToggle={carousel.canPlay ? carousel.toggle : undefined}
+        />
         <h1 id="hero-title" className="hero__title">
-          <span className="hero__lead">We don’t just sell organic food.</span>{" "}
-          <span className="hero__main">We restore life.</span>
+          <span className="hero__lead">{hero.lead}</span> <span className="hero__main">{hero.main}</span>
         </h1>
-        <p className="hero__what">Organic food store and café in Jabalpur.</p>
+        {/* One line per photo. The key restarts the fade so the change is seen; screen readers hear the new line. */}
+        <p className="hero__what" aria-live="polite">
+          <span key={current.slide.slot}>{caption}</span>
+        </p>
         <div className="hero__doors">
           <Link href="/cafe" className="btn btn--lime hero__door">
             <UtensilsCrossed size={18} aria-hidden="true" />

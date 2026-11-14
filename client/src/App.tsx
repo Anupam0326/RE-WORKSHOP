@@ -30,8 +30,15 @@ function RouteFallback() {
   return <div className="route-fallback" aria-busy="true" aria-label="Loading" />;
 }
 
+/**
+ * 15 Nov 2026 (low-cost phones on mobile data): the other pages' scripts are fetched only after this page has finished
+ * loading and the browser is idle, so they never compete with the first screen; and not at all when the phone's data
+ * saver is on or the connection reports itself as 2G (the page a visitor opens then loads when they open it).
+ */
 function usePrefetchRoutes() {
   useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (connection?.saveData || /2g/.test(connection?.effectiveType ?? "")) return;
     const prefetch = () => {
       loadShop();
       loadProduct();
@@ -40,12 +47,18 @@ function usePrefetchRoutes() {
       loadStory();
       loadFarmers();
     };
-    const idle = (window as Window & { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback;
-    if (idle) idle(prefetch);
-    else {
-      const timer = window.setTimeout(prefetch, 2500);
-      return () => window.clearTimeout(timer);
-    }
+    let timer = 0;
+    const whenIdle = () => {
+      const idle = (window as Window & { requestIdleCallback?: (cb: () => void, options?: { timeout: number }) => number }).requestIdleCallback;
+      if (idle) idle(prefetch, { timeout: 4000 });
+      else timer = window.setTimeout(prefetch, 2500);
+    };
+    if (document.readyState === "complete") whenIdle();
+    else window.addEventListener("load", whenIdle, { once: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("load", whenIdle);
+    };
   }, []);
 }
 

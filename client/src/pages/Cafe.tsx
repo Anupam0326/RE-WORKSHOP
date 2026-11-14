@@ -1,29 +1,82 @@
 /**
- * The café page (18 Oct 2026). The client found the site confusing to navigate ("shop and café and products"), so
- * the café moved off the long home page onto a page of its own: the open kitchen, the full menu (22 Oct 2026), the
- * No-Compromise Code, then the way into the store. Copy is the client brief's (data/brand.ts).
- * Photos are site photo slots (/admin → Site photos); empty slots show the branded placeholder.
+ * The café page.
+ *
+ * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam). The page is now three things, in
+ * the order a visitor asks: what the café is like (the headline with "An Open kitchen" set large, four short pointers,
+ * a strip of photos to swipe through, each with its own caption), what it serves (the menu, compact), and how to get
+ * there (the footer: address, directions, call, WhatsApp).
+ * Gone, because they repeated what the page or the site already says: the two photo cards with "Take a seat at our
+ * wellness café and watch your health reset in real-time." and "Live transformation", the dark menu book, the
+ * statement "We understand your need to eat healthy in spite of your busy routine!", the No-Compromise panel (one
+ * pointer carries it here; the panel is on the home page) and the grocery-store panel (the store is in the navigation).
+ *
+ * 18 Oct 2026: the café moved off the long home page onto a page of its own. Copy is the client brief's
+ * (data/brand.ts). Photos are site photo slots (/admin → Site photos) and the café's own dish photos.
  */
 
-import { ArrowRight, MapPin, Phone, ShoppingBasket } from "lucide-react";
-import { Link } from "wouter";
-import { PageIntro } from "@/components/PageIntro";
+import type { RefObject } from "react";
+import { MapPin } from "lucide-react";
+import { CarouselControls } from "@/components/CarouselControls";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SectionLink } from "@/components/SectionLink";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SiteImage } from "@/components/SiteImage";
-import { NoCompromise } from "@/components/home/CafeSections";
-import { CafeMenu } from "@/components/cafe/CafeMenu";
-import { BrandStatement } from "@/components/home/StorySections";
-import { experience, groceryStore } from "@/data/brand";
+import { SiteImage, useSiteMedia } from "@/components/SiteImage";
+import { CafePointers } from "@/components/home/Spreads";
+import { CafeMenu, showDish } from "@/components/cafe/CafeMenu";
+import { experience } from "@/data/brand";
+import { dishPhoto, menuPrice, stripDishes } from "@/data/cafeMenu";
 import { storeInfo } from "@/data/catalog";
 import type { MediaSlotKey } from "@/data/media";
+import { useCarousel } from "@/hooks/useCarousel";
 import { useHashScroll, useReveal } from "@/hooks/useReveal";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
-const features: { title: string; body: string; photo: MediaSlotKey }[] = [
-  { title: experience.openKitchen.title, body: experience.openKitchen.body, photo: "cafe-kitchen" },
-  { title: experience.live.title, body: experience.live.body, photo: "cafe-shelf" },
-];
+const places: MediaSlotKey[] = ["cafe-intro", "cafe-kitchen", "cafe-shelf"];
+
+function PlaceSlide({ slot, eager }: { slot: MediaSlotKey; eager: boolean }) {
+  const { caption } = useSiteMedia(slot);
+  return (
+    <figure className="strip__slide">
+      <span className="strip__photo">
+        <SiteImage slot={slot} sizes="(min-width: 1024px) 560px, 84vw" eager={eager} />
+      </span>
+      <figcaption>{caption}</figcaption>
+    </figure>
+  );
+}
+
+/** The café in photos: the room, the kitchen, something from the kitchen, then three dishes from the menu. */
+function CafePhotos() {
+  const dishes = stripDishes();
+  const count = places.length + dishes.length;
+  const carousel = useCarousel(count);
+  return (
+    <div ref={carousel.rootRef as RefObject<HTMLDivElement>} className="strip" data-reveal>
+      <div {...carousel.stripProps} className="strip__track" role="group" aria-roledescription="carousel" aria-label="Photos of the café: swipe, or use the arrow keys">
+        {places.map((slot, index) => (
+          <PlaceSlide key={slot} slot={slot} eager={index === 0} />
+        ))}
+        {dishes.map((item) => {
+          const photo = dishPhoto(item.id)!;
+          return (
+            <figure key={item.id} className="strip__slide">
+              <span className="strip__photo">
+                <img src={photo.urlSmall ?? photo.url} srcSet={`${photo.urlSmall} ${photo.widthSmall}w, ${photo.url} ${photo.width}w`} sizes="(min-width: 1024px) 560px, 84vw" width={480} height={480} alt="" loading="lazy" decoding="async" />
+              </span>
+              <figcaption>
+                {item.name}, {menuPrice(item.price)}.{" "}
+                <button type="button" className="text-link strip__jump" onClick={() => showDish(item.id)}>
+                  See it in the menu
+                </button>
+              </figcaption>
+            </figure>
+          );
+        })}
+      </div>
+      <CarouselControls className="strip__ctl" label="Photos of the café" count={count} active={carousel.active} onSelect={carousel.select} onPrevious={carousel.previous} onNext={carousel.next} />
+    </div>
+  );
+}
 
 export default function Cafe() {
   usePageMeta(
@@ -32,59 +85,32 @@ export default function Cafe() {
   );
   useReveal();
   useHashScroll();
+  const [big, rest] = experience.headingParts;
   return (
     <div className="app-shell">
       <SiteHeader />
       <main id="main">
-        <PageIntro
-          quiet="The café."
-          title={experience.heading}
-          photo="cafe-intro"
-          actions={
-            <>
-              <a href={storeInfo.mapUrl} target="_blank" rel="noreferrer" className="btn btn--dark">
-                <MapPin size={18} aria-hidden="true" /> Get directions
-              </a>
-              <a href={`tel:${storeInfo.phones[0].tel}`} className="btn btn--ghost">
-                <Phone size={18} aria-hidden="true" /> Call {storeInfo.phones[0].display}
-              </a>
-            </>
-          }
-        >
-          <p className="intro__text intro__text--lead">{experience.invite}</p>
-          <p className="intro__text">{experience.concept}</p>
-        </PageIntro>
-
-        <section className="section" aria-label="Inside the café">
-          <div className="wrap duo">
-            {features.map((item) => (
-              <article key={item.title} className="duo__item" data-reveal>
-                <figure className="duo__photo">
-                  <SiteImage slot={item.photo} sizes="(min-width: 860px) 580px, 100vw" />
-                </figure>
-                <h2 className="duo__title">{item.title}</h2>
-                <p className="duo__body">{item.body}</p>
-              </article>
-            ))}
+        <section className="intro cafe-top" aria-labelledby="page-title">
+          <div className="wrap intro__inner cafe-top__inner">
+            <div className="cafe-top__text">
+              <h1 id="page-title" className="cafe-top__title">
+                <span className="cafe-top__big">{big}</span> <span className="cafe-top__rest">{rest}</span>
+              </h1>
+              <CafePointers withCode />
+              <div className="intro__actions">
+                <SectionLink id="menu" here className="btn btn--dark">
+                  See the menu
+                </SectionLink>
+                <a href={storeInfo.mapUrl} target="_blank" rel="noreferrer" className="btn btn--ghost">
+                  <MapPin size={18} aria-hidden="true" /> Get directions
+                </a>
+              </div>
+            </div>
+            <CafePhotos />
           </div>
         </section>
 
         <CafeMenu />
-
-        <BrandStatement light />
-        <NoCompromise />
-
-        <section className="section section--flush-top" aria-labelledby="take-home-title">
-          <div className="wrap">
-            <div className="panel panel--mist cta-panel">
-              <h2 id="take-home-title">{groceryStore.heading}</h2>
-              <p>{groceryStore.lines[0]}</p>
-              <Link href="/shop" className="btn btn--dark">
-                <ShoppingBasket size={18} aria-hidden="true" /> Shop the store <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
       <SiteFooter />
     </div>

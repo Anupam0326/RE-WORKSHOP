@@ -8,6 +8,29 @@ export const intro = {
   ownership: (entity: string) => `Re Workshop is a premium lifestyle brand proudly owned, registered, and operated under our corporate entity, ${entity.replace(/\.$/, "")}.`,
 };
 
+/**
+ * Home first screen (15 Nov 2026, the reviewer's change brief, approved by the client through Anupam). The old opening,
+ * "We don’t just sell organic food. We restore life." (still `intro.headline`), was found too broad: a first-time visitor
+ * could not tell what they would get. The reviewer's own example in the call was "We make food for your parents,
+ * grandparents, and your kids", so the headline is that line. Under it one short line changes with the photo on screen
+ * (components/home/Hero.tsx); each says only what the photo shows or what the brand copy already states.
+ */
+export const hero = {
+  lead: "We make food for",
+  main: "your parents, your grandparents and your kids.",
+  captions: {
+    /** Anupam's own line (28 Oct 2026), unchanged. */
+    front: "Organic food store and café in Jabalpur.",
+    inside: "Inside, on Ridge Road: the café’s tables and the store’s shelves share one room.",
+    kitchen: "Watch your meal being cooked in our open kitchen.",
+    dish: "Besan Cheela, made fresh in our open kitchen.",
+    /** When the store uploads its own photo to the dish slide without a caption. */
+    dishGeneric: "Made fresh in our open kitchen.",
+    shelves: (count: number) => `${count} organic staples to take home.`,
+    farm: "Grown in living soil, from native seeds.",
+  },
+};
+
 export type JourneyStep = {
   label: string;
   tagline: string;
@@ -157,12 +180,11 @@ export const loop = {
  * the client's own words: "hypothyroidism" (not hyper-) and "reversed" (not "cured"). "Without medication" dropped,
  * as in Anupam's telling; it sat badly beside "don't stop or change any medicine".
  */
-export const origin: { heading: string; paragraphs: string[]; note: string } | null = {
+export const origin: { heading: string; paragraphs: string[] } | null = {
   heading: "How Re Workshop began",
   paragraphs: [
     "Re Workshop began when one of its founders, Dr. (Mrs.) Swati Chhajed, faced several health problems: hypothyroidism, photosensitive dermatitis, neuralgia and more. She reversed all of them by changing the food she ate every day to a sustainable, organic, plant-based diet. And having seen what clean food did to her is why reworkshop came into existence.",
   ],
-  note: "Please don’t stop or change any medicine without consulting your doctor.",
 };
 
 /**
@@ -173,11 +195,10 @@ export const origin: { heading: string; paragraphs: string[]; note: string } | n
 export const brandStatement = "We understand your need to eat healthy in\u00A0spite of your busy routine!";
 
 /**
- * Client copy changes, 28 Oct 2026 ("ReWorkshop Website: Exact Copy Updates"): approved phrases are used verbatim,
- * including their lower-case starts and punctuation, and must not be "corrected". This disclaimer sits right after
- * Dr. Swati's own health story wherever it appears beside the free consultation (home, Our story origin, her card).
+ * 15 Nov 2026 (Anupam, with Dr. Swati's approval): the disclaimer "this is her own experience and she does not promise
+ * the same results" and "Please don’t stop or change any medicine without consulting your doctor." were removed from
+ * every place on the site (home consultation band, Our story origin). Before that they stood beside her story in both.
  */
-export const personalExperienceDisclaimer = "this is her own experience and she does not promise the same results";
 
 /**
  * Free consultation with Dr. (Mrs.) Swati Chhajed (client, 23 Oct 2026). Her qualifications and her own story are the
@@ -197,7 +218,6 @@ export const consultation = {
    */
   story:
     "Chat with Dr. (Mrs.) Swati Chhajed, who has reversed her own hypothyroidism, photosensitive dermatitis, neuralgia and more without medication, to know more about lifestyle diseases and nutrition.",
-  note: "This is a lifestyle and nutrition chat, not medical treatment; please don’t stop or change any medicine without consulting your doctor.",
   cta: "Chat with Dr. Swati on WhatsApp",
   /** Pre-filled first message; the visitor can edit it in WhatsApp before sending. */
   message: "Hello Dr. Swati, I found you on the Re Workshop website and would like a free consultation about my lifestyle and health.",
@@ -398,6 +418,24 @@ export const founders = {
 export const experience = {
   eyebrow: "The Re Workshop experience: our store and open-kitchen café",
   heading: "An Open kitchen that resets your body.",
+  /**
+   * 15 Nov 2026 (reviewer's brief): "An Open kitchen" is the part people should see first, so it is set large and the
+   * rest of the client's line follows smaller. Same words, same order, as `heading`.
+   */
+  headingParts: ["An Open kitchen", "that resets your body."] as const,
+  /**
+   * 15 Nov 2026 (reviewer's brief): short pointers under the café headline, on the home page and the café page. They
+   * replace "Take a seat at our wellness café and watch your health reset in real-time." (found to read like a sales
+   * pitch) and say what a visitor can see, eat and take home, from facts the site already holds: the client's "Live
+   * transformation" line, the menu's own dishes, and the No-Compromise Code. Counts and prices are filled in from the
+   * menu data, never typed here.
+   */
+  pointers: {
+    watch: { title: "Watch it cooked", body: "The kitchen is open. You see your meal being made." },
+    menu: { title: (count: number) => `${count} dishes and drinks`, body: (low: string, high: string) => `Millet upma, dosa rolls, pasta, noodles and more, from ${low} to ${high}.` },
+    code: { title: "The No-Compromise Code", body: "No maida, refined oil, processed white sugar or corn starch in anything we cook." },
+    home: { title: "Take the grains home", body: "The same grains are on the store’s shelves." },
+  },
   invite: "We invite you to step inside a space where conscious living comes to life.",
   concept:
     "Re Workshop is a unique, conceptual destination that blends a premium grocery store with a café designed entirely around health and wellness.",
@@ -432,13 +470,23 @@ export const milletMenu = {
  * we cook in our live café and craft for your kitchen follows a strict code of health:".
  */
 export const noCompromise = {
+  /** 15 Nov 2026 (reviewer's brief): a small hand-written "We believe" above the heading, underlined. */
+  kicker: "We believe",
   heading: "The No-Compromise Code",
   intro: "Everything we cook contains:",
   rules: ["Maida", "Refined Oil", "Processed White Sugar", "Corn Starch"],
 };
 
+/**
+ * 15 Nov 2026 (reviewer's brief): the home page line was found confusing ("...to recreate conscious wellness in your own
+ * kitchen"). `plain` keeps the client's own phrases (carefully chosen, traditionally processed, your own kitchen) and
+ * drops the rest; the shop page keeps `lines[1]` as it was.
+ */
 export const groceryStore = {
   heading: "The Organic Grocery Store",
+  plain: "Carefully chosen, traditionally processed staples for your own kitchen.",
+  count: (count: number) => `${count} products in the store`,
+  cta: "Check our products",
   lines: [
     "After experiencing a reset at our café, walk through our retail shelves to take that lifestyle change home.",
     "Shop our carefully chosen, traditionally processed staples to recreate conscious wellness in your own kitchen.",

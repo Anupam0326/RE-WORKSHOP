@@ -22,6 +22,12 @@ const widths: Record<string, [number, number]> = {
   // Home first screen: the shop front at night. 6 Nov 2026 (Anupam): an enhanced version of the 3 Nov photo, 1448 x 1086;
   // 16:10 here, plus a 4:5 phone crop used directly by components/home/Hero.tsx.
   "hero-store": [1448, 800],
+  // Home first screen, the other photos of the strip (15 Nov 2026, the reviewer's brief: a swipeable set of photos).
+  // Each has a 16:10 file here and a 4:5 phone crop used directly by components/home/Hero.tsx. Real widths: these are
+  // phone photos, so none is wider than its source (inside 1158, dish 1200, farm 960).
+  "hero-inside": [1158, 800],
+  "hero-dish": [1200, 800],
+  "hero-farm": [960, 800],
   // The farm (Farm Images, 23 Oct 2026): seed work only, no vegetables.
   "seed-furrows": [1280, 800],
   "seed-grain-field": [960, 800],

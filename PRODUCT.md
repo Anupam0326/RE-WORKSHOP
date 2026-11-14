@@ -66,3 +66,17 @@ Soil to plate, in the brand's own words: "We don't just sell organic food. We re
 2. Two doors, equal weight: the café visit and the grocery order are both first-class actions.
 3. Only true things: every claim, number and photo must be real or clearly marked as a placeholder.
 4. Local and specific: Jabalpur, Ridge Road, Amrit Mitti, the open kitchen; never generic "organic" imagery.
+
+## Change brief, 15 Nov 2026 (reviewer's call with Anupam; client approval reported by Anupam)
+
+These replace the matching lines above.
+
+- Hero copy: "We make food for your parents, your grandparents and your kids." (the reviewer's own example; "We don't just sell organic food. We restore life." is no longer on the first screen). Under it one line changes with the photo on screen; the first is still "Organic food store and café in Jabalpur."
+- Home first screen: a strip of real photos to swipe (shop front, inside, a dish, the farm). Two more slots, the open kitchen and the store's shelves, have no photo yet and join when the store uploads one in /admin → Site photos.
+- Home order: hero → the open kitchen and the store → No-Compromise Code ("We believe" above it) → the farm, pick a grain, for farmers → free consultation → address and contact.
+- Free consultation: closes the home page instead of following the hero. In the navigation it is a quiet outline button from 560px up and a lime button inside the phone menu. The client's disclaimer line ("this is her own experience and she does not promise the same results") and "This is a lifestyle and nutrition chat, not medical treatment" were removed from the home band; "Please don't stop or change any medicine without consulting your doctor." stays (the line above it says "without medication"). Our story keeps its note unchanged.
+- Navigation: Shop, Café, Menu (the café's menu), Our story, For farmers, Visit us. "Track your grain" left the navigation; it is on Our story, in the home farm section and on the three grains' product pages. Phones: Shop and Café sit in the bar, the rest is under "More".
+- Café page: headline with "An Open kitchen" large, four pointers, a strip of six photos with captions, then the menu as eight tabs (dish and price; a tap opens a dish's description). The menu book, "See every dish at once", the two photo cards, the statement "We understand your need to eat healthy in spite of your busy routine!", the No-Compromise panel and the grocery-store panel are gone from this page.
+- Replaced copy: "Take a seat at our wellness café and watch your health reset in real-time." → pointers (Watch it cooked; 65 dishes and drinks; Take the grains home). "Shop our carefully chosen, traditionally processed staples to recreate conscious wellness in your own kitchen." → "Carefully chosen, traditionally processed staples for your own kitchen." (home only; the shop page keeps the original).
+- Footer: the address is the large text; "Find us in Jabalpur." and the closing invitation ("Come for your weekly or monthly groceries...") are gone.
+- Home shelf: packs only; noodles and pasta (photographed out of the pack) are not shown there.

@@ -1,4 +1,8 @@
 /**
+ * 15 Nov 2026 (the reviewer's change brief): the closing invitation ("Come for your weekly or monthly groceries, stay
+ * for a hot bowl of mindful nutrition...") and the "Find us in Jabalpur." heading are gone from the panel. What a
+ * visitor needs here is where the place is, so the address itself is the large text, then directions, call, WhatsApp.
+ *
  * Footer: the visit/contact panel (#visit, on every page), quick links, legal entity.
  * 31 Oct 2026 (Anupam: "looks very big on a mobile device"): on phones (below 640px) it was 2.1 screens tall at 360px.
  * Now: the three actions sit in one row of tiles with short labels, Explore and Shop sit side by side, the contact
@@ -12,7 +16,7 @@ import { BrandMark } from "@/components/BrandMark";
 import { SectionLink } from "@/components/SectionLink";
 import { storeInfo } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
-import { finalMessage, intro, legalEntity, loop } from "@/data/brand";
+import { intro, legalEntity, loop } from "@/data/brand";
 import { whatsappDigits, whatsappReady } from "@/lib/whatsapp";
 
 const hello = encodeURIComponent("Hello Re Workshop, I have a question.");
@@ -35,9 +39,7 @@ export function SiteFooter() {
           />
         </div>
         <div className="footer__cta">
-          <h2 className="footer__title">Find us in Jabalpur.</h2>
-          {/* 3 Nov 2026: the closing invitation left the home page and lives here, on every page. */}
-          <p className="footer__invite">{finalMessage.join(" ")}</p>
+          <h2 className="footer__label">Visit {storeInfo.name}</h2>
           <address className="footer__address">
             {storeInfo.addressLines.map((line) => (
               <span key={line}>{line}</span>
@@ -73,7 +75,8 @@ export function SiteFooter() {
                 <li><SectionLink id="founders" page="/our-story">Founders</SectionLink></li>
                 <li><SectionLink id="loop" page="/our-story">{loop.heading}</SectionLink></li>
                 <li><Link href="/cafe">Open-kitchen café</Link></li>
-                <li><SectionLink id="menu" page="/cafe">Millet menu</SectionLink></li>
+                <li><SectionLink id="menu" page="/cafe">Café menu</SectionLink></li>
+                <li><Link href="/farmers">For farmers</Link></li>
               </ul>
             </div>
             <div className="footer__col">

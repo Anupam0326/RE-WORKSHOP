@@ -1,23 +1,30 @@
 /**
- * Home sections below the hero (3 Nov 2026: a reviewer found the site cluttered). The home page went from eleven
- * sections to six; each section here says one thing and has one way on to the page that holds the rest.
+ * Home sections below the hero.
  *
- * - CafeAndStore: the two halves of Re Workshop side by side, as equals. The café as a photograph of the room; the
- *   store as a two-shelf display of six packs that stand up one after another as the section comes into view (the
- *   products marked "Feature on home page" in /admin come first, so that switch still does something; only products
- *   with a studio pack shot, so every pack looks the same), with the everyday shelves as plain links.
- *   It replaces the café spread, "Shop by shelf" and "Staples to start with".
- * - FarmAndGrain: the farm, edge to edge, then "where did your grain come from?" with the three grains the tracker
- *   follows (data/grainTrack.ts). It replaces the farm spread and "Pick a grain".
- * Photos are site photo slots (data/media.ts): the client's own, never stock. Copy is the brief's, unchanged.
+ * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam):
+ * - CafeAndStore now follows the hero directly (the consultation band moved to the end of the page). The café half is
+ *   words, not another photo of the room (the hero strip already shows it): "An Open kitchen" set large, the rest of the
+ *   client's line smaller, then three short pointers that say what a visitor can see, eat and take home, on the brand's
+ *   dark green. The store half keeps its shelf of real packs, minus the bare noodle block (it read as instant noodles,
+ *   the wrong signal for an organic store), with the heading on one line, the product count right under it, a plainer
+ *   sentence and a button instead of a text link.
+ * - FarmAndGrain: unchanged in shape. "Pick a grain" already sits inside the farm story (the brief asked for grain
+ *   tracking not to stand alone); a second link now leads to the For farmers page, so the people who farm this way are
+ *   one tap away from the farm photo.
+ *
+ * 3 Nov 2026: the home page went from eleven sections to six; each section says one thing and has one way on to the
+ * page that holds the rest. Photos are site photo slots (data/media.ts): the client's own, never stock.
  */
 
 import type { CSSProperties } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Ban, Eye, UtensilsCrossed, Wheat } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { SiteImage } from "@/components/SiteImage";
 import { experience, groceryStore, journey, loop } from "@/data/brand";
-import { pickSix, studioPhoto, studioPhotoCount, type Product } from "@/data/catalog";
+// Three numbers from the menu (how many dishes, lowest and highest price), written by scripts/cafe-menu.mjs. The menu
+// itself is not imported here: the home page must not carry all 65 dishes in the first script a visitor downloads.
+import menuStats from "@/data/cafeMenuStats.json";
+import { formatInr, pickSix, studioPhoto, studioPhotoCount, type Product } from "@/data/catalog";
 import { requestTrack, trackOptions } from "@/data/grainTrack";
 import { useCatalog } from "@/contexts/CatalogContext";
 
@@ -26,7 +33,8 @@ const PACK = 2;
 /** The bowl shot is the third studio photo of each grain. */
 const BOWL = 3;
 
-const hasPack = (product: Product) => (studioPhotoCount[product.slug] ?? 0) >= PACK;
+/** Noodles and pasta are photographed out of the pack, so on the shelf they look like instant noodles: packs only. */
+const hasPack = (product: Product) => (studioPhotoCount[product.slug] ?? 0) >= PACK && !/noodle|pasta/i.test(product.group);
 
 function Pack({ product, index }: { product: Product; index: number }) {
   const photo = studioPhoto(product.slug, PACK);
@@ -39,35 +47,64 @@ function Pack({ product, index }: { product: Product; index: number }) {
   );
 }
 
+/** What a visitor can see, eat and take home at the café; `withCode` adds the food promise where the code itself is not on the page. */
+export function CafePointers({ withCode = false, dark = false }: { withCode?: boolean; dark?: boolean }) {
+  const { pointers } = experience;
+  const items = [
+    { icon: Eye, title: pointers.watch.title, body: pointers.watch.body },
+    { icon: UtensilsCrossed, title: pointers.menu.title(menuStats.count), body: pointers.menu.body(formatInr(menuStats.low), formatInr(menuStats.high)) },
+    ...(withCode ? [{ icon: Ban, title: pointers.code.title, body: pointers.code.body }] : []),
+    { icon: Wheat, title: pointers.home.title, body: pointers.home.body },
+  ];
+  return (
+    <ul className={dark ? "pointers pointers--dark" : "pointers"}>
+      {items.map(({ icon: Icon, title, body }) => (
+        <li key={title}>
+          <span className="pointers__icon" aria-hidden="true">
+            <Icon size={18} />
+          </span>
+          <p>
+            <strong>{title}</strong>
+            <span>{body}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function CafeAndStore() {
   const { featured, products, categories } = useCatalog();
   const packs = pickSix(featured.filter(hasPack), products.filter(hasPack));
   // The everyday shelves (the ones with several products each); one-off items stay in the shop.
   const shelves = categories.filter((category) => products.filter((product) => product.categorySlug === category.slug).length >= 3);
+  const [big, rest] = experience.headingParts;
   return (
     <section className="section ways" aria-label="The café and the store">
       <div className="wrap ways__grid">
-        <article className="way" data-reveal>
-          <figure className="way__media">
-            <SiteImage slot="home-cafe" sizes="(min-width: 860px) 600px, 100vw" />
-          </figure>
-          <h2 className="way__title">{experience.heading}</h2>
-          <p className="way__text">{experience.openKitchen.body}</p>
-          <Link href="/cafe" className="text-link way__go">
-            See the café and the menu <ArrowRight size={16} aria-hidden="true" />
+        <article className="way kitchen grain" data-reveal>
+          <h2 className="kitchen__title">
+            <span className="kitchen__big">{big}</span> <span className="kitchen__rest">{rest}</span>
+          </h2>
+          <CafePointers dark />
+          <Link href="/cafe" className="btn btn--lime kitchen__go">
+            See the café and the menu <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </article>
 
         <article className="way" data-reveal>
-          <div className="way__media shelf">
-            <ul className="shelf__packs" aria-label="Staples to start with">
-              {packs.map((product, index) => (
-                <Pack key={product.id} product={product} index={index} />
-              ))}
-            </ul>
-          </div>
-          <h2 className="way__title">{groceryStore.heading}</h2>
-          <p className="way__text">{groceryStore.lines[1]}</p>
+          {packs.length > 0 && (
+            <div className="way__media shelf">
+              <ul className="shelf__packs" aria-label="Staples to start with">
+                {packs.map((product, index) => (
+                  <Pack key={product.id} product={product} index={index} />
+                ))}
+              </ul>
+            </div>
+          )}
+          <h2 className="way__title way__title--line">{groceryStore.heading}</h2>
+          <p className="way__count">{groceryStore.count(products.length)}</p>
+          <p className="way__text">{groceryStore.plain}</p>
           <p className="way__aisles">
             {shelves.map((category) => (
               <Link key={category.slug} href={`/shop/${category.slug}`}>
@@ -75,8 +112,8 @@ export function CafeAndStore() {
               </Link>
             ))}
           </p>
-          <Link href="/shop" className="text-link way__go">
-            All {products.length} products <ArrowRight size={16} aria-hidden="true" />
+          <Link href="/shop" className="btn btn--dark way__go">
+            {groceryStore.cta} <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </article>
       </div>
@@ -97,16 +134,24 @@ export function FarmAndGrain() {
   };
   return (
     <section className="farm" aria-labelledby="farm-title">
-      <figure className="farm__photo">
+      {/* 15 Nov 2026 (the reviewer's brief): the heading is written on the photo, over a soft dark fade at its foot. */}
+      <div className="farm__photo">
         <SiteImage slot="farm" sizes="100vw" />
-      </figure>
+        <div className="wrap farm__over">
+          <h2 id="farm-title">{soil.tagline}</h2>
+        </div>
+      </div>
       <div className="wrap farm__inner">
         <div className="farm__text" data-reveal>
-          <h2 id="farm-title">{soil.tagline}</h2>
           <p>{loop.steps[0].paragraphs[1]}</p>
-          <Link href="/our-story" className="text-link">
-            Our story <ArrowRight size={16} aria-hidden="true" />
-          </Link>
+          <p className="farm__links">
+            <Link href="/our-story" className="text-link">
+              Our story <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+            <Link href="/farmers" className="text-link">
+              For farmers: farm with us <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          </p>
         </div>
         {grains.length > 0 && (
           <div className="farm__track" data-reveal>

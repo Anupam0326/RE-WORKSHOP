@@ -8,7 +8,7 @@
 
 import type { ProductPhoto } from "@/data/catalog";
 import { formatInr } from "@/data/catalog";
-import { sitePhoto } from "@/data/sitePhotos";
+import { sitePhoto, type SitePhotoName } from "@/data/sitePhotos";
 import menu from "./cafeMenu.json";
 
 export type MenuItem = { id: string; name: string; price: number; description: string | null };
@@ -30,26 +30,33 @@ export function menuPrice(price: number) {
 /**
  * Dish photos: the café's own (the "NEW CAFE" folder, 22 Oct 2026). Named after their dish or matched by Anupam.
  * Photos from the older "Cafe" folder are not used: they are downloaded from recipe sites and stock libraries.
- * Each appears once, in the photo row on the café page (23 Oct 2026: one photo, one place), so the menu book itself
- * carries no thumbnails. The Besan Cheela photo is the home café spread's small photo (data/media.ts) instead.
- * Listed in the order the photo row shows them.
+ * Each appears once (23 Oct 2026: one photo, one place). 15 Nov 2026 (the reviewer's brief: a swipeable strip of photos
+ * at the top of the café page, some of them food): three dishes are in that strip and three stay in the row above the
+ * menu. The Besan Cheela photo is on the home first screen instead (components/home/Hero.tsx).
  */
-const dishPhotoIds = [
-  "millet-moong-roasty",
-  "creamy-millet-pasta",
-  "millet-dhokla-chaat",
-  "ragi-bread-sandwich",
-  "10-minute-millet-maggi",
-  "raagi-mahua-rab-halwa",
-] as const;
+const stripDishIds = ["ragi-bread-sandwich", "creamy-millet-pasta", "millet-dhokla-chaat"] as const;
+const rowDishIds = ["millet-moong-roasty", "10-minute-millet-maggi", "raagi-mahua-rab-halwa"] as const;
 
-const photographed = new Set<string>(dishPhotoIds);
+const photographed = new Set<string>([...stripDishIds, ...rowDishIds]);
 
 export function dishPhoto(id: string): ProductPhoto | null {
-  return photographed.has(id) ? sitePhoto(`dish-${id}`) : null;
+  return photographed.has(id) ? sitePhoto(`dish-${id}` as SitePhotoName) : null;
 }
 
-/** Dishes with a photo, in photo-row order (skips any dish no longer on the menu). */
-export function photographedDishes() {
-  return dishPhotoIds.map((id) => menuItem(id)).filter((item): item is MenuItem => Boolean(item));
+const onMenu = (ids: readonly string[]) => ids.map((id) => menuItem(id)).filter((item): item is MenuItem => Boolean(item));
+
+/** Dishes shown in the photo strip at the top of the café page (skips any dish no longer on the menu). */
+export function stripDishes() {
+  return onMenu(stripDishIds);
+}
+
+/** Dishes pictured in the row above the menu: a full row of three, or none (grid rule: rows are always full). */
+export function rowDishes() {
+  const dishes = onMenu(rowDishIds);
+  return dishes.length >= 3 ? dishes.slice(0, 3) : [];
+}
+
+/** The menu section a dish belongs to. */
+export function categoryOf(itemId: string) {
+  return cafeMenu.categories.find((category) => category.items.some((item) => item.id === itemId));
 }
