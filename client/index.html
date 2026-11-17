@@ -3,6 +3,10 @@
 
   <head>
     <meta charset="UTF-8" />
+    <!-- The page's script draws the site. Each page's HTML also carries a plain copy of its content (.prerender, written by
+         scripts/seo-build.mjs) for readers that don't run scripts; browsers that do hide it at once, and React replaces it. -->
+    <script>document.documentElement.classList.add("js")</script>
+    <style>html.js .prerender{display:none}</style>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <!-- Titles, descriptions and the canonical come from client/src/data/seo.json. scripts/seo-build.mjs writes each
          page's own copy of this file after the build; keep these four tags in this form so it can find them. -->
@@ -49,6 +53,13 @@
           "postalCode": "482001",
           "addressCountry": "IN"
         },
+        "founder": [
+          { "@type": "Person", "name": "Dr. (Mrs.) Swati Chhajed", "jobTitle": "Founder Director" },
+          { "@type": "Person", "name": "Mrs. Anshumala Dhagat", "jobTitle": "Founder Director" },
+          { "@type": "Person", "name": "Mr. Samay Srivastava", "jobTitle": "Founder Director" }
+        ],
+        "parentOrganization": { "@type": "Organization", "name": "Resoilfy Agro Farms Pvt. Ltd." },
+        "knowsAbout": ["Millets", "Stone-milled flour", "Wood-pressed oil", "Amrit Krishi", "Regenerative farming"],
         "sameAs": ["https://www.instagram.com/re.workshop_organic/"]
       }
     </script>

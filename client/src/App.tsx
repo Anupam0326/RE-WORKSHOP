@@ -16,12 +16,14 @@ const loadCart = () => import("@/pages/Cart");
 const loadCafe = () => import("@/pages/Cafe");
 const loadStory = () => import("@/pages/Story");
 const loadFarmers = () => import("@/pages/Farmers");
+const loadFaq = () => import("@/pages/Faq");
 const Shop = lazy(loadShop);
 const ProductDetail = lazy(loadProduct);
 const Cart = lazy(loadCart);
 const Cafe = lazy(loadCafe);
 const Story = lazy(loadStory);
 const Farmers = lazy(loadFarmers);
+const Faq = lazy(loadFaq);
 const NotFound = lazy(() => import("@/pages/NotFound"));
 // Admin is never prefetched for shoppers; it loads only when /admin is opened.
 const Admin = lazy(() => import("@/pages/Admin"));
@@ -46,6 +48,7 @@ function usePrefetchRoutes() {
       loadCafe();
       loadStory();
       loadFarmers();
+      loadFaq();
     };
     let timer = 0;
     const whenIdle = () => {
@@ -114,6 +117,7 @@ function Router() {
           <Route path="/cafe" component={Cafe} />
           <Route path="/our-story" component={Story} />
           <Route path="/farmers" component={Farmers} />
+          <Route path="/faq" component={Faq} />
           <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>

@@ -77,6 +77,7 @@ export function SiteFooter() {
                 <li><Link href="/cafe">Open-kitchen café</Link></li>
                 <li><SectionLink id="popular" page="/cafe">Popular dishes</SectionLink></li>
                 <li><Link href="/farmers">For farmers</Link></li>
+                <li><Link href="/faq">Questions</Link></li>
               </ul>
             </div>
             <div className="footer__col">

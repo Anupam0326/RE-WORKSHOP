@@ -21,13 +21,25 @@
     "/farmers": {
       "title": "For Farmers: Farm With Us | Re Workshop, Jabalpur",
       "description": "Farm with Re Workshop, Jabalpur: living soil, native seeds and Amrit Krishi. If you farm without chemicals, want to switch, or keep native seed varieties, tell us about your farm on WhatsApp."
+    },
+    "/faq": {
+      "title": "Questions About Re Workshop, Organic Food Store in Jabalpur",
+      "description": "Where Re Workshop is in Jabalpur, what the organic store sells, which millets and wood-pressed oils it stocks, what the café cooks, and how to order on WhatsApp."
     }
   },
   "categories": {
-    "grains-flours": { "title": "Millets, Stone-Milled Atta & Grains in Jabalpur | Re Workshop" },
-    "spices-staples": { "title": "Unpolished Dals, Wood-Pressed Oils & Ghee in Jabalpur | Re Workshop" },
-    "snacks-premixes": { "title": "Millet Snacks & Meal Premixes in Jabalpur | Re Workshop" },
-    "handmade-decor": { "title": "Handmade Soap & Eco-Friendly Décor in Jabalpur | Re Workshop" }
+    "grains-flours": {
+      "title": "Millets, Stone-Milled Atta & Grains in Jabalpur | Re Workshop"
+    },
+    "spices-staples": {
+      "title": "Unpolished Dals, Wood-Pressed Oils & Ghee in Jabalpur | Re Workshop"
+    },
+    "snacks-premixes": {
+      "title": "Millet Snacks & Meal Premixes in Jabalpur | Re Workshop"
+    },
+    "handmade-decor": {
+      "title": "Handmade Soap & Eco-Friendly Décor in Jabalpur | Re Workshop"
+    }
   },
   "category": {
     "title": "{name} in Jabalpur | Re Workshop",
