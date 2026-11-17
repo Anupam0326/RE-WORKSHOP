@@ -180,10 +180,21 @@ export const loop = {
  * the client's own words: "hypothyroidism" (not hyper-) and "reversed" (not "cured"). "Without medication" dropped,
  * as in Anupam's telling; it sat badly beside "don't stop or change any medicine".
  */
+/**
+ * 17 Nov 2026: the client's own telling, sent as notes with gaps ("S Chhajed who was struggling with... like hypo....
+ * could reverse..."). The gaps are filled only with what the site already states: her full name as written elsewhere
+ * and the three conditions from her story. "organically grown, native whole grains which returned nutrition back to
+ * her plate" replaces the earlier "a sustainable, organic, plant-based diet". The last two lines are the client's.
+ * Previous text: "Re Workshop began when one of its founders, Dr. (Mrs.) Swati Chhajed, faced several health problems:
+ * hypothyroidism, photosensitive dermatitis, neuralgia and more. She reversed all of them by changing the food she ate
+ * every day to a sustainable, organic, plant-based diet. And having seen what clean food did to her is why reworkshop
+ * came into existence."
+ */
 export const origin: { heading: string; paragraphs: string[] } | null = {
   heading: "How Re Workshop began",
   paragraphs: [
-    "Re Workshop began when one of its founders, Dr. (Mrs.) Swati Chhajed, faced several health problems: hypothyroidism, photosensitive dermatitis, neuralgia and more. She reversed all of them by changing the food she ate every day to a sustainable, organic, plant-based diet. And having seen what clean food did to her is why reworkshop came into existence.",
+    "Re Workshop began with one of its founders, Dr. (Mrs.) Swati Chhajed, who was struggling with health problems like hypothyroidism, photosensitive dermatitis and neuralgia. She could reverse them by switching to organically grown, native whole grains, which returned nutrition back to her plate.",
+    "Having seen what this did for her, she decided to bring that experience to more people in the form of Re Workshop: a kitchen that resets your body, because we all need a workshop to fix our bodies.",
   ],
 };
 

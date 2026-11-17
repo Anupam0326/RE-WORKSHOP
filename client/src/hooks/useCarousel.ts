@@ -38,7 +38,8 @@ export function useCarousel(count: number, { auto = 0 }: Options = {}) {
     if (dataSaver()) return;
     let timer = 0;
     const arm = () => {
-      timer = window.setTimeout(() => setArmed(true), 1500);
+      // 18 Nov 2026: 300 ms (was 1.5 s), so the next photo is in before the first turn, now at 4 s.
+      timer = window.setTimeout(() => setArmed(true), 300);
     };
     if (document.readyState === "complete") arm();
     else window.addEventListener("load", arm, { once: true });

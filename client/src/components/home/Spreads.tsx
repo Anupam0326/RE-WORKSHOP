@@ -83,6 +83,10 @@ export function CafeAndStore() {
     <section className="section ways" aria-label="The café and the store">
       <div className="wrap ways__grid">
         <article className="way kitchen grain" data-reveal>
+          {/* 18 Nov 2026 (client): the real open kitchen, above "Watch it cooked". */}
+          <div className="kitchen__photo">
+            <SiteImage slot="home-watch" sizes="(min-width: 860px) 46vw, 92vw" />
+          </div>
           <h2 className="kitchen__title">
             <span className="kitchen__big">{big}</span> <span className="kitchen__rest">{rest}</span>
           </h2>

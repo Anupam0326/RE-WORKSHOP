@@ -28,6 +28,9 @@ const widths: Record<string, [number, number]> = {
   "hero-inside": [1158, 800],
   "hero-dish": [1200, 800],
   "hero-farm": [960, 800],
+  // The café's open kitchen (client, 18 Nov 2026): the counter under the "Kitchen that Re-Sets your Body" board. A
+  // WhatsApp photo, 718 px wide, cropped 4:3; shown in the home "An Open kitchen" panel.
+  "kitchen-counter": [718, 600],
   // The farm (Farm Images, 23 Oct 2026): seed work only, no vegetables.
   "seed-furrows": [1280, 800],
   "seed-grain-field": [960, 800],

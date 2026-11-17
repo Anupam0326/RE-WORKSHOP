@@ -24,6 +24,7 @@ export type MediaSlotKey =
   | "home-kitchen"
   | "home-dish"
   | "home-shelves"
+  | "home-watch"
   | "home-farm"
   | "cafe-intro"
   | "farm"
@@ -84,6 +85,13 @@ export const mediaSlots: MediaSlot[] = [
     hint: "The store's shelves with the packs facing the camera, no other shop's products in view. Wide (16:10). Skipped on the site until you upload one.",
     fallback: null,
     caption: "The store's shelves",
+  },
+  {
+    key: "home-watch",
+    label: "Home · An Open kitchen panel · the kitchen",
+    hint: "The open kitchen: the counter, the stove, someone cooking. Landscape (4:3). Shown at the top of the dark \"An Open kitchen\" panel, above \"Watch it cooked\".",
+    fallback: sitePhoto("kitchen-counter"),
+    caption: "Our open kitchen",
   },
   {
     key: "home-farm",

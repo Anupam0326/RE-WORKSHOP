@@ -59,9 +59,10 @@ function SlidePhoto({ slide, first, uploaded }: { slide: Slide; first: boolean; 
   const art = slide.art!;
   return (
     <picture>
-      {/* Phones, and tablets held upright: the 4:5 crop. */}
+      {/* Tablets held upright (full-screen hero): the 4:5 crop. 18 Nov 2026 (client): phones show the whole landscape
+          photo instead of a tall crop, so phones fall through to the 16:10 files below. */}
       <source
-        media="(max-width: 639px), (max-width: 1023px) and (orientation: portrait)"
+        media="(min-width: 640px) and (max-width: 1023px) and (orientation: portrait)"
         srcSet={`/site/${art.stem}-portrait-720.webp ${Math.min(720, art.tall)}w, /site/${art.stem}-portrait-1080.webp ${art.tall}w`}
         sizes="100vw"
         width={720}
@@ -78,7 +79,8 @@ export function Hero() {
   const shown = slides(products.length)
     .map((slide) => ({ slide, uploaded: getMedia(slide.slot) }))
     .filter(({ slide, uploaded }) => uploaded || slide.art);
-  const carousel = useCarousel(shown.length, { auto: 6500 });
+  // 18 Nov 2026 (client: "slideshow is slow"): a new photo every 4 seconds (was 6.5).
+  const carousel = useCarousel(shown.length, { auto: 4000 });
   const current = shown[Math.min(carousel.active, shown.length - 1)];
   const caption = current.uploaded ? current.uploaded.caption || current.slide.uploadedCaption || current.slide.caption : current.slide.caption;
 

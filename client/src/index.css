@@ -355,6 +355,9 @@
      then three pointers. No photo: the hero strip already shows the room. */
   .kitchen { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(20px, 2.6vw, 28px); padding: clamp(24px, 4vw, 44px); border-radius: var(--r-lg); background-color: var(--forest); color: #fff; }
   .kitchen__title { display: grid; gap: 8px; color: #fff; }
+  /* The kitchen photo at the top of the panel (18 Nov 2026), 4:3, the panel's own corners. */
+  .kitchen__photo { width: 100%; overflow: hidden; aspect-ratio: 4 / 3; border-radius: calc(var(--r-lg) - 8px); background: rgba(255, 255, 255, 0.06); }
+  .kitchen__photo img, .kitchen__photo .product-fallback { display: block; width: 100%; height: 100%; object-fit: cover; }
   .kitchen__big { color: var(--lime); font-size: clamp(2.6rem, 1.5rem + 4.6vw, 4.5rem); letter-spacing: -0.045em; line-height: 0.95; white-space: nowrap; }
   .kitchen__rest { color: rgba(255, 255, 255, 0.9); font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.85rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; }
   /* On wide screens the panel is as tall as the store beside it; the button sits at its foot. */
@@ -1238,9 +1241,11 @@
   /* The photo starts under the floating navigation, so the top of the shop's board is not hidden behind it (6 Nov 2026).
      15 Nov 2026: the strip is 4:5 at most and never more than about half the screen, so the headline, the line under it
      and both doors are on the first screen of a small phone too. */
-  .hero__strip { position: relative; inset: auto; height: min(125vw, 50svh); min-height: 280px; margin-top: calc(66px + env(safe-area-inset-top)); }
-  .hero::after { background: linear-gradient(0deg, #0b120e 0%, #0b120e 46%, rgba(11, 18, 14, 0) 66%); }
-  .hero__inner { position: relative; margin-top: -84px; padding-top: 0; padding-bottom: 32px; gap: 12px; }
+  /* 18 Nov 2026 (client): the whole landscape photo, 16:10, nothing cropped and nothing laid over it; the words sit
+     under it on the dark ground. */
+  .hero__strip { position: relative; inset: auto; height: auto; aspect-ratio: 16 / 10; margin-top: calc(66px + env(safe-area-inset-top)); }
+  .hero::after { display: none; }
+  .hero__inner { position: relative; margin-top: 0; padding-top: 14px; padding-bottom: 32px; gap: 12px; }
   .hero__title { font-size: 2rem; }
   .hero__what { font-size: 1rem; }
   /* Phones swipe; the arrows are for pointers and keyboards. */

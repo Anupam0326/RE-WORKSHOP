@@ -158,7 +158,7 @@ const rows: Record<string, Row[]> = {
     ["jungle-honey", "Jungle Honey", "Jaggery, khandasari & honey", "250 g", 250, []],
     ["himalayan-pink-salt", "Himalayan Pink Salt", "Salt & poha", "500 g", 70, []],
     ["adanshilpa-poha", "Adanshilpa Poha", "Salt & poha", "200 g", 50, ["Product of Jharkhand"]],
-    ["mango-pickle", "Mango Pickle", "Pickles & chatni", "500 g", 350, []],
+    ["mango-pickle", "Aam ka Chhunda", "Pickles & chatni", "500 g", 350, []],
     ["lemon-pickle", "Lemon Pickle", "Pickles & chatni", "500 g", 350, []],
     ["nimbu-ki-khatti-mithi-chatni", "Nimbu Ki Khatti Mithi Chatni", "Pickles & chatni", "600 g", 380, []],
   ],
