@@ -484,7 +484,8 @@ export const milletMenu = {
  */
 export const noCompromise = {
   /** 15 Nov 2026 (reviewer's brief): a small hand-written "We believe" above the heading, underlined. */
-  kicker: "We believe",
+  /** 18 Nov 2026 (Anupam): "We believe in" (was "We believe"), so it reads "We believe in The No-Compromise Code". */
+  kicker: "We believe in",
   heading: "The No-Compromise Code",
   intro: "Everything we cook contains:",
   rules: ["Maida", "Refined Oil", "Processed White Sugar", "Corn Starch"],

@@ -10,7 +10,7 @@
 @source "./components/ErrorBoundary.tsx";
 @custom-variant dark (&:is(.dark *));
 
-/* The hand-written "We believe" above the No-Compromise Code (15 Nov 2026). Only the letters of those two words, 3.8 KB,
+/* The hand-written "We believe in" above the No-Compromise Code (15 Nov 2026; "in" added 18 Nov). Only the letters of those words, 4.1 KB,
    served from this site (no extra request to Google). Caveat, SIL Open Font License: client/public/fonts/OFL-Caveat.txt. */
 @font-face { font-family: "RW Hand"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/caveat-we-believe.woff2") format("woff2"); }
 
