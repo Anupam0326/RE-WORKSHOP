@@ -16,6 +16,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 const SOURCE = new URL("../content/cafe-menu/reworkshop_cafe_menu.json", import.meta.url);
 const TARGET = new URL("../client/src/data/cafeMenu.json", import.meta.url);
 const STATS = new URL("../client/src/data/cafeMenuStats.json", import.meta.url);
+// 18 Nov 2026: the site shows no menu, only "Our popular options" (client/src/data/popularDishes.json). Each of those
+// dishes must still be on the menu, under exactly the same name.
+const POPULAR = new URL("../client/src/data/popularDishes.json", import.meta.url);
 
 const source = JSON.parse(readFileSync(SOURCE, "utf8"));
 const problems = [];
@@ -54,6 +57,15 @@ const read = (url) => {
     return "";
   }
 };
+
+{
+  const names = new Map(categories.flatMap((category) => category.items.map((item) => [item.id, item.name])));
+  const wrong = JSON.parse(read(POPULAR) || "[]").filter((dish) => names.get(dish.id) !== dish.name);
+  if (wrong.length) {
+    console.error(`popularDishes.json does not match the menu: ${wrong.map((dish) => dish.id).join(", ")}`);
+    process.exit(1);
+  }
+}
 
 if (process.argv.includes("--check")) {
   if (read(TARGET) !== output || read(STATS) !== stats) {

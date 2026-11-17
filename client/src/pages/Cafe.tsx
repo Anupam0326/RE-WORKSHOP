@@ -1,17 +1,17 @@
 /**
  * The café page.
  *
- * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam). The page is now three things, in
- * the order a visitor asks: what the café is like (the headline with "An Open kitchen" set large, four short pointers,
- * a strip of photos to swipe through, each with its own caption), what it serves (the menu, compact), and how to get
- * there (the footer: address, directions, call, WhatsApp).
- * Gone, because they repeated what the page or the site already says: the two photo cards with "Take a seat at our
- * wellness café and watch your health reset in real-time." and "Live transformation", the dark menu book, the
- * statement "We understand your need to eat healthy in spite of your busy routine!", the No-Compromise panel (one
- * pointer carries it here; the panel is on the home page) and the grocery-store panel (the store is in the navigation).
+ * 18 Nov 2026 (Anupam): the café menu is gone from the site, with every price and the count of dishes; "Our popular
+ * options" (components/cafe/PopularDishes.tsx) takes its place: six dishes, named on their photos. The photo strip
+ * keeps the three photos of the place; its dish slides (name and price) went with the menu. The menu data stays in
+ * content/cafe-menu/ for when it is wanted back; the menu component is in _backup/menu-removed-2026-11-18/.
+ *
+ * 15 Nov 2026 (the reviewer's change brief): the headline with "An Open kitchen" large, short pointers, a strip of
+ * photos to swipe through, each with its own caption. Gone then: the two photo cards, the dark menu book, the brand
+ * statement, the No-Compromise panel and the grocery-store panel.
  *
  * 18 Oct 2026: the café moved off the long home page onto a page of its own. Copy is the client brief's
- * (data/brand.ts). Photos are site photo slots (/admin → Site photos) and the café's own dish photos.
+ * (data/brand.ts). Photos are site photo slots (/admin → Site photos).
  */
 
 import type { RefObject } from "react";
@@ -22,9 +22,8 @@ import { SectionLink } from "@/components/SectionLink";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteImage, useSiteMedia } from "@/components/SiteImage";
 import { CafePointers } from "@/components/home/Spreads";
-import { CafeMenu, showDish } from "@/components/cafe/CafeMenu";
+import { PopularDishes } from "@/components/cafe/PopularDishes";
 import { experience } from "@/data/brand";
-import { dishPhoto, menuPrice, stripDishes } from "@/data/cafeMenu";
 import { storeInfo } from "@/data/catalog";
 import type { MediaSlotKey } from "@/data/media";
 import { useCarousel } from "@/hooks/useCarousel";
@@ -45,10 +44,9 @@ function PlaceSlide({ slot, eager }: { slot: MediaSlotKey; eager: boolean }) {
   );
 }
 
-/** The café in photos: the room, the kitchen, something from the kitchen, then three dishes from the menu. */
+/** The café in photos: the room, the kitchen, something from the kitchen. */
 function CafePhotos() {
-  const dishes = stripDishes();
-  const count = places.length + dishes.length;
+  const count = places.length;
   const carousel = useCarousel(count);
   return (
     <div ref={carousel.rootRef as RefObject<HTMLDivElement>} className="strip" data-reveal>
@@ -56,22 +54,6 @@ function CafePhotos() {
         {places.map((slot, index) => (
           <PlaceSlide key={slot} slot={slot} eager={index === 0} />
         ))}
-        {dishes.map((item) => {
-          const photo = dishPhoto(item.id)!;
-          return (
-            <figure key={item.id} className="strip__slide">
-              <span className="strip__photo">
-                <img src={photo.urlSmall ?? photo.url} srcSet={`${photo.urlSmall} ${photo.widthSmall}w, ${photo.url} ${photo.width}w`} sizes="(min-width: 1024px) 560px, 84vw" width={480} height={480} alt="" loading="lazy" decoding="async" />
-              </span>
-              <figcaption>
-                {item.name}, {menuPrice(item.price)}.{" "}
-                <button type="button" className="text-link strip__jump" onClick={() => showDish(item.id)}>
-                  See it in the menu
-                </button>
-              </figcaption>
-            </figure>
-          );
-        })}
       </div>
       <CarouselControls className="strip__ctl" label="Photos of the café" count={count} active={carousel.active} onSelect={carousel.select} onPrevious={carousel.previous} onNext={carousel.next} />
     </div>
@@ -81,7 +63,7 @@ function CafePhotos() {
 export default function Cafe() {
   usePageMeta(
     "Open-kitchen millet café",
-    "Re Workshop's open-kitchen millet café on Ridge Road, Jabalpur: the full menu with prices, from kodo upma, millet dosa rolls and ragi bread sandwiches to millet ambli and filter coffee, cooked where you can watch. Zero maida, zero refined oil, zero processed white sugar, zero corn starch.",
+    "Re Workshop's open-kitchen millet café on Ridge Road, Jabalpur: ragi bread sandwiches, creamy millet pasta, millet dhokla chaat and more, cooked where you can watch. Zero maida, zero refined oil, zero processed white sugar, zero corn starch.",
   );
   useReveal();
   useHashScroll();
@@ -98,8 +80,8 @@ export default function Cafe() {
               </h1>
               <CafePointers withCode />
               <div className="intro__actions">
-                <SectionLink id="menu" here className="btn btn--dark">
-                  See the menu
+                <SectionLink id="popular" here className="btn btn--dark">
+                  Our popular options
                 </SectionLink>
                 <a href={storeInfo.mapUrl} target="_blank" rel="noreferrer" className="btn btn--ghost">
                   <MapPin size={18} aria-hidden="true" /> Get directions
@@ -110,7 +92,7 @@ export default function Cafe() {
           </div>
         </section>
 
-        <CafeMenu />
+        <PopularDishes />
       </main>
       <SiteFooter />
     </div>

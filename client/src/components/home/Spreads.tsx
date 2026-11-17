@@ -21,10 +21,7 @@ import { ArrowRight, Ban, Eye, UtensilsCrossed, Wheat } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { SiteImage } from "@/components/SiteImage";
 import { experience, groceryStore, journey, loop } from "@/data/brand";
-// Three numbers from the menu (how many dishes, lowest and highest price), written by scripts/cafe-menu.mjs. The menu
-// itself is not imported here: the home page must not carry all 65 dishes in the first script a visitor downloads.
-import menuStats from "@/data/cafeMenuStats.json";
-import { formatInr, pickSix, studioPhoto, studioPhotoCount, type Product } from "@/data/catalog";
+import { pickSix, studioPhoto, studioPhotoCount, type Product } from "@/data/catalog";
 import { requestTrack, trackOptions } from "@/data/grainTrack";
 import { useCatalog } from "@/contexts/CatalogContext";
 
@@ -52,7 +49,7 @@ export function CafePointers({ withCode = false, dark = false }: { withCode?: bo
   const { pointers } = experience;
   const items = [
     { icon: Eye, title: pointers.watch.title, body: pointers.watch.body },
-    { icon: UtensilsCrossed, title: pointers.menu.title(menuStats.count), body: pointers.menu.body(formatInr(menuStats.low), formatInr(menuStats.high)) },
+    { icon: UtensilsCrossed, title: pointers.menu.title, body: pointers.menu.body },
     ...(withCode ? [{ icon: Ban, title: pointers.code.title, body: pointers.code.body }] : []),
     { icon: Wheat, title: pointers.home.title, body: pointers.home.body },
   ];
@@ -92,7 +89,7 @@ export function CafeAndStore() {
           </h2>
           <CafePointers dark />
           <Link href="/cafe" className="btn btn--lime kitchen__go">
-            See the café and the menu <ArrowRight size={18} aria-hidden="true" />
+            See the café <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </article>
 
@@ -107,7 +104,6 @@ export function CafeAndStore() {
             </div>
           )}
           <h2 className="way__title way__title--line">{groceryStore.heading}</h2>
-          <p className="way__count">{groceryStore.count(products.length)}</p>
           <p className="way__text">{groceryStore.plain}</p>
           <p className="way__aisles">
             {shelves.map((category) => (

@@ -459,40 +459,19 @@
   .strip__photo { display: block; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--r-lg); background: #fff; }
   .strip__photo img, .strip__photo .product-fallback { width: 100%; height: 100%; object-fit: cover; }
   .strip__slide figcaption { min-height: 2.9em; color: var(--ink); font-size: 0.9375rem; font-weight: 500; line-height: 1.45; }
-  .strip__jump { display: inline; min-height: 0; font-size: inherit; cursor: pointer; }
   .strip__ctl { justify-content: center; color: var(--forest); }
 
-  /* Café menu (15 Nov 2026, the reviewer's brief): a heading, one line, the pictured dishes, then the eight sections as
-     tabs. A section is a plain list of dish and price; a dish with a description opens it on a tap. It replaced the dark
-     menu book (20 pages on a phone) and the "See every dish at once" switch. */
-  .cafe-menu__head { display: grid; gap: 6px; margin-bottom: clamp(18px, 2.4vw, 28px); }
-  .cafe-menu__head h2 { font-size: var(--fs-h2); }
-  .cafe-menu__sub { color: var(--ink-2); font-size: 1.0625rem; line-height: 1.5; }
-  .dish-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 16px); margin-bottom: clamp(18px, 2.2vw, 26px); }
-  .dish-card { display: grid; gap: 2px; width: 100%; padding: 0; border-radius: 14px; color: var(--ink); text-align: left; cursor: pointer; }
-  .dish-card:focus-visible { outline: 2px solid var(--forest); outline-offset: 4px; }
-  .dish-card__photo { overflow: hidden; margin-bottom: 6px; aspect-ratio: 1; border-radius: 14px; background: var(--mist); }
-  .dish-card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--ease-out); }
-  .dish-card:hover .dish-card__photo img { transform: scale(1.04); }
-  .dish-card__name { font-family: var(--display); font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; }
-  .dish-card__price { color: var(--ink-2); font-size: 0.875rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .menu-tabs { position: relative; margin-bottom: 8px; padding-block: 4px; }
-  .menu-tabs .pill { min-height: 44px; cursor: pointer; }
-  .menu-panel__note { margin: 8px 0 0; color: var(--ink-2); font-size: 0.9375rem; font-weight: 500; }
-  .menu-list { display: grid; }
-  .menu-row { border-bottom: 1px solid var(--line); border-radius: 6px; transition: background-color 500ms var(--ease-out), box-shadow 500ms var(--ease-out); }
-  .menu-row__line { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 8px 0; list-style: none; }
-  summary.menu-row__line { cursor: pointer; }
-  summary.menu-row__line::-webkit-details-marker { display: none; }
-  summary.menu-row__line:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px; border-radius: 6px; }
-  .menu-row__name { min-width: 0; color: var(--forest); font-family: var(--display); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }
-  .menu-row__more { flex: none; color: var(--ink-3); transition: transform 200ms var(--ease-out); }
-  details[open] > summary .menu-row__more { transform: rotate(180deg); }
-  .menu-row__price { flex: none; margin-left: auto; padding-left: 8px; color: var(--forest); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .menu-row__desc { max-width: 60ch; padding: 0 0 14px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
-  .menu-row.is-lit { background: var(--lime-soft); box-shadow: 0 0 0 8px var(--lime-soft); }
-  .cafe-menu__after { margin-top: 18px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.6; }
-  .cafe-menu__after .text-link { display: inline; min-height: 0; }
+  /* Our popular options (18 Nov 2026): six dishes, each named on its photo over a soft dark fade. No prices. */
+  .popular__head { display: grid; gap: 6px; margin-bottom: clamp(18px, 2.4vw, 28px); }
+  .popular__head h2 { font-size: var(--fs-h2); }
+  .popular__head p { color: var(--ink-2); font-size: 1.0625rem; line-height: 1.5; }
+  .popular__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 20px); }
+  .popular__item { position: relative; overflow: hidden; aspect-ratio: 1; border-radius: var(--r-lg); background: var(--mist); }
+  .popular__item img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .popular__item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 14, 10, 0.82) 0%, rgba(8, 14, 10, 0.35) 30%, rgba(8, 14, 10, 0) 52%); pointer-events: none; }
+  .popular__name { position: absolute; left: clamp(12px, 1.8vw, 20px); right: clamp(12px, 1.8vw, 20px); bottom: clamp(10px, 1.6vw, 18px); z-index: 1; color: #fff; font-family: var(--display); font-size: clamp(1rem, 0.9rem + 0.5vw, 1.375rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; text-wrap: balance; }
+  .popular__after { margin-top: 18px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.6; }
+  .popular__after .text-link { display: inline-flex; align-items: center; gap: 5px; min-height: 0; }
 
   /* Our story: what Re Workshop is today, with the store photo. */
   .today { border-block: 1px dashed rgba(17, 34, 26, 0.16); }
@@ -1031,11 +1010,7 @@
   .strip__slide { flex-basis: 62%; }
 }
 @media (min-width: 860px) {
-  .menu-list { display: block; columns: 2; column-gap: clamp(32px, 5vw, 72px); }
-  .menu-row { break-inside: avoid; }
-  /* Room for all eight tabs: they wrap instead of scrolling sideways, and the pictured dishes stay photo-sized. */
-  .menu-tabs { flex-wrap: wrap; margin-inline: 0; padding-inline: 0; overflow: visible; }
-  .dish-row--3 { max-width: 760px; }
+  .popular__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
   .cafe-top__inner { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: center; gap: clamp(40px, 5vw, 72px); }
@@ -1051,9 +1026,6 @@
 }
 @media (min-width: 640px) {
   .fields__row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (min-width: 860px) {
-  .dish-row--6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 @media (min-width: 860px) {
   .meaning__grid { grid-template-columns: 1fr 1.15fr; }

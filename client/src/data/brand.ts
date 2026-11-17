@@ -26,7 +26,8 @@ export const hero = {
     dish: "Besan Cheela, made fresh in our open kitchen.",
     /** When the store uploads its own photo to the dish slide without a caption. */
     dishGeneric: "Made fresh in our open kitchen.",
-    shelves: (count: number) => `${count} organic staples to take home.`,
+    /** 18 Nov 2026 (Anupam): no product counts anywhere on the public site. */
+    shelves: "Organic staples to take home.",
     farm: "Grown in living soil, from native seeds.",
   },
 };
@@ -443,7 +444,8 @@ export const experience = {
    */
   pointers: {
     watch: { title: "Watch it cooked", body: "The kitchen is open. You see your meal being made." },
-    menu: { title: (count: number) => `${count} dishes and drinks`, body: (low: string, high: string) => `Millet upma, dosa rolls, pasta, noodles and more, from ${low} to ${high}.` },
+    /** 18 Nov 2026 (Anupam): no count of dishes and no prices on the site. Was "65 dishes and drinks", "...from ₹25 to ₹265." */
+    menu: { title: "Millet dishes and drinks", body: "Millet upma, dosa rolls, pasta, noodles and more." },
     code: { title: "The No-Compromise Code", body: "No maida, refined oil, processed white sugar or corn starch in anything we cook." },
     home: { title: "Take the grains home", body: "The same grains are on the store’s shelves." },
   },
@@ -496,8 +498,8 @@ export const noCompromise = {
 export const groceryStore = {
   heading: "The Organic Grocery Store",
   plain: "Carefully chosen, traditionally processed staples for your own kitchen.",
-  count: (count: number) => `${count} products in the store`,
-  cta: "Check our products",
+  /** 18 Nov 2026 (Anupam): no product count on the site ("57 products in the store" is gone); the count lives in /admin. */
+  cta: "See all products",
   lines: [
     "After experiencing a reset at our café, walk through our retail shelves to take that lifestyle change home.",
     "Shop our carefully chosen, traditionally processed staples to recreate conscious wellness in your own kitchen.",

@@ -1,6 +1,7 @@
 /**
  * 15 Nov 2026 (the reviewer's change brief, approved by the client through Anupam):
- * - "Menu" (the café's menu, a jump into the café page) took the place of "Track your grain". Grain tracking is still on
+ * - 18 Nov 2026: "Menu" left the navigation with the café menu itself (the café page shows popular dishes instead).
+ * - 15 Nov: "Menu" (the café's menu, a jump into the café page) took the place of "Track your grain". Grain tracking is still on
  *   Our story, on the home page's farm section and on the three grains' product pages, where the page explains why you
  *   would track a grain; as a bare navigation word it raised the question instead of answering it.
  * - Phones: the bar used to show only the logo, the lime "Free consult" button, the basket and the three-line button, so
@@ -32,8 +33,6 @@ type NavItem = { label: string; href?: string; match?: string[]; section?: strin
 export const navItems: NavItem[] = [
   { label: "Shop", href: "/shop", match: ["/shop", "/product", "/cart"] },
   { label: "Café", href: "/cafe" },
-  // 15 Nov 2026: the café's menu, one tap from anywhere (it replaced "Track your grain", see the note above).
-  { label: "Menu", section: "menu", page: "/cafe" },
   { label: "Our story", href: "/our-story" },
   // 31 Oct 2026 (client): farmers who want to farm this way can get in touch (pages/Farmers.tsx).
   { label: "For farmers", href: "/farmers" },

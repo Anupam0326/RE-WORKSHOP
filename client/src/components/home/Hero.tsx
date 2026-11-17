@@ -40,12 +40,12 @@ type Art = {
 
 type Slide = { slot: MediaSlotKey; art: Art | null; caption: string; uploadedCaption?: string };
 
-const slides = (productCount: number): Slide[] => [
+const slides = (): Slide[] => [
   { slot: "home-hero", art: { stem: "hero-store", wide: 1448, tall: 869, alt: "The Re Workshop shop front on Ridge Road at night: the lit sign, and the café open inside" }, caption: hero.captions.front },
   { slot: "home-cafe", art: { stem: "hero-inside", wide: 1158, tall: 695, alt: "Inside Re Workshop: a café table in the middle of the room, shelves of packed grains and flours along the walls" }, caption: hero.captions.inside },
   { slot: "home-kitchen", art: null, caption: hero.captions.kitchen },
   { slot: "home-dish", art: { stem: "hero-dish", wide: 1200, tall: 1080, alt: "Besan Cheela on a plate, folded, with chutneys" }, caption: hero.captions.dish, uploadedCaption: hero.captions.dishGeneric },
-  { slot: "home-shelves", art: null, caption: hero.captions.shelves(productCount) },
+  { slot: "home-shelves", art: null, caption: hero.captions.shelves },
   { slot: "home-farm", art: { stem: "hero-farm", wide: 960, tall: 960, alt: "Mustard in flower at the edge of a green field on the farm" }, caption: hero.captions.farm },
 ];
 
@@ -74,9 +74,9 @@ function SlidePhoto({ slide, first, uploaded }: { slide: Slide; first: boolean; 
 }
 
 export function Hero() {
-  const { getMedia, products } = useCatalog();
+  const { getMedia } = useCatalog();
   // A slide exists when the store has uploaded its photo or the site carries a default for it.
-  const shown = slides(products.length)
+  const shown = slides()
     .map((slide) => ({ slide, uploaded: getMedia(slide.slot) }))
     .filter(({ slide, uploaded }) => uploaded || slide.art);
   // 18 Nov 2026 (client: "slideshow is slow"): a new photo every 4 seconds (was 6.5).

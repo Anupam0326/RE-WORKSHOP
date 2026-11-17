@@ -75,7 +75,7 @@ export function SiteFooter() {
                 <li><SectionLink id="founders" page="/our-story">Founders</SectionLink></li>
                 <li><SectionLink id="loop" page="/our-story">{loop.heading}</SectionLink></li>
                 <li><Link href="/cafe">Open-kitchen café</Link></li>
-                <li><SectionLink id="menu" page="/cafe">Café menu</SectionLink></li>
+                <li><SectionLink id="popular" page="/cafe">Popular dishes</SectionLink></li>
                 <li><Link href="/farmers">For farmers</Link></li>
               </ul>
             </div>

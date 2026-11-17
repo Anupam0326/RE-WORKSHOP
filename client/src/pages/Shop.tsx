@@ -83,10 +83,14 @@ export default function Shop() {
                   </button>
                 ))}
               </nav>
-              <p className="shop__count" aria-live="polite">
-                {filtered.length} {filtered.length === 1 ? "product" : "products"}
-                {status === "error" && <span className="shop__offline">, showing the saved catalogue</span>}
-              </p>
+              {/* 18 Nov 2026 (Anupam): no product totals on the site (the count lives in /admin). A number shows only as
+                  the result of a search, where it answers "did anything match?". */}
+              {(deferredQuery || status === "error") && (
+                <p className="shop__count" aria-live="polite">
+                  {deferredQuery && `${filtered.length} ${filtered.length === 1 ? "match" : "matches"}`}
+                  {status === "error" && <span className="shop__offline">{deferredQuery ? ", showing" : "Showing"} the saved catalogue</span>}
+                </p>
+              )}
             </div>
           </div>
 
@@ -108,7 +112,7 @@ export default function Shop() {
                         <div key={group} id={group ? shelfAnchor(item.slug, group) : undefined} className="catalog__group">
                           {group && (
                             <h3 className="catalog__group-title">
-                              {group} <span>{list.length}</span>
+                              {group}
                             </h3>
                           )}
                           <ProductGrid products={list} />

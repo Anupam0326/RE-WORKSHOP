@@ -121,6 +121,10 @@ export function ProductsPanel({ products, categories, onChanged, setProducts }: 
       <div className="admin-head">
         <div>
           <h1 id="products-title">Products</h1>
+          {/* 18 Nov 2026: the website no longer shows how many products there are; the count is here. */}
+          <p className="admin-count">
+            {products.length} {products.length === 1 ? "product" : "products"}, {products.filter((product) => product.is_active).length} shown on the website
+          </p>
           <p className="admin-muted">Changes appear on the website immediately. Use the arrows to set the order shoppers see.</p>
         </div>
         <button type="button" className="admin-btn admin-btn--primary" onClick={() => setEditing("new")} disabled={!categories.length}>
