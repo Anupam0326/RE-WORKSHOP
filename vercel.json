@@ -1,5 +1,5 @@
 {
-  "buildCommand": "vite build",
+  "buildCommand": "vite build && node scripts/seo-build.mjs",
   "outputDirectory": "dist/public",
   "routes": [
     {

@@ -11,6 +11,7 @@ import { shelfAnchor, type Product } from "@/data/catalog";
 import { useCatalog } from "@/contexts/CatalogContext";
 import { experience, groceryStore } from "@/data/brand";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { categoryMeta, pageMeta } from "@/lib/seo";
 import { useHashScroll } from "@/hooks/useReveal";
 
 function groupBy(list: Product[]) {
@@ -30,7 +31,8 @@ export default function Shop() {
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
-  usePageMeta(category ? category.name : "The Organic Grocery Store", category ? `${category.name} at Re Workshop, Jabalpur. ${category.description}` : undefined);
+  const meta = category ? categoryMeta(category) : pageMeta("/shop");
+  usePageMeta(meta.title, meta.description, { exact: true });
 
   const filtered = useMemo(
     () =>

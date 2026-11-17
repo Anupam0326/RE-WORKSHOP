@@ -12,7 +12,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import { buildOrderMessage, whatsappOrderUrl, whatsappReady } from "@/lib/whatsapp";
 
 export default function Cart() {
-  usePageMeta("Your basket");
+  usePageMeta("Your basket", undefined, { noindex: true });
   const { lines, itemCount, subtotal, unpricedCount, updateQuantity, removeProduct, clearCart } = useCart();
   const message = buildOrderMessage(lines, subtotal);
 

@@ -24,6 +24,7 @@ import { farmersCopy, type FarmersCopy } from "@/data/brand";
 import { storeInfo } from "@/data/catalog";
 import { useHashScroll, useReveal } from "@/hooks/useReveal";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { pageMeta } from "@/lib/seo";
 import { farmerEnquiryUrl } from "@/lib/whatsapp";
 
 type Lang = "en" | "hi";
@@ -192,7 +193,9 @@ function usePreloadHindiFont() {
 export default function Farmers() {
   const [lang, setLang] = useFarmerLang();
   const t = farmersCopy[lang];
-  usePageMeta(t.metaTitle, t.metaDescription);
+  // English: the search title from data/seo.json; Hindi keeps its own.
+  const english = pageMeta("/farmers");
+  usePageMeta(lang === "hi" ? t.metaTitle : english.title, lang === "hi" ? t.metaDescription : english.description, { exact: lang !== "hi" });
   useReveal();
   useHashScroll();
   usePreloadHindiFont();

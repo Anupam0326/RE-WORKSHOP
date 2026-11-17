@@ -1,0 +1,7 @@
+# Re Workshop, https://www.reworkshop.store (18 Nov 2026)
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /cart
+
+Sitemap: https://www.reworkshop.store/sitemap.xml

@@ -1,0 +1,40 @@
+{
+  "site": "https://www.reworkshop.store",
+  "brand": "Re Workshop",
+  "pages": {
+    "/": {
+      "title": "Organic Food Store & Millet Café in Jabalpur | Re Workshop",
+      "description": "Shop organic grains, stone-milled flours and wood-pressed oils, or eat at our open-kitchen millet café on Ridge Road, Jabalpur. No maida in anything we cook."
+    },
+    "/shop": {
+      "title": "Organic Grocery in Jabalpur: Millets, Atta, Dals & Oils | Re Workshop",
+      "description": "Millets, stone-milled atta, unpolished dals, wood-pressed oils, desi ghee, jaggery and millet snacks at Re Workshop's organic store on Ridge Road, Jabalpur. Order on WhatsApp or visit us."
+    },
+    "/cafe": {
+      "title": "Open-Kitchen Millet Café in Jabalpur | Re Workshop",
+      "description": "Millet dishes cooked in an open kitchen you can watch, on Ridge Road, Jabalpur: ragi bread sandwiches, creamy millet pasta, millet dhokla chaat and more. No maida, no refined oil."
+    },
+    "/our-story": {
+      "title": "Our Story | Re Workshop, Organic Food Store in Jabalpur",
+      "description": "Why Re Workshop exists: Amrit Krishi soil, heritage seeds, stone-milled grains and an open-kitchen café in Jabalpur, and the three founders behind it."
+    },
+    "/farmers": {
+      "title": "For Farmers: Farm With Us | Re Workshop, Jabalpur",
+      "description": "Farm with Re Workshop, Jabalpur: living soil, native seeds and Amrit Krishi. If you farm without chemicals, want to switch, or keep native seed varieties, tell us about your farm on WhatsApp."
+    }
+  },
+  "categories": {
+    "grains-flours": { "title": "Millets, Stone-Milled Atta & Grains in Jabalpur | Re Workshop" },
+    "spices-staples": { "title": "Unpolished Dals, Wood-Pressed Oils & Ghee in Jabalpur | Re Workshop" },
+    "snacks-premixes": { "title": "Millet Snacks & Meal Premixes in Jabalpur | Re Workshop" },
+    "handmade-decor": { "title": "Handmade Soap & Eco-Friendly Décor in Jabalpur | Re Workshop" }
+  },
+  "category": {
+    "title": "{name} in Jabalpur | Re Workshop",
+    "description": "{description} At Re Workshop, the organic food store on Ridge Road, Jabalpur."
+  },
+  "product": {
+    "title": "{name} in Jabalpur | Re Workshop",
+    "description": "{name}{pack} at Re Workshop, the organic food store and café on Ridge Road, Jabalpur. Order on WhatsApp or buy it at the store.{about}"
+  }
+}

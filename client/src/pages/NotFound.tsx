@@ -6,7 +6,8 @@ import { SectionLabel } from "@/components/SectionLabel";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function NotFound() {
-  usePageMeta("Page not found");
+  // Unknown addresses answer with this page; keep it out of search results (the server still says 200).
+  usePageMeta("Page not found", undefined, { noindex: true });
   return (
     <div className="app-shell">
       <SiteHeader />

@@ -21,6 +21,7 @@ import { consultation, experience, intro, journey, legalEntity, origin } from "@
 import { sitePhoto, type SitePhotoName } from "@/data/sitePhotos";
 import { useHashScroll, useReveal } from "@/hooks/useReveal";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { pageMeta } from "@/lib/seo";
 
 const [beliefLead, beliefMain] = intro.belief.split(": ");
 
@@ -120,10 +121,8 @@ function Today() {
 }
 
 export default function Story() {
-  usePageMeta(
-    "Our story",
-    "Why Re Workshop exists: Amrit Krishi soil, heritage seeds, stone-milled grains and an open-kitchen café in Jabalpur, and the three founders behind it.",
-  );
+  const meta = pageMeta("/our-story");
+  usePageMeta(meta.title, meta.description, { exact: true });
   useReveal();
   useHashScroll();
   return (

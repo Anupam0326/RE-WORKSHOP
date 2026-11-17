@@ -23,9 +23,11 @@ import { NoCompromise } from "@/components/home/CafeSections";
 import { CafeAndStore, FarmAndGrain } from "@/components/home/Spreads";
 import { useHashScroll, useReveal } from "@/hooks/useReveal";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { pageMeta } from "@/lib/seo";
 
 export default function Home() {
-  usePageMeta();
+  const meta = pageMeta("/");
+  usePageMeta(meta.title, meta.description, { exact: true });
   useReveal();
   useHashScroll();
   return (

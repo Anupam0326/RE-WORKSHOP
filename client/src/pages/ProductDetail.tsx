@@ -16,6 +16,7 @@ import { isTrackable, originFields, requestTrack } from "@/data/grainTrack";
 import { useCart } from "@/contexts/CartContext";
 import { useCatalog } from "@/contexts/CatalogContext";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { productMeta, SITE_URL } from "@/lib/seo";
 
 function Gallery({ product }: { product: Product }) {
   const [active, setActive] = useState(0);
@@ -59,6 +60,34 @@ function Gallery({ product }: { product: Product }) {
   );
 }
 
+/** schema.org Product for search results: name, photos, pack, and the live price when the product has one. */
+function productJsonLd(product: Product) {
+  const url = `${SITE_URL}/product/${product.slug}`;
+  const absolute = (src: string) => (src.startsWith("http") ? src : `${SITE_URL}${src}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    url,
+    image: product.images.slice(0, 3).map((photo) => absolute(photo.url)),
+    ...(product.description ? { description: product.description } : {}),
+    ...(product.packSize ? { size: product.packSize } : {}),
+    brand: { "@type": "Brand", name: "Re Workshop" },
+    ...(product.priceInr != null
+      ? {
+          offers: {
+            "@type": "Offer",
+            url,
+            price: product.priceInr.toFixed(2),
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: "Re Workshop" },
+          },
+        }
+      : {}),
+  };
+}
+
 export default function ProductDetail() {
   const [, params] = useRoute("/product/:slug");
   const { getProduct, getCategory, products, status } = useCatalog();
@@ -68,12 +97,10 @@ export default function ProductDetail() {
   const [, navigate] = useLocation();
   const [quantity, setQuantity] = useState(1);
 
-  usePageMeta(
-    product?.name ?? "Product",
-    product
-      ? `${product.name}${product.packSize ? ` (${product.packSize})` : ""}, ${formatPrice(product.priceInr)} at Re Workshop Organic Food Store & Café, Jabalpur.${product.description ? " " + product.description.slice(0, 120) : ""}`
-      : undefined,
-  );
+  // 18 Nov 2026: title and description from data/seo.json (Jabalpur searches); no price in them, since prices change
+  // in /admin between deploys. The live price is in the product's structured data below, built from the live catalogue.
+  const meta = product ? productMeta(product) : null;
+  usePageMeta(meta?.title ?? "Product", meta?.description, { exact: Boolean(meta), jsonLd: product ? productJsonLd(product) : null });
 
   if (!product || !category) {
     // A newly added product may not be in the saved copy yet — wait for the live catalogue before saying "not found".

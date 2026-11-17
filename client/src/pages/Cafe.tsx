@@ -29,6 +29,7 @@ import type { MediaSlotKey } from "@/data/media";
 import { useCarousel } from "@/hooks/useCarousel";
 import { useHashScroll, useReveal } from "@/hooks/useReveal";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { pageMeta } from "@/lib/seo";
 
 const places: MediaSlotKey[] = ["cafe-intro", "cafe-kitchen", "cafe-shelf"];
 
@@ -61,10 +62,8 @@ function CafePhotos() {
 }
 
 export default function Cafe() {
-  usePageMeta(
-    "Open-kitchen millet café",
-    "Re Workshop's open-kitchen millet café on Ridge Road, Jabalpur: ragi bread sandwiches, creamy millet pasta, millet dhokla chaat and more, cooked where you can watch. Zero maida, zero refined oil, zero processed white sugar, zero corn starch.",
-  );
+  const meta = pageMeta("/cafe");
+  usePageMeta(meta.title, meta.description, { exact: true });
   useReveal();
   useHashScroll();
   const [big, rest] = experience.headingParts;
