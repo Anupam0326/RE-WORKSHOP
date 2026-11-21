@@ -443,7 +443,7 @@ export const experience = {
    * menu data, never typed here.
    */
   pointers: {
-    watch: { title: "Watch it cooked", body: "The kitchen is open. You see your meal being made." },
+    watch: { title: "Watch it cooking", body: "The kitchen is open. You see your meal being made." },
     /** 18 Nov 2026 (Anupam): no count of dishes and no prices on the site. Was "65 dishes and drinks", "...from ₹25 to ₹265." */
     menu: { title: "Millet dishes and drinks", body: "Millet upma, dosa rolls, pasta, noodles and more." },
     code: { title: "The No-Compromise Code", body: "No maida, refined oil, processed white sugar or corn starch in anything we cook." },

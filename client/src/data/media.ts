@@ -89,7 +89,7 @@ export const mediaSlots: MediaSlot[] = [
   {
     key: "home-watch",
     label: "Home · An Open kitchen panel · the kitchen",
-    hint: "The open kitchen: the counter, the stove, someone cooking. Landscape (4:3). Shown at the top of the dark \"An Open kitchen\" panel, above \"Watch it cooked\".",
+    hint: "The open kitchen: the counter, the stove, someone cooking. Landscape (4:3). Shown at the top of the dark \"An Open kitchen\" panel, above \"Watch it cooking\".",
     fallback: sitePhoto("kitchen-counter"),
     caption: "Our open kitchen",
   },
