@@ -194,7 +194,7 @@ export const loop = {
 export const origin: { heading: string; paragraphs: string[] } | null = {
   heading: "How Re Workshop began",
   paragraphs: [
-    "Re Workshop began with one of its founders, Dr. (Mrs.) Swati Chhajed, who was struggling with health problems like hypothyroidism, photosensitive dermatitis and neuralgia. She could reverse them by switching to organically grown, native whole grains, which returned nutrition back to her plate.",
+    "Re Workshop began when one of its founders, Dr. (Mrs.) Swati Chhajed, who was struggling with health problems like hypothyroidism, photosensitive dermatitis and neuralgia, reversed her conditions by switching to organically grown, native whole grains, which returned nutrition back to her plate.",
     "Having seen what this did for her, she decided to bring that experience to more people in the form of Re Workshop: a kitchen that resets your body, because we all need a workshop to fix our bodies.",
   ],
 };
